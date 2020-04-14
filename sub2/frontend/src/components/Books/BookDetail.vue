@@ -50,7 +50,7 @@
         <input v-model="myreview.score" type="radio" id="star1" name="score" value="1"/>
         <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
     </fieldset>
-    <input v-model="myreview.content" type="textaria" class="col-8"/>
+    <input v-model="myreview.content" type="textaria" class="col-8 review-input-box"/>
     <div @click="this.addBookReview"> 리뷰등록</div>
   </form>
       <div v-for="(review,index) in reviews" :key="index">
@@ -137,6 +137,9 @@ li {
   transition: 0.15s;
 }
 
+.review-input-box {
+  border: 1px solid black;
+}
 .score > label:before {
   font-size: 1em;
   margin-bottom: .5rem;

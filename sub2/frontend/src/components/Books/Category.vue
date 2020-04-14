@@ -73,7 +73,9 @@ export default {
     }
   },
   watch: {
-    '$route': 'onBookDetail',
+    '$route'() {
+      this.pageNm = 1
+    },
     pageNm() {
       this.onBookDetail()
       this.goToBookListTop()
