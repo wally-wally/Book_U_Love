@@ -22,11 +22,18 @@
         <v-card-title class="pt-10 pb-10" style="text-align:center;">
         Description
         </v-card-title>
-        <v-card-text style="text-align:center;">
-          {{book.description}}
+        <v-card-text v-html="book.description" style="text-align:center;">
         </v-card-text>
       </v-card>
-                    {{myreview}}
+      <v-card v-if="book.contents" class="ctr-80 mt-5" style="width:100%;">
+        <v-card-title class="pt-10 pb-10" style="text-align:center;">
+        Contents
+        </v-card-title>
+        <v-card-text>
+        <div v-html="book.contents"></div>
+        </v-card-text>
+      </v-card>
+                    <!-- {{myreview}} -->
     <form class="ml-4 row">
         <fieldset class="score col-3">
         <input v-model="myreview.score" type="radio" id="star10" name="score" value="10"/>
@@ -50,8 +57,10 @@
         <input v-model="myreview.score" type="radio" id="star1" name="score" value="1"/>
         <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
     </fieldset>
-    <input v-model="myreview.content" type="textaria" class="col-8"/>
+    <form>
+    <input class="review-input-box col-8" v-model="myreview.content" type="textaria"/>
     <div @click="this.addBookReview"> 리뷰등록</div>
+    </form>
   </form>
       <div v-for="(review,index) in reviews" :key="index">
         <BookReview :review="review" :index="index"/>
@@ -171,4 +180,6 @@ li {
 .score > input:checked ~ label:hover ~ label {
   color: rgb(255, 220, 24);
 }
+
+.review-input-box{ border: 1px solid black; }
 </style>
