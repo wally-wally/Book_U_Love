@@ -1,0 +1,36 @@
+[
+  {
+    "title": "전체 이용약관",
+    "body": [
+      {
+        "subtitle": "부제목 1",
+        "contents": "내용 1"
+      },
+      {
+        "subtitle": "부제목 2",
+        "contents": "내용 2"
+      },
+      {
+        "subtitle": "부제목 3",
+        "contents": "내용 3"
+      }
+    ]
+  },
+  {
+    "title": "개인정보 수집 이용동의",
+    "body": [
+      {
+        "subtitle": "부제목 1",
+        "contents": "내용 1"
+      },
+      {
+        "subtitle": "부제목 2",
+        "contents": "내용 2"
+      },
+      {
+        "subtitle": "부제목 3",
+        "contents": "내용 3"
+      }
+    ]
+  }
+]
