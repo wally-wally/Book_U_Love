@@ -35,10 +35,14 @@ class BookViewSet(viewsets.ModelViewSet):
             book = book.filter(id=id)
 
         category = self.request.query_params.get("category","")
+        print(category)
         if category:
-            if not int(category) // 100:
+            print(int(category)%100)
+            if int(category) % 100:
+                print('here')
                 book = book.filter(category_id=category)
             else:
+                print('여긴 아니야')
                 book = book.filter(category_id__gt=category).filter(category_id__lt=int(category)+100)
         # query = 저자와 
         query = self.request.query_params.get("query","")
