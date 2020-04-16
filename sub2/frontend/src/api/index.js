@@ -20,24 +20,24 @@ function loginUser(userData) {
   return instance.post('accounts/auth-login/', userData)
 }
 
-// 비밀번호 확인 API(구현예정)
-function checkPassword(password) {
-  return instance.post('요청주소', password)
-}
-
 // 비밀번호 변경 API(구현예정)
-function changePassword(password) {
-  return instance.post('요청주소', password)
+function changePassword(userData) {
+  return instance.post('요청주소', userData)
 }
 
-// MyPage의 Account 페이지에서 추가정보 입력 후 추가정보 변경 API(구현예정)
+// MyPage의 Account 페이지에서 유저 추가정보 가져오는 API
+function fetchMyInfo(userId) {
+  return instance.get(`accounts/user/${userId}`)
+}
+
+// MyPage의 Account 페이지에서 추가정보 입력 후 추가정보 변경 API
 function updateMyInfo(userData, userId) {
-  return instance.post(`accounts/user_update/${userId}/`, userData)
+  return instance.post(`accounts/user/${userId}/`, userData)
 }
 
 // 저장된 모든 책 데이터를 가져오는 API
 function fetchBooks(pageNm) {
-  return instance.get('api/books', { params: { page: pageNm } })
+  return instance.get('api/books', { params: pageNm })
 }
 
 // 특정 책 데이터를 가져오는 API
@@ -59,5 +59,15 @@ function fetchCategories() {
   return instance.get('api/category', { params: { limit: 70, offset: 0 } }, {})
 }
 
-export { registerUser, loginUser, checkPassword, changePassword, updateMyInfo, fetchBooks, fetchBookDetail, fetchCategories,fetchBookReview ,addBookReview}
-
+export {
+  registerUser,
+  loginUser,
+  changePassword,
+  fetchMyInfo,
+  updateMyInfo,
+  fetchBooks,
+  fetchBookDetail,
+  fetchCategories,
+  fetchBookReview,
+  addBookReview
+}

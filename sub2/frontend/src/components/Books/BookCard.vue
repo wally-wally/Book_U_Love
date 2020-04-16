@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-2">
+  <div class="book-card-wrapper">
     <div class="book-img">
       <img :src="this.imgUrl" alt="book-image">
     </div>
@@ -40,6 +40,12 @@ export default {
 </script>
 
 <style scoped>
+.book-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 4px;
+}
 .book-img {
   padding-bottom: 1.4em;
 }

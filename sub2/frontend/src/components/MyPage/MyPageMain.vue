@@ -78,6 +78,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   computed: {
     ...mapGetters(['info'])
@@ -87,6 +89,96 @@ export default {
 
 <style scoped>
 .mypage-main-wrapper {
-  margin: 0 0.4em;
+  margin: 0 auto;
+  width: 70%;
+}
+
+table {
+  margin-bottom: 40px;
+}
+
+table img {
+  width: 130px;
+  margin-top: 4px;
+}
+
+table > tr:first-child > td:first-child {
+  padding-right: 15px;
+}
+
+table > tr > td {
+  vertical-align: top;
+}
+
+table > tr > td:last-child > div {
+  font-size: 1.15rem;
+  font-family: 'Quicksand';
+  font-weight: 600;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid silver;
+  display: inline-block;
+}
+
+table > tr > td:last-child > p {
+  font-size: 0.95rem;
+  font-family: 'Gothic A1';
+  color: grey;
+}
+
+a {
+  position: relative;
+  display: inline-block;
+  padding: 6px 18px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: 'Sarabun';
+  letter-spacing: 1px;
+  border-radius: 40px;
+  overflow: hidden;
+  background: linear-gradient(90deg, #755bea, #ff72c0);
+}
+
+a:hover {
+  border: 1px solid silver;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes animate {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 0.5;
+  }
+  100% {
+    width: 500px;
+    height: 500px;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .mypage-main-wrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 490px) {
+  table img {
+    width: 80px;
+  }
+
+  table > tr:first-child > td:first-child {
+    padding-right: 10px;
+  }
+
+  table > tr > td:last-child > div {
+    font-size: 1rem;
+  }
+
+  table > tr > td:last-child > p {
+    font-size: 0.85rem;
+  }
 }
 </style>
