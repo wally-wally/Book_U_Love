@@ -31,8 +31,8 @@ function changePassword(password) {
 }
 
 // MyPage의 Account 페이지에서 추가정보 입력 후 추가정보 변경 API(구현예정)
-function updateMyInfo(userData) {
-  return instance.post('요청주소', userData)
+function updateMyInfo(userData, userId) {
+  return instance.post(`accounts/user_update/${userId}/`, userData)
 }
 
 // 저장된 모든 책 데이터를 가져오는 API

@@ -1,4 +1,4 @@
-import { loginUser } from '@/api/index.js'
+import { loginUser, updateMyInfo } from '@/api/index.js'
 import jwtDecode from 'jwt-decode'
 
 const state = {
@@ -55,6 +55,10 @@ const actions = {
     } else {
       commit('loginError')
     }
+  },
+  async CHANGE_USER_INFO({ getters }, userData) {
+    const { data } = await updateMyInfo(userData, getters.info.user_id)
+    return data
   }
 };
 

@@ -109,8 +109,12 @@ export default {
         age: this.age,
         favoriteCategory: convertCategoryIDs
       }
-      // 추가정보 등록 로직 작성(추가정보 입력 후 backend로 userAddData 보낸 후
-      // 기존 token에 유저 정보가 담겨 있던 내용에서 추가정보를 추가하여 새로운 token값을 frontend 쪽으로 전송 => jwt-decode로 getters에 반영)
+      try {
+        await this.$store.dispatch('CHANGE_USER_INFO', userAddData)
+        alert('변경 완료')
+      } catch(error) {
+        console.log(error)
+      }
     },
     checkExistPassword() { // 기존 비밀번호를 올바르게 입력해야 새로운 비밀번호 작성가능
       // 비밀번호 확인 로직 작성(api 폴더에 작성한 checkPassword() 함수 불러와서 사용)
