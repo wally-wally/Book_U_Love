@@ -106,6 +106,11 @@ export default {
         id : this.id,
         data : formData})
       this.getBookReview(this.id)
+      this.initForm()
+    },
+    initForm() {
+      this.content = ''
+      this.score = 0
     }
   }
 }

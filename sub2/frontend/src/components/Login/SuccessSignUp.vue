@@ -5,13 +5,13 @@
         <img src="../../assets/images/signup/success.png" alt="success-signup">
       </div>
       <div class="success-signup-title">
-        {{ userName }}님 환영합니다!
+        {{ info.username }}님 환영합니다!
       </div>
     </div>
     <div class="welcome-service">
       <div class="contents">
         <p>추가정보를 입력하고</p>
-        <p>{{ userName }}님에게 적합한 책을 추천받아보세요.</p>
+        <p>{{ info.username }}님에게 적합한 책을 추천받아보세요.</p>
       </div>
     </div>
     <div class="btn-groups">
@@ -26,7 +26,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['info'])
   },
   methods: {
     goMain() {

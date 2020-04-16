@@ -66,7 +66,7 @@ export default {
     onBookDetail() {
       this.loadingStatus = true
       let categoryID = Number(this.$route.params.id)
-      this.getBookDetail(categoryID - (categoryID === 100 || categoryID === 200 ? 0 : 1))
+      this.getBookDetail(categoryID)
     },
     goToBookListTop() {
       window.scrollTo(0, 0)
@@ -75,6 +75,8 @@ export default {
   watch: {
     '$route'() {
       this.pageNm = 1
+      this.onBookDetail()
+      this.goToBookListTop()
     },
     pageNm() {
       this.onBookDetail()

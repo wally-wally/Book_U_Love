@@ -9,16 +9,16 @@
           <div class="login-form-wrapper">
             <div class="email-form">
               <label for="email" />
-              <input id="email" v-model="email" type="text" placeholder="ID(E-mail)">
-              <small class="logmessage px-2" v-if="!isEmailValid">
-                (이메일 양식으로 입력하세요.)
+              <input id="email" v-model="username" type="text" placeholder="ID">
+              <small class="logmessage px-2" v-if="!(isEmailValid || isUsernameValid)">
+                (이름 또는 이메일 양식으로 입력하세요.)
               </small>
             </div>
             <div class="password-form">
               <label for="password" />
               <input id="password" v-model="password" type="password" placeholder="Password">
             </div>
-            <v-btn color="warning" block :disabled="!isEmailValid || !password" type="submit" class="mt-5 btn">로그인</v-btn>
+            <v-btn color="warning" block :disabled="!(isEmailValid || isUsernameValid) || !password" type="submit" class="mt-5 btn">로그인</v-btn>
           </div>
         </form>
         <div class="find-account-box">
@@ -43,25 +43,29 @@
 </template>
 
 <script>
+import { validateUserName } from '@/utils/validation/userNameValidation.js'
 import { validateEmail } from '@/utils/validation/emailValidation.js'
 
 export default {
   data() {
     return {
-      email: '',
+      username: '',
       password: ''
     }
   },
   computed: {
     isEmailValid() {
-      return validateEmail(this.email)
+      return validateEmail(this.username)
     },
+    isUsernameValid() {
+      return validateUserName(this.username)
+    }
   },
   methods: {
     async submitForm() {
       try {
         await this.$store.dispatch('LOGIN', {
-          username: this.email,
+          username: this.username,
           password: this.password
         })
         this.$router.push('/')
