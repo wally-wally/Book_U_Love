@@ -4,6 +4,7 @@
       <img :src="this.imgUrl" alt="book-image">
     </div>
     <div class="book-info">
+      {{bookData.avg_score}} - {{bookData.review_cnt}}
       <div class="book-category">{{ bookCategory.name }}</div>
       <div class="book-title">{{ this.bookData.title }}</div>
       <router-link :to="`/book/${this.bookData.id}`">

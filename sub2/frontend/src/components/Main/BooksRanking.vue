@@ -2,16 +2,23 @@
   <div class="mb-6">
     <div class="book-ranking-title">
       <span>BooksRanking</span>
+      <br>
+      <div class="sortby" @click="this.resort"><span>{{this.sort}}</span></div>
     </div>
-    <div v-for="(book, i) in books" :key="i" class="book-ranking-list">
+    <div v-for="(book, i) in books[this.sort]" :key="i">
+      <div>
+        {{book.review_cnt}}개 - {{book.avg_score}} 점
+      </div>
+      <div  class="book-ranking-list">
       <div class="book-img">
-        <img src="http://image.kyobobook.co.kr/images/book/large/701/l9788954752701.jpg" alt="book-image" width="50">
+        <img :src="book.coverSmallUrl" alt="book-image" width="50">
       </div>
       <div class="book-detail">
         <div class="book-name">
           <span>{{ book.name }}</span>
         </div>
         <div class="book-author">{{ book.author }}</div>
+      </div>
       </div>
     </div>
   </div>
@@ -21,25 +28,32 @@
 export default {
   data() {
     return {
-      books: [ // 샘플 데이터
-        {
-          'name': '펭수, 디 오리지널',
-          'main-img': 'http://image.kyobobook.co.kr/images/book/large/701/l9788954752701.jpg',
-          'author': 'EBS'
-        },
-        {
-          'name': '펭수, 디 오리지널',
-          'main-img': 'http://image.kyobobook.co.kr/images/book/large/701/l9788954752701.jpg',
-          'author': 'EBS'
-        },
-      ]
+      books: {'평점순': [],'리뷰 갯수순' : []},
+      sort : '평점순'
     }
   },
+  mounted(){
+      this.getBookDetail()
+  },
+  methods : {
+    async getBookDetail() {
+      this.books['평점순'] = await this.$store.dispatch('GET_BOOK_DETAIL', {sortby: "score",top:10})
+      this.books['리뷰 갯수순'] = await this.$store.dispatch('GET_BOOK_DETAIL', {sortby: "count",top:10})
+    },
+    resort() {
+      if (this.sort == "평점순"){
+        this.sort = "리뷰 갯수순";
+      } else {
+        this.sort = "평점순";
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
 .book-ranking-title {
+  text-align: center;
   font-family: 'Julius Sans One';
   font-weight: 600;
   font-weight: 1.1em;
@@ -87,5 +101,13 @@ export default {
   .book-detail .book-author {
     width: 100%;
   }
+}
+
+.sortby {
+  display: inline-block;
+  justify-items: right;
+} 
+.sortby:hover {
+  cursor: pointer;
 }
 </style>

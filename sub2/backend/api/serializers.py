@@ -1,25 +1,11 @@
-from .models import Store, Book, Category, Review
+from .models import Book, Category, Review
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-class StoreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Store
-        fields = [
-            "id",
-            "store_name",
-            "branch",
-            "area",
-            "tel",
-            "address",
-            "latitude",
-            "longitude",
-            "category_list",
-        ]
-
 class BookSerializer(serializers.ModelSerializer):
     categoryname = serializers.SerializerMethodField()
-
+    review_cnt = serializers.SerializerMethodField()
+    avg_score = serializers.SerializerMethodField()
     class Meta:
         model = Book
         fields = '__all__'
@@ -28,6 +14,18 @@ class BookSerializer(serializers.ModelSerializer):
         category = Category.objects.get(id=obj.category_id)
         return category.name
 
+    def get_review_cnt(self,obj):
+        count = Review.objects.filter(book_id=obj.id).count()
+        return count
+
+    def get_avg_score(self,obj):
+        review = Review.objects.filter(book_id=obj.id)
+        if review:
+            avg = sum(map(lambda x:x.score,review))/review.count()
+        else:
+            avg = 0
+        return avg
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -35,7 +33,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
-
     class Meta:
         model = Review
         fields = '__all__'

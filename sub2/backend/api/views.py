@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
+from django.db.models import Count,Avg
+
 
 class SmallPagination(PageNumberPagination):
     page_size = 10
@@ -32,22 +34,23 @@ class BookViewSet(viewsets.ModelViewSet):
         id = self.request.query_params.get("id","")
         if id:
             book = book.filter(id=id)
-
         category = self.request.query_params.get("category","")
-        print(category)
         if category:
-            print(int(category)%100)
             if int(category) % 100:
-                print('here')
                 book = book.filter(category_id=category)
             else:
-                print('여긴 아니야')
                 book = book.filter(category_id__gt=category).filter(category_id__lt=int(category)+100)
-        # query = 저자와 
         query = self.request.query_params.get("query","")
         if query:
             book = book.filter(author__contains=query) | book.filter(title__contains=query)
-
+        sortby = self.request.query_params.get("sortby","")
+        if sortby=="count":
+            book = book.annotate(reviewcnt=Count('review')).order_by("-reviewcnt")
+        elif sortby == "score":
+            book= sorted(book, key=lambda t: t.avg,reverse=True)
+        top = self.request.query_params.get("top","")
+        if top:
+            book = book[:int(top)]
         queryset = (
             book
         )
