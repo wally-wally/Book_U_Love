@@ -153,6 +153,9 @@ export default {
     })
     window.addEventListener('scroll', () => {
       this.toggleSubHeaderShadow()
+      if (this.showCategory) {
+        this.showCategory = false
+      }
     })
   },
   methods: {
@@ -161,7 +164,7 @@ export default {
       this.toggleSubHeaderShadow()
     },
     toggleSubHeaderShadow() {
-      document.querySelector('.sub-header').style.boxShadow = this.showCategory || window.scrollY >= 180 ? this.subHeaderBoxShadow : ''
+      document.querySelector('.sub-header').style.boxShadow = this.showCategory || document.documentElement.scrollTop >= 180 ? this.subHeaderBoxShadow : ''
     },
     showDrawer() {
       this.onDrawer = !this.onDrawer
@@ -202,6 +205,12 @@ export default {
       }
     },
     '$route' (to, from) {
+      if (to.path !== from.path) {
+        setTimeout(() => {
+          this.showCategory = false
+          document.querySelector('.sub-header').style.boxShadow = ''
+        }, 0)
+      }
       if (to.name !== 'search') {
         this.searchKeyword = ''
       }

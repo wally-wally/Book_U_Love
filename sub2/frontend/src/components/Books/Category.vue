@@ -3,10 +3,23 @@
     <div class="category-name ml-2 my-2 pl-3">
       {{ searchCategory }}
     </div>
-    <div class="row" v-if="books.length">
+    <div class="row" v-if="books.length && !loadingStatus">
       <div v-for="book in books" :key="book.id" class="books-list col-lg-3 col-md-4 col-sm-6">
         <BookCard :bookData="book"/>
       </div>
+      <v-pagination
+        v-model="pageNm"
+        :length="pageCount"
+        :total-visible="9"
+        circle
+        color="grey"
+        class="mb-4"></v-pagination>
+    </div>
+    <div v-else-if="loadingStatus">
+      <div class="service-logo">
+        <img src="../../assets/images/team_logo/books.png" alt="team-logo">
+      </div>
+      <div class="loading-message">데이터를 불러오는 중 입니다.</div>
     </div>
     <div v-else class="no-category-books">
       <i class="fas fa-times d-block text-center"></i>
@@ -25,7 +38,10 @@ export default {
   },
   data() {
     return {
-      books : []
+      pageNm: 1,
+      pageCount: 0,
+      books : [],
+      loadingStatus: false
     }
   },
   computed: {
@@ -39,10 +55,17 @@ export default {
   },
   methods : {
     async getBookDetail(id) {
-      let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', {'category': id})
-      this.books = bookData
+      let paramsData = {
+        'category': id,
+        'page': this.pageNm
+      }
+      let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', paramsData)
+      this.books = bookData.results
+      this.pageCount = parseInt(bookData.count / 10) + (bookData.count % 10 === 0 ? 0 : 1)
+      this.loadingStatus = false
     },
     onBookDetail() {
+      this.loadingStatus = true
       let categoryID = Number(this.$route.params.id)
       this.getBookDetail(categoryID)
     },
@@ -90,5 +113,22 @@ export default {
   font-weight: 600;
   font-size: 1.1em;
   text-align: center;
+}
+
+.service-logo {
+  text-align: center;
+}
+
+.service-logo img {
+  margin: 34px 0;
+  width: 200px;
+  height: 200px;
+}
+
+.loading-message {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Noto Sans KR';
 }
 </style>
