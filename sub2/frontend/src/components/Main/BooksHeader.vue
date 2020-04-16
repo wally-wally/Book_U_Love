@@ -19,6 +19,30 @@
         </div>
       </ul>
     </nav>
+    <v-dialog v-model="showDialog" width="900" persistent>
+      <v-card>
+        <v-card-title>
+          <strong class="team-name">카테고리 선택</strong>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text>
+          <div class="team-intro-contents">
+            <ul>
+              <li v-for="category in categories" :key="category.id" class="mb-2">
+              <router-link :to="`/category/${category.id}`">
+                <span>{{ category.id }}</span> | <span>{{ category.name }}</span>
+              </router-link>
+              </li>
+            </ul>
+          </div>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="warning" @click.stop="toggleDialog" :style="{ fontFamily: 'Noto Sans KR' }">닫기</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </header>
 </template>
 
@@ -29,13 +53,17 @@ export default {
   data() {
     return {
       themes: ['Best Sellers', 'Review TOP 100'],
-      clickedDrawerIcon: false
+      clickedDrawerIcon: false,
+      showDialog: false
     }
   },
   computed: {
     ...mapState({
       categories: state => state.data.categories
     })
+  },
+  created() {
+    this.getCategory()
   },
   mounted() {
     window.addEventListener('resize', () => {
@@ -45,8 +73,14 @@ export default {
     })
   },
   methods: {
+    async getCategory() {
+      await this.$store.dispatch('GET_CATEGORIES')
+    },
     showDrawer() {
       this.clickedDrawerIcon = !this.clickedDrawerIcon
+    },
+    toggleDialog() {
+      this.showDialog = !this.showDialog
     }
   }
 }
