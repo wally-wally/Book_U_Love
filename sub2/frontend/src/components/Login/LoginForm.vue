@@ -71,15 +71,9 @@ export default {
         this.$router.push('/')
         this.initForm()
       } catch (error) {
-        let errorMessage = ''
         if (error.status === 400) {
-          errorMessage = '아이디와 비밀번호를 다시 확인하세요.'
-        } else if(error.status === 500) {
-          errorMessage = '등록되지 않은 아이디입니다.'
-        } else {
-          errorMessage = '예기치 못한 오류가 발생했습니다. 관리자에게 문의해주세요.'
+          alert('아이디와 비밀번호를 다시 확인하세요.')
         }
-        alert(errorMessage)
       }
     },
     initForm() {

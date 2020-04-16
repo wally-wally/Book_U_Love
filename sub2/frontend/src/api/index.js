@@ -37,7 +37,7 @@ function updateMyInfo(userData) {
 
 // 저장된 모든 책 데이터를 가져오는 API
 function fetchBooks(pageNm) {
-  return instance.get('api/books', { params: pageNm })
+  return instance.get('api/books', { params: { page: pageNm } })
 }
 
 // 특정 책 데이터를 가져오는 API

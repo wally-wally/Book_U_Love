@@ -133,10 +133,6 @@ export default {
   cursor: pointer;
 }
 
-.mobile-mypage-menu {
-  width: 200px;
-}
-
 @media (max-width: 900px) {
   .mobile-sidebar-wrapper {
     display: flex;
@@ -148,22 +144,6 @@ export default {
 
   .sidebar-wrapper {
     display: none;
-  }
-}
-
-@media (max-width: 490px) {
-  .mobile-sidebar-wrapper {
-    padding-bottom: 0;
-  }
-
-  .mobile-mypage-title .user-name {
-    display: none;
-  }
-}
-
-@media (max-width: 370px) {
-  .mobile-mypage-title span:last-child {
-    font-size: 1.1rem;
   }
 }
 </style>
