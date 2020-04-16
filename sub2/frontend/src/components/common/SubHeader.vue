@@ -153,6 +153,9 @@ export default {
     })
     window.addEventListener('scroll', () => {
       this.toggleSubHeaderShadow()
+      if (this.showCategory) {
+        this.showCategory = !this.showCategory
+      }
     })
   },
   methods: {
@@ -185,6 +188,11 @@ export default {
         this.$store.commit('logout')
         this.$router.push('/')
       }
+    }
+  },
+  beforeDestroy() {
+    if (this.showCategory) {
+      this.showCategory = !this.showCategory
     }
   },
   filters: {
