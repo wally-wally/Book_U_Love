@@ -60,21 +60,9 @@ const actions = {
 
 // getters
 const getters = {
-  // adminAuth(state) {
-  //   return state.token ? jwtDecode(state.token).userData.adminAuth : 0
-  // },
-  userName(state) {
-    return state.token ? jwtDecode(state.token).username : ''
-  },
-  userEmail(state) {
-    return state.token ? jwtDecode(state.token).email : ''
-  },
-  // userGender(state) {
-  //   return state.token ? jwtDecode(state.token).userData.userGender : ''
-  // },
-  // userAge(state) {
-  //   return state.token ? jwtDecode(state.token).userData.age : ''
-  // },
+  info(state) {
+    return state.token ? jwtDecode(state.token) : {}
+  }
 }
 
 export default {

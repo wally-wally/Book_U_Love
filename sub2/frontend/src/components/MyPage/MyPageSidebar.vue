@@ -2,7 +2,7 @@
   <div>
     <div class="sidebar-wrapper">
       <div class="mypage-title">
-        <div class="user-name">{{ this.userName }}님의</div>
+        <div class="user-name">{{ info.username }}님의</div>
         <div @click="goMyPageMain()">MY PAGE</div>
       </div>
       <div class="mypage-menu">
@@ -24,7 +24,7 @@
     </div>
     <div class="mobile-sidebar-wrapper">
       <div class="mobile-mypage-title">
-        <span class="user-name">{{ this.userName }}님의 </span>
+        <span class="user-name">{{ info.username }}님의 </span>
         <span @click="goMyPageMain()">MY PAGE</span>
       </div>
       <div class="mobile-mypage-menu">
@@ -51,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['info'])
   },
   methods: {
     goMyPageMain() {

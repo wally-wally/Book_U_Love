@@ -5,7 +5,7 @@
         <router-link to="/">
           <span class="link-text">Book U Love</span>
         </router-link>
-        <span v-if="this.userName" class="login-user-name ml-2">({{ this.userName }}<span class="greeting">님 환영합니다</span>)</span>
+        <span v-if="Object.keys(info).length" class="login-user-name ml-2">({{ info.username }}<span class="greeting">님 환영합니다</span>)</span>
       </div>
       <div class="team-intro">
         <span class="link-text" @click.stop="toggleDialog">Introduction</span>
@@ -62,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['info'])
   },
   methods: {
     toggleDialog() {

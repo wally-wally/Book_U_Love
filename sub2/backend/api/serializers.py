@@ -1,6 +1,6 @@
 from .models import Store, Book, Category, Review
 from rest_framework import serializers
-
+from django.contrib.auth import get_user_model
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,6 +34,12 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
     class Meta:
         model = Review
         fields = '__all__'
+
+    def get_username(self,obj):
+        user = get_user_model().objects.get(id=obj.user_id)
+        return user.username

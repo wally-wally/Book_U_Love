@@ -47,7 +47,7 @@
           <div class="new-password-form"> <!-- 로직 완성 후 좌측 div태그 안에 v-if="availableNewPassword" 구문 추가 -->
             <label for="new-password" class="d-block">새로운 비밀번호(기존 비밀번호와 다르게 작성)</label>
             <input id="new-password" v-model="newPassword" type="password" placeholder="새로운 비밀번호를 작성하세요.">
-            <small class="d-block">(영문소문자(6자 이상) + 숫자(2자 이상) + 특수문자(!, ?, @, % 중 1개)로 조합해서 총 9자 이상 작성할 것)</small>
+            <small class="d-block">(영문소문자(4자 이상) + 숫자(2자 이상) + 특수문자(!, ?, @, % 중 1개)로 조합해서 총 9자 이상 작성할 것)</small>
             <div class="logmessage"> <!-- v-if로 비밀번호가 틀렸을 때 logMessage 출력구문 추가 -->
               {{ logMessage[1] }}
             </div>
