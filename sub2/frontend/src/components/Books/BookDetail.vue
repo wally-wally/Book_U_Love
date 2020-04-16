@@ -22,36 +22,43 @@
         <v-card-title class="pt-10 pb-10" style="text-align:center;">
         Description
         </v-card-title>
-        <v-card-text style="text-align:center;">
-          {{book.description}}
+        <v-card-text v-html="book.description" style="text-align:center;">
         </v-card-text>
       </v-card>
-    <form class="ml-4 row" v-if="this.$store.state.user.isLogin">
+      <v-card v-if="book.contents" class="ctr-80 mt-5" style="width:100%;">
+        <v-card-title class="pt-10 pb-10" style="text-align:center;">
+        Contents
+        </v-card-title>
+        <v-card-text>
+        <div v-html="book.contents"></div>
+        </v-card-text>
+      </v-card>
+    <form class="ml-4 row"  v-if="this.$store.state.user.isLogin">
         <fieldset class="score col-3">
-        <input v-model="score" type="radio" id="star10" name="score" value="10"/>
-        <label class="full" for="star10" title="최고의 책입니다. 10점"></label>
-        <input v-model="score" type="radio" id="star9" name="score" value="9"/>
-        <label class="half" for="star9" title="훌륭한 책입니다. 9점"></label>
-        <input v-model="score" type="radio" id="star8" name="score" value="8"/>
-        <label class="full" for="star8" title="괜찮은 책입니다. 8점"></label>
-        <input v-model="score" type="radio" id="star7" name="score" value="7"/>
-        <label class="half" for="star7" title="적당한 책입니다. 7점"></label>
-        <input v-model="score" type="radio" id="star6" name="score" value="6"/>
-        <label class="full" for="star6" title="음... 6점"></label>
-        <input v-model="score" type="radio" id="star5" name="score" value="5"/>
-        <label class="half" for="star5" title="나름 읽을만했어요 5점"></label>
-        <input v-model="score" type="radio" id="star4" name="score" value="4"/>
-        <label class="full" for="star4" title="그닥 재미없는 책이네요. 4점"></label>
-        <input v-model="score" type="radio" id="star3" name="score" value="3"/>
-        <label class="half" for="star3" title="별로 재미없어요! 3점"></label>
-        <input v-model="score" type="radio" id="star2" name="score" value="2"/>
-        <label class="full" for="star2" title="다신 안봐요. 2점"></label>
-        <input v-model="score" type="radio" id="star1" name="score" value="1"/>
-        <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
-    </fieldset>
-    <input v-model="content" type="text" class="col-8"/>
-    <div @click="this.addBookReview"> 리뷰등록</div>
-  </form>
+            <input v-model="score" type="radio" id="star10" name="score" value="10"/>
+            <label class="full" for="star10" title="최고의 책입니다. 10점"></label>
+            <input v-model="score" type="radio" id="star9" name="score" value="9"/>
+            <label class="half" for="star9" title="훌륭한 책입니다. 9점"></label>
+            <input v-model="score" type="radio" id="star8" name="score" value="8"/>
+            <label class="full" for="star8" title="괜찮은 책입니다. 8점"></label>
+            <input v-model="score" type="radio" id="star7" name="score" value="7"/>
+            <label class="half" for="star7" title="적당한 책입니다. 7점"></label>
+            <input v-model="score" type="radio" id="star6" name="score" value="6"/>
+            <label class="full" for="star6" title="음... 6점"></label>
+            <input v-model="score" type="radio" id="star5" name="score" value="5"/>
+            <label class="half" for="star5" title="나름 읽을만했어요 5점"></label>
+            <input v-model="score" type="radio" id="star4" name="score" value="4"/>
+            <label class="full" for="star4" title="그닥 재미없는 책이네요. 4점"></label>
+            <input v-model="score" type="radio" id="star3" name="score" value="3"/>
+            <label class="half" for="star3" title="별로 재미없어요! 3점"></label>
+            <input v-model="score" type="radio" id="star2" name="score" value="2"/>
+            <label class="full" for="star2" title="다신 안봐요. 2점"></label>
+            <input v-model="score" type="radio" id="star1" name="score" value="1"/>
+            <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
+        </fieldset>
+        <input v-model="content" type="text" class="col-8"/>
+        <div @click="this.addBookReview"> 리뷰등록</div>
+    </form>
       <div v-for="(review,index) in reviews" :key="index">
         <BookReview :review="review" :index="index"/>
       </div>
@@ -169,4 +176,6 @@ li {
 .score > input:checked ~ label:hover ~ label {
   color: rgb(255, 220, 24);
 }
+
+.review-input-box{ border: 1px solid black; }
 </style>
