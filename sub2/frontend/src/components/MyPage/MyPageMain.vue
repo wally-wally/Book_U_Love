@@ -9,7 +9,7 @@
             </td>
             <td>
               <div>Dashboard</div>
-              <p>{{ userName }}님과 관련된 각종 정보들을 시각화해서 보여줍니다.</p>
+              <p>{{ info.username }}님과 관련된 각종 정보들을 시각화해서 보여줍니다.</p>
             </td>
           </tr>
           <tr>
@@ -27,7 +27,7 @@
             </td>
             <td>
               <div>My Books</div>
-              <p>{{ userName }}님이 좋아요를 누른 책 리스트, 리뷰 작성한 책 리스트 등 {{ userName }}님의 책과 관련된 정보들을 볼 수 있습니다.</p>
+              <p>{{ info.username }}님이 좋아요를 누른 책 리스트, 리뷰 작성한 책 리스트 등 {{ info.username }}님의 책과 관련된 정보들을 볼 수 있습니다.</p>
             </td>
           </tr>
           <tr>
@@ -45,7 +45,7 @@
             </td>
             <td>
               <div>Account</div>
-              <p>{{ userName }}님의 개인 정보(계정 관리)를 관리할 수 있습니다.(추가 정보 입력, 비밀번호 변경 등)</p>
+              <p>{{ info.username }}님의 개인 정보(계정 관리)를 관리할 수 있습니다.(추가 정보 입력, 비밀번호 변경 등)</p>
             </td>
           </tr>
           <tr>
@@ -82,7 +82,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['info'])
   }
 }
 </script>
