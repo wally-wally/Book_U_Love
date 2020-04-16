@@ -34,13 +34,13 @@ export default new Router({
     {
       path: '/search/:query',
       name : "search",
-      component: loadComponent('Books','BookSearch'),
+      component: loadComponent('Books','BookSearch'),  // 검색했을 때 나오는 결과 페이지
     },
     {
       path: "/category",
       component: loadView('CategoryPage'),
       children: [
-        { path: ':id', name: 'category', component:loadComponent('Books','Category'), props: true}
+        { path: ':id', name: 'category', component:loadComponent('Books','Category'), props: true}  // 카테고리별 책 리스트 페이지
       ]
     },
     {
@@ -48,16 +48,16 @@ export default new Router({
       component: loadView('MyPage'),
       beforeEnter: checkLoginUser,
       children: [
-        { path: '', name: 'MyPageMain', component: loadComponent('MyPage', 'MyPageMain') },
-        { path: 'dashboard', name: 'MyDashBoard', component: loadComponent('MyPage', 'DashBoard') },
-        { path: 'mybooks', name: 'MyBooks', component: loadComponent('MyPage', 'MyBooks') },
-        { path: 'account', name: 'Account', component: loadComponent('MyPage', 'Account') }
+        { path: '', name: 'MyPageMain', component: loadComponent('MyPage', 'MyPageMain') },  // My Page 메인 화면
+        { path: 'dashboard', name: 'MyDashBoard', component: loadComponent('MyPage', 'DashBoard') }, // My Page - Dashboard 페이지
+        { path: 'mybooks', name: 'MyBooks', component: loadComponent('MyPage', 'MyBooks') },  // My Page - 나의 책 리스트 페이지
+        { path: 'account', name: 'Account', component: loadComponent('MyPage', 'Account') }  // My Page - 계정 관리 페이지
       ]
     },
     {
       path: '/admin',
       name: 'AdminPage',
-      component: loadView('AdminPage')
+      component: loadView('AdminPage')  // 관리자 페이지
     },
     {
       path: '*',

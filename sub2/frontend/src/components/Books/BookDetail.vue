@@ -83,7 +83,7 @@ export default {
   methods : {
     async getBookDetail(id) {
       let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', {id:id})
-      this.book = bookData[0]
+      this.book = bookData.results[0]
     },
     async getBookReview(id) {
       const data = await this.$store.dispatch('GET_REVIEWS', id)
@@ -132,6 +132,9 @@ li {
   transition: 0.15s;
 }
 
+.review-input-box {
+  border: 1px solid black;
+}
 .score > label:before {
   font-size: 1em;
   margin-bottom: .5rem;

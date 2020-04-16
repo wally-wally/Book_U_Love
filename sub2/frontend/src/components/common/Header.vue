@@ -32,10 +32,16 @@ export default {
     }
   },
   created() {
+    this.getCategory()
     window.addEventListener('scroll', () => {
       let scrollHegiht = document.scrollingElement.scrollTop
       this.fab = scrollHegiht >= 180
     })
+  },
+  methods: {
+    async getCategory() {
+      await this.$store.dispatch('GET_CATEGORIES')
+    }
   }
 }
 </script>
