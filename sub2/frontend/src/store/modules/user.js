@@ -63,9 +63,6 @@ const getters = {
   // adminAuth(state) {
   //   return state.token ? jwtDecode(state.token).userData.adminAuth : 0
   // },
-  userId(state) {
-    return state.token ? jwtDecode(state.token).user_id : ''
-  },
   userName(state) {
     return state.token ? jwtDecode(state.token).username : ''
   },

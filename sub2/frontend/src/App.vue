@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
     <Header />
-      <v-content :style="headerStyle" :class="className">
+      <v-content :style="headerHeight" :class="className">
         <router-view />
       </v-content>
     <Footer />
@@ -17,28 +17,13 @@ export default {
     Header,
     Footer
   },
-  data() {
-    return {
-      headerStyle: ''
-    }
-  },
   computed: {
+    headerHeight() {
+      let height = window.innerWidth >= 550 ? 113.344 : 141.797
+      return `padding-top: ${height}px;`
+    },
     className() {
       return this.$store.state.common.onMobileDrawer ? 'blind' : ''
-    }
-  },
-  created() {
-    this.responsiveHeaderHeight()
-  },
-  mounted() {
-     window.addEventListener('resize', () => {
-      this.responsiveHeaderHeight()
-    })
-  },
-  methods: {
-    responsiveHeaderHeight() {
-      let height = window.innerWidth >= 550 ? 113.344 : 141.797
-      this.headerStyle = `padding-top: ${height}px;`
     }
   }
 };
