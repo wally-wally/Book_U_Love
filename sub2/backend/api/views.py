@@ -8,7 +8,6 @@ from rest_framework.decorators import api_view, action
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 
-
 class SmallPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = "page_size"
@@ -57,15 +56,12 @@ class BookViewSet(viewsets.ModelViewSet):
 @api_view(['GET','POST','DEL','PUT'])
 def review(request,id):
     book= get_object_or_404(models.Book, id=id)
-    print(book)
     if request.method == 'GET':
-        serializer = serializers.ReviewSerializer(review, many=True, context={'request': request})
+        review = models.Review.objects.filter(book_id=id)
+        serializer = serializers.ReviewSerializer(review, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         data = request.data
-        data["book"] = book
-        data["user"] = settings.AUTH_USER_MODEL.objects.get(id=1)
-        print(data)
         serializer = serializers.ReviewSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
