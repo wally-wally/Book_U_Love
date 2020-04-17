@@ -1,32 +1,11 @@
-from .models import Store, Book, Category, Review
+from .models import Book, Category, Review
 from rest_framework import serializers
-
-
-class StoreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Store
-        fields = [
-            "id",
-            "store_name",
-            "branch",
-            "area",
-            "tel",
-            "address",
-            "latitude",
-            "longitude",
-            "category_list",
-        ]
+from django.contrib.auth import get_user_model
 
 class BookSerializer(serializers.ModelSerializer):
-    categoryname = serializers.SerializerMethodField()
-
     class Meta:
         model = Book
-        fields = '__all__'
-
-    def get_categoryname(self,obj):
-        category = Category.objects.get(id=obj.category_id)
-        return category.name
+        fields = ['id','isbn','title','description','priceStandard','coverSmallUrl','coverLargeUrl','category','publisher','author','translator','pubDate','contents','avg','review_cnt','categoryname','like_user']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,6 +13,17 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
     class Meta:
         model = Review
         fields = '__all__'
+
+    def get_username(self,obj):
+        user = get_user_model().objects.get(id=obj.user_id)
+        return user.username
+
+        
+class BookDetailSerializer(serializers.ModelSerializer):
+    review_set = ReviewSerializer(many=True)
+    class Meta(BookSerializer.Meta):
+        fields = BookSerializer.Meta.fields + ['review_set']

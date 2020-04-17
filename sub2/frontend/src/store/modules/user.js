@@ -1,4 +1,4 @@
-import { loginUser } from '@/api/index.js'
+import { loginUser, fetchMyInfo, updateMyInfo, changePassword } from '@/api/index.js'
 import jwtDecode from 'jwt-decode'
 
 const state = {
@@ -33,7 +33,7 @@ const mutations = {
 // actions
 const actions = {
   async LOGIN({ commit }, userData) {
-    const { data } = await loginUser(userData)
+    const result = await loginUser(userData)
     // 백엔드에서 프론트엔드로 보내는 data에 담겨야 하는 정보
     // (1) E-mail와 Password가 일치하게 잘 작성했는지 여부(=== 로그인 성공/실패 여부)(로그인 실패한 경우 token = null이나 empty string으로 받음)
     // (2) 아래와 같은 형태로 token 제공(가정)
@@ -50,31 +50,32 @@ const actions = {
     //   age: '~~',
     //   ...
     // }
-    if (data.token) {
-      commit('setToken', data.token)
+    if (result.data.token) {
+      commit('setToken', result.data.token)
     } else {
       commit('loginError')
     }
+    return result
+  },
+  async GET_MYINFO({ getters }) { // 유저의 정보 불러오는 비동기 로직
+    const { data } = await fetchMyInfo(getters.info.user_id)
+    return data
+  },
+  async CHANGE_USER_INFO({ getters }, userData) { // 유저의 추가정보를 수정할 때 사용되는 비동기 로직
+    const { data } = await updateMyInfo(userData, getters.info.user_id)
+    return data
+  },
+  async CHANGE_PASSWORD({ getters }, userData) { // 유저의 비밀번호 변경을 요청하는 비동기 로직
+    const { data } = await changePassword(userData, getters.info.user_id)
+    return data
   }
 };
 
 // getters
 const getters = {
-  // adminAuth(state) {
-  //   return state.token ? jwtDecode(state.token).userData.adminAuth : 0
-  // },
-  userName(state) {
-    return state.token ? jwtDecode(state.token).username : ''
-  },
-  userEmail(state) {
-    return state.token ? jwtDecode(state.token).email : ''
-  },
-  // userGender(state) {
-  //   return state.token ? jwtDecode(state.token).userData.userGender : ''
-  // },
-  // userAge(state) {
-  //   return state.token ? jwtDecode(state.token).userData.age : ''
-  // },
+  info(state) {
+    return state.token ? jwtDecode(state.token) : {}
+  }
 }
 
 export default {

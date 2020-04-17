@@ -1,9 +1,10 @@
 <template>
-  <div class="ma-2">
+  <div class="book-card-wrapper">
     <div class="book-img">
       <img :src="this.imgUrl" alt="book-image">
     </div>
     <div class="book-info">
+      {{bookData.avg}} - {{bookData.review_cnt}}
       <div class="book-category">{{ bookCategory.name }}</div>
       <div class="book-title">{{ this.bookData.title }}</div>
       <router-link :to="`/book/${this.bookData.id}`">
@@ -39,6 +40,12 @@ export default {
 </script>
 
 <style scoped>
+.book-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 4px;
+}
 .book-img {
   padding-bottom: 1.4em;
 }

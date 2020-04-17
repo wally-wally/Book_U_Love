@@ -26,7 +26,7 @@
             <div class="password-form">
               <label for="password" class="d-block">비밀번호</label>
               <input id="password" v-model="password" type="password" placeholder="비밀번호를 작성하세요.">
-              <small class="d-block">(영문소문자(6자 이상) + 숫자(2자 이상) + 특수문자(!, ?, @, % 중 1개)로 조합해서 총 9자 이상 작성할 것)</small>
+              <small class="d-block">(영문소문자(4자 이상) + 숫자(2자 이상) + 특수문자(!, ?, @, % 중 1개)로 조합해서 총 9자 이상 작성할 것)</small>
               <div class="logmessage" v-if="!isPasswordValid && clickedSignupBtn">
                 {{ logMessage[2] }}
               </div>
@@ -133,6 +133,14 @@ export default {
         this.showDialog = false
       }
     },
+  },
+  watch: {
+    email() {
+      this.errormessage.email = []
+    },
+    username() {
+      this.errormessage.username = []
+    }
   }
 }
 </script>

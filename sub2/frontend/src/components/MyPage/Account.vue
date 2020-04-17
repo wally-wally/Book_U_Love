@@ -25,7 +25,7 @@
             <v-select
               v-model="selectedCategories"
               class="pa-0"
-              :items="this.categories.map(category => `${category.name}-${category.id}`)"
+              :items="this.categories.map(category => `${category.id}-${category.name}`)"
               multiple
               chips
             ></v-select>
@@ -39,26 +39,26 @@
           <div class="exist-password-form" v-if="!availableNewPassword">
             <label for="exist-password" class="d-block">기존 비밀번호</label>
             <input id="exist-password" v-model="existPassword" type="password" placeholder="기존의 비밀번호를 작성하세요.">
-            <div class="logmessage"> <!-- v-if로 비밀번호가 틀렸을 때 logMessage 출력구문 추가 -->
+            <div class="logmessage" v-if="showErrorMessage">
               {{ logMessage[0] }}
             </div>
             <v-btn class="mt-2" color="warning" @click="checkExistPassword()">확인</v-btn>
           </div>
-          <div class="new-password-form"> <!-- 로직 완성 후 좌측 div태그 안에 v-if="availableNewPassword" 구문 추가 -->
+          <div class="new-password-form" v-if="availableNewPassword">
             <label for="new-password" class="d-block">새로운 비밀번호(기존 비밀번호와 다르게 작성)</label>
             <input id="new-password" v-model="newPassword" type="password" placeholder="새로운 비밀번호를 작성하세요.">
-            <small class="d-block">(영문소문자(6자 이상) + 숫자(2자 이상) + 특수문자(!, ?, @, % 중 1개)로 조합해서 총 9자 이상 작성할 것)</small>
-            <div class="logmessage"> <!-- v-if로 비밀번호가 틀렸을 때 logMessage 출력구문 추가 -->
+            <small class="d-block">(영문소문자(4자 이상) + 숫자(2자 이상) + 특수문자(!, ?, @, % 중 1개)로 조합해서 총 9자 이상 작성할 것)</small>
+            <div class="logmessage" v-if="showErrorMessage">
               {{ logMessage[1] }}
             </div>
           </div>
-          <div class="renew-password-form"> <!-- 로직 완성 후 좌측 div태그 안에 v-if="availableNewPassword" 구문 추가 -->
+          <div class="renew-password-form" v-if="availableNewPassword">
             <label for="renew-password" class="d-block">새로운 비밀번호 확인</label>
             <input id="renew-password" v-model="renewPassword" type="password" placeholder="동일하게 한 번 더 작성하세요.">
-            <div class="logmessage"> <!-- v-if로 비밀번호가 틀렸을 때 logMessage 출력구문 추가 -->
+            <div class="logmessage" v-if="showErrorMessage">
               {{ logMessage[1] }}
             </div>
-            <v-btn class="mt-2" color="warning" @click="checkNewPassowrd()">비밀번호 변경</v-btn>
+            <v-btn class="mt-2" color="warning" @click="checkNewPassword()">비밀번호 변경</v-btn>
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { checkPassword, changePassword, updateMyInfo } from '@/api/index.js'
 import { validatePassword } from '@/utils/validation/passwordValidation.js'
 
@@ -84,6 +84,7 @@ export default {
       newPassword: '',
       renewPassword: '',
       availableNewPassword: false,
+      showErrorMessage: false,
       logMessage: [
         '비밀번호를 잘못 입력했습니다.',
         '비밀번호가 일치하지 않거나 비밀번호 양식에 어긋납니다.'
@@ -91,38 +92,84 @@ export default {
     }
   },
   created() {
-    // mypage의 account 항목 클릭하면 해당 유저의 추가정보가 있는 경우 추가정보 데이터 불러오는 로직을 가장 먼저 수행
+    // mypage의 account 항목 클릭하면 해당 유저의 기존 추가정보 데이터 불러오는 로직을 가장 먼저 수행
+    this.fetchMyInfo()
   },
   computed: {
     ...mapState({
       categories: state => state.data.categories.slice(0, 41).filter(category => category.id % 100)
     }),
+    ...mapGetters(['info']),
     isNewPasswordValid() {
-      return this.newPassword === this.renewPassword && this.newPassword !== this.existPassword && validatePassword(this.newPassword) && validatePassword(this.renewPassword)
+      return this.newPassword === this.renewPassword &&
+             this.newPassword !== this.existPassword &&
+             this.renewPassword !== this.existPassword &&
+             validatePassword(this.newPassword) &&
+             validatePassword(this.renewPassword)
     }
   },
   methods: {
+    async fetchMyInfo() {
+      const myInfo = await this.$store.dispatch('GET_MYINFO')
+      this.gender = myInfo.results.gender
+      this.age = myInfo.results.age
+      this.getMyCategory(myInfo.results.favoriteCategory)
+    },
+    getMyCategory(favoriteCategory) {
+      this.selectedCategories = this.categories.filter(category => favoriteCategory.includes(category.id)).map(item => `${item.id}-${item.name}`)
+    },
     async updateMyAddInfo() {
-      let convertCategoryIDs = this.selectedCategories.map(category => category.split('-')[1])
+      let convertCategoryIDs = this.selectedCategories.map(category => Number(category.split('-')[0])).sort((a, b) => a - b)
       const userAddData = {
+        username: this.info.username,
+        email: this.info.email,
         gender: this.gender,
         age: this.age,
         favoriteCategory: convertCategoryIDs
       }
-      // 추가정보 등록 로직 작성(추가정보 입력 후 backend로 userAddData 보낸 후
-      // 기존 token에 유저 정보가 담겨 있던 내용에서 추가정보를 추가하여 새로운 token값을 frontend 쪽으로 전송 => jwt-decode로 getters에 반영)
+      try {
+        await this.$store.dispatch('CHANGE_USER_INFO', userAddData)
+        alert('추가정보가 수정되었습니다.')
+        this.fetchMyInfo() // 추가정보 수정 후 수정된 추가정보 불러오기
+      } catch(error) {
+        console.log(error)
+        alert('예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요.')
+      }
     },
-    checkExistPassword() { // 기존 비밀번호를 올바르게 입력해야 새로운 비밀번호 작성가능
-      // 비밀번호 확인 로직 작성(api 폴더에 작성한 checkPassword() 함수 불러와서 사용)
-      // api 폴더의 checkPassword() 함수에서 요청주소 작성해야 함
+    async checkExistPassword() { // 기존 비밀번호를 올바르게 입력해야 새로운 비밀번호 작성가능
+      // (1) 기존 비밀번호 확인 로직(기존에 구현한 LOGIN 로직을 활용하여 작성됨)
+      try {
+        await this.$store.dispatch('LOGIN', {
+          username: this.$store.getters.info.username,
+          password: this.existPassword
+        })
+        this.availableNewPassword = true
+        this.showErrorMessage = false
+      } catch (error) {
+        if (error.status === 400) {
+          alert('비밀번호를 잘못 입력하셨습니다.')
+          this.showErrorMessage = true
+        }
+      }
     },
-    checkNewPassowrd() {
+    async checkNewPassword() {
+      // (2) 새로운 비밀번호 변경 로직
       // 새로운 비밀번호가 비밀번호 validation에 맞는지 확인 후 맞는 경우 비밀번호 변경(api 폴더에 작성한 changePassword() 함수 불러와서 사용)
       // api 폴더의 changePassword() 함수에서 요청주소 작성해야 함
-      if (isNewPasswordValid) {
-        // 비밀번호 변경 로직 작성
-        alert('비밀번호가 변경되었습니다.')
-        this.initPasswordForm() // 비밀번호 변경 성공 후 비밀번호 변경 양식 초기화
+      // 비밀번호 변경 validation : 새로운 비번 === 새로운 비번 재확인 && 새로운 비번이 기존 비번과 달라야 함 && 새로운 비번이 비밀번호 양식에 맞는지 확인
+      if (this.isNewPasswordValid) {
+        try {
+          // 비밀번호 변경 로직 작성
+          // const userData = {}  =>  object 안에 비밀번호 변경시 보내야 하는 데이터 key-value 쌍 형태로 작성
+          await this.$store.dispatch('CHANGE_PASSWORD', userData)
+          alert('비밀번호가 변경되었습니다.')
+          this.initPasswordForm() // 비밀번호 변경 성공 후 비밀번호 변경 양식 초기화 
+        } catch (error) {
+          console.log(error)
+          alert('예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요.')
+        }
+      } else {
+        this.showErrorMessage = true
       }
     },
     initPasswordForm() {
@@ -130,6 +177,7 @@ export default {
       this.newPassword = ''
       this.renewPassword = ''
       this.availableNewPassword = false
+      this.showErrorMessage = false
     }
   }
 }

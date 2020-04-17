@@ -2,7 +2,7 @@
   <div>
     <div class="sidebar-wrapper">
       <div class="mypage-title">
-        <div class="user-name">{{ this.userName }}님의</div>
+        <div class="user-name">{{ info.username }}님의</div>
         <div @click="goMyPageMain()">MY PAGE</div>
       </div>
       <div class="mypage-menu">
@@ -24,7 +24,7 @@
     </div>
     <div class="mobile-sidebar-wrapper">
       <div class="mobile-mypage-title">
-        <span class="user-name">{{ this.userName }}님의 </span>
+        <span class="user-name">{{ info.username }}님의 </span>
         <span @click="goMyPageMain()">MY PAGE</span>
       </div>
       <div class="mobile-mypage-menu">
@@ -51,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['info'])
   },
   methods: {
     goMyPageMain() {
@@ -88,7 +88,7 @@ export default {
   font-size: 1.4em;
 }
 
-.mypage-title div:hover {
+.mypage-title div:last-child:hover {
   cursor: pointer;
 }
 
@@ -133,6 +133,10 @@ export default {
   cursor: pointer;
 }
 
+.mobile-mypage-menu {
+  width: 200px;
+}
+
 @media (max-width: 900px) {
   .mobile-sidebar-wrapper {
     display: flex;
@@ -144,6 +148,22 @@ export default {
 
   .sidebar-wrapper {
     display: none;
+  }
+}
+
+@media (max-width: 490px) {
+  .mobile-sidebar-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mobile-mypage-title .user-name {
+    display: none;
+  }
+}
+
+@media (max-width: 370px) {
+  .mobile-mypage-title span:last-child {
+    font-size: 1.1rem;
   }
 }
 </style>
