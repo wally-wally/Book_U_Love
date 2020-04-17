@@ -24,11 +24,14 @@ class Book(models.Model):
     def avg(self):
         avg = self.review_set.aggregate(Avg('score'))['score__avg'] 
         return avg if avg else 0
-
+    @property
+    def categoryname(self):
+        return Category.objects.get(id=self.category_id).name
     @property
     def review_cnt(self):
         return self.review_set.count()
-        
+    like_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_books', blank=True)
+    
 class Review(models.Model):
     content = models.CharField(max_length=140, blank=True, null=True)
     score = models.IntegerField(blank=True, null=True)

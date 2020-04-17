@@ -3,28 +3,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 class BookSerializer(serializers.ModelSerializer):
-    categoryname = serializers.SerializerMethodField()
-    review_cnt = serializers.SerializerMethodField()
-    avg_score = serializers.SerializerMethodField()
     class Meta:
         model = Book
-        fields = '__all__'
-
-    def get_categoryname(self,obj):
-        category = Category.objects.get(id=obj.category_id)
-        return category.name
-
-    def get_review_cnt(self,obj):
-        count = Review.objects.filter(book_id=obj.id).count()
-        return count
-
-    def get_avg_score(self,obj):
-        review = Review.objects.filter(book_id=obj.id)
-        if review:
-            avg = sum(map(lambda x:x.score,review))/review.count()
-        else:
-            avg = 0
-        return avg
+        fields = ['id','isbn','title','description','priceStandard','coverSmallUrl','coverLargeUrl','category','publisher','author','translator','pubDate','contents','avg','review_cnt','categoryname','like_user']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,3 +21,9 @@ class ReviewSerializer(serializers.ModelSerializer):
     def get_username(self,obj):
         user = get_user_model().objects.get(id=obj.user_id)
         return user.username
+
+        
+class BookDetailSerializer(serializers.ModelSerializer):
+    review_set = ReviewSerializer(many=True)
+    class Meta(BookSerializer.Meta):
+        fields = BookSerializer.Meta.fields + ['review_set']

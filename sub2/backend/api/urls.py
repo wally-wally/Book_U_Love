@@ -6,8 +6,11 @@ from django.urls import path, include
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r"books",views.BookViewSet,basename="books")
+router.register(r"book/(?P<id>.+)",views.BookDetailViewSet,basename="book")
 router.register(r"category",views.CategoryViewSet,basename="categorys")
 
 urlpatterns = [
-    path('review/<int:id>/', views.review),
+    path('review/', views.review_create),
+    path('review/<int:review_pk>/',views.review_command),
+    path('like',views.like_book),
 ] + router.urls
