@@ -3,9 +3,11 @@ from django.db import models
 from django.conf import settings
 from django.db.models import Avg
 
+
 class Category(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=40)
+    
 
 class Book(models.Model):
     isbn = models.CharField(max_length=12)
