@@ -1,6 +1,6 @@
 <template>
   <div class="row mt-5">
-    <div class="col-8">
+    <div class="bookdetail">
       <div class="ctr-80">
         <div>
           <span class="booktitle">{{book.title}}</span>
@@ -8,7 +8,7 @@
           {{book.categoryname}}
         </div>
         <div class="rating my-4 py-3">
-          평점 ★2.6 (392명)
+          평점 ★{{book.avg}} ({{book.review_cnt}}명)
         </div>
           <div class="row detailbody pb-10">
             <div class="col-4">
@@ -22,11 +22,14 @@
               <div class="col-2">Price</div><div class="col-10">{{book.priceStandard}}원 </div>
             </div>
           </div>
-          <div class="jjim">
-          <i class="fas fa-bookmark mr-5" style="font-size:20px; color:#fff;"></i>
-          <div class="jjimtxt">
-            책 추가하기
-          </div>
+          <div v-if="this.$store.state.user.isLogin" @click="this.jjim" class="jjim">
+              <i class="fas fa-bookmark mr-5" style="font-size:20px; color:#fff;"></i>
+              <div v-if="is_liked" class="jjimtxt">
+                찜에서 제거
+              </div>
+              <div v-else class="jjimtxt">
+                책 추가하기
+              </div>
           </div>
           <v-card v-if="book.description" class="ctr-80 mb-5" style="width:100%;">
             <v-card-title class="pt-10 pb-10" style="text-align:center;">
@@ -46,7 +49,7 @@
       </div>
     </div>
 
-    <div class="col-4">
+    <div class="review">
       <div class="py-5" style="margin-right:50px; background-color:white;border-radius: 15px; border: 1px solid lightgray">
         <h2>Review</h2>
           <form class="row" v-if="this.$store.state.user.isLogin">
@@ -76,7 +79,7 @@
           </form>
           <div @click="this.addBookReview" style="display:block; text-align:right"> 리뷰등록</div>
           <div class="px-3 py-3">
-            <div v-for="(review,index) in reviews" :key="index">
+            <div v-for="(review,index) in book.review_set" :key="index">
               <BookReview :review="review" :index="index"/>
             </div>
           </div>
@@ -88,6 +91,7 @@
 <script>
 import { mapState } from 'vuex'
 import BookReview from '@/components/Books/BookReview'
+import { fetchjjim } from '@/api/index.js'
 
 export default {
   name : "BookDetail",
@@ -99,38 +103,43 @@ export default {
       book: {},
       content : '',
       score : 0,
-      reviews : [],
-      id :this.$route.params.id
+      id :this.$route.params.id,
+      like : 0,
+      is_liked : false,
     }
   },
   mounted() {
     this.getBookDetail(this.id)
-    this.getBookReview(this.id)
   },
   methods : {
     async getBookDetail(id) {
-      let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', {id:id})
-      this.book = bookData[0]
+      let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', id)
+      this.book = bookData.results[0]
     },
-    async getBookReview(id) {
-      const data = await this.$store.dispatch('GET_REVIEWS', id)
-      this.reviews = data
-    },
+    // async getBookReview(id) {
+    //   const data = await this.$store.dispatch('GET_REVIEWS', id)
+    //   this.reviews = data
+    // },
     async addBookReview() {
       const formData = new FormData()
       formData.append('user', this.$store.getters.info.user_id)
       formData.append('content',this.content)
       formData.append('score',this.score)
       formData.append('book',this.id)
-      await this.$store.dispatch('ADD_REVIEWS',{
-        id : this.id,
-        data : formData})
-      this.getBookReview(this.id)
+      await this.$store.dispatch('ADD_REVIEWS',formData)
+      this.getBookDetail(this.id)
       this.initForm()
     },
     initForm() {
       this.content = ''
       this.score = 0
+    },
+    async jjim() {
+      const formData = new FormData()
+      formData.append('user', this.$store.getters.info.user_id)
+      formData.append('book',this.id)
+      const data = await fetchjjim(formData)
+      this.is_liked = !this.is_liked
     }
   }
 }
@@ -142,6 +151,22 @@ export default {
   width: 85%;
 }
 
+.bookdetail {
+  width : 66%
+}
+.review {
+  width : 33%
+}
+@media (max-width: 1000px) {
+.bookdetail {
+  width : 100%;
+}
+.review {
+  width : 80%;
+  margin : 0 auto;
+  margin-bottom : 10%
+}
+}
 li {
   list-style: none;
 }

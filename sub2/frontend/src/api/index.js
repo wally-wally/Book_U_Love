@@ -1,5 +1,6 @@
 import axios from "axios"
 import { setInterceptors } from './config/interceptors'
+import { _ } from "core-js"
 
 // axios 초기화 함수
 function createInstance() {
@@ -36,13 +37,13 @@ function updateMyInfo(userData, userId) {
 }
 
 // 저장된 모든 책 데이터를 가져오는 API
-function fetchBooks(pageNm) {
-  return instance.get('api/books', { params: pageNm })
+function fetchBooks(params) {
+  return instance.get('api/books', { params: params })
 }
 
 // 특정 책 데이터를 가져오는 API
-function fetchBookDetail(params) {
-  return instance.get('api/books', { params: params }, {})
+function fetchBookDetail(id) {
+  return instance.get(`api/book/${id}`)
 }
 
 // 특정 책 리뷰를 가져오는 API
@@ -50,8 +51,12 @@ function fetchBookReview(id) {
   return instance.get('api/review/'+id);
 }
 
-function addBookReview(id,params) {
-  return instance.post('api/review/'+id + '/', params);
+function addBookReview(params) {
+  return instance.post('api/review/', params);
+}
+
+function deleteBookReview(review_id) {
+  return instance.delete('api/review/'+ review_id + '/');
 }
 
 // 저장된 모든 카테고리 데이터를 가져오는 API
@@ -59,6 +64,9 @@ function fetchCategories() {
   return instance.get('api/category', { params: { limit: 70, offset: 0 } }, {})
 }
 
+function fetchjjim(params){
+  return instance.post('api/like', params)
+}
 export {
   registerUser,
   loginUser,
@@ -69,5 +77,7 @@ export {
   fetchBookDetail,
   fetchCategories,
   fetchBookReview,
-  addBookReview
+  addBookReview,
+  fetchjjim,
+  deleteBookReview
 }

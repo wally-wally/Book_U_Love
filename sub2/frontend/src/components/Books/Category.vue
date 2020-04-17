@@ -59,7 +59,7 @@ export default {
         'category': id,
         'page': this.pageNm
       }
-      let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', paramsData)
+      let bookData = await this.$store.dispatch('GET_BOOKS', paramsData)
       this.books = bookData.results
       this.pageCount = parseInt(bookData.count / 10) + (bookData.count % 10 === 0 ? 0 : 1)
       this.loadingStatus = false

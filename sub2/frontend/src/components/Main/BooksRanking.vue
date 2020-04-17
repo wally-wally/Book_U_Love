@@ -7,15 +7,17 @@
     </div>
     <div v-for="(book, i) in books[this.sort]" :key="i">
       <div>
-        {{book.review_cnt}}개 - {{book.avg_score}} 점
+        {{book.review_cnt}}개 - {{book.avg}} 점
       </div>
       <div  class="book-ranking-list">
+      <router-link :to="`/book/${book.id}`">
       <div class="book-img">
         <img :src="book.coverSmallUrl" alt="book-image" width="50">
       </div>
+      </router-link>
       <div class="book-detail">
         <div class="book-name">
-          <span>{{ book.name }}</span>
+          <span>{{ book.title }}</span>
         </div>
         <div class="book-author">{{ book.author }}</div>
       </div>
@@ -33,12 +35,14 @@ export default {
     }
   },
   mounted(){
-      this.getBookDetail()
+      this.getBooks()
   },
   methods : {
-    async getBookDetail() {
-      this.books['평점순'] = await this.$store.dispatch('GET_BOOK_DETAIL', {sortby: "score",top:10})
-      this.books['리뷰 갯수순'] = await this.$store.dispatch('GET_BOOK_DETAIL', {sortby: "count",top:10})
+    async getBooks() {
+      const scoredata = await this.$store.dispatch('GET_BOOKS', {sortby: "score",top:10})
+      this.books['평점순'] = scoredata["results"]
+      const reviewdata =  await this.$store.dispatch('GET_BOOKS', {sortby: "count",top:10})
+      this.books['리뷰 갯수순'] = reviewdata["results"]
     },
     resort() {
       if (this.sort == "평점순"){

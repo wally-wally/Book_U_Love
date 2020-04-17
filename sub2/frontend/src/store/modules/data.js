@@ -11,8 +11,8 @@ const mutations = {
 }
 
 const actions = {
-  async GET_BOOKS({ commit }, pageNm) {  // 전체 책 정보 가져오기
-    const { data } = await fetchBooks(pageNm)
+  async GET_BOOKS({ commit }, params) {  // 전체 책 정보 가져오기
+    const { data } = await fetchBooks(params)
     return data
   },
   async GET_BOOK_DETAIL({ commit }, params) {  // id 값을 파라미터로 넘겨서 해당 책 정보 가져오기
@@ -31,8 +31,7 @@ const actions = {
   },
 
   async ADD_REVIEWS({commit}, params) {
-    console.log(params.data)
-    const { data } = await addBookReview(params.id,params.data)
+    const { data } = await addBookReview(params)
     return data
   }
 };
