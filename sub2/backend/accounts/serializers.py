@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_jwt.settings import api_settings
 from django.utils.translation import ugettext as _
+from . import models
 
 User = get_user_model()
 
@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     class Meta:
         model = get_user_model()
-        fields =['email', 'password', 'username' , ]
+        fields =['email', 'password', 'username' ,]
     
     def create(self, validated_data):
         user = get_user_model().objects.create(
@@ -46,6 +46,9 @@ class UserSerializer(serializers.ModelSerializer):
                 error['username'].append('username에 특수문자를 넣지 말아주세요!')
                 break
         return error
+    
+    def user_update(self, data):
+        pass
 
 class CustomJWTSerializer(JSONWebTokenSerializer):
     username_field = 'username'
@@ -81,3 +84,8 @@ class CustomJWTSerializer(JSONWebTokenSerializer):
                 msg = _('Must include "{username_field}" and "password".')
                 msg = msg.format(username_field=self.username_field)
                 raise serializers.ValidationError(msg)
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = ('username', 'email', 'gender', 'age', 'favoriteCategory')

@@ -141,10 +141,10 @@ class Command(BaseCommand):
         self.categorydata()
         print('* 카테고리 완료 *')
         for i in range(101,130):
-            # if i != 121:
-            print('*---카테고리', i , '시작 ---*')
-            print(self.categorybestSeller(i), '개 데이터')
-            print('*---카테고리', i , '완료 ---*')
+            if i != 121:
+                print('*---카테고리', i , '시작 ---*')
+                print(self.categorybestSeller(i), '개 데이터')
+                print('*---카테고리', i , '완료 ---*')
 
         for i in range(201,218):
             print('*---카테고리', i , '시작 ---*')
