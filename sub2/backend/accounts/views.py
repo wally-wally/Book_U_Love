@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-from .serializers import UserSerializer, UserUpdateSerializer
+from .serializers import UserSerializer, UserUpdateSerializer, UserDetailSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from .models import User
@@ -24,7 +24,7 @@ def user(request, id):
     # print(request.data)
     user = get_object_or_404(User, id=id)
     if request.method == 'GET':
-        serializer = UserUpdateSerializer(user)
+        serializer = UserDetailSerializer(user)
         return Response(serializer.data)
     elif request.method == 'PUT':
         data = request.data
