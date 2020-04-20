@@ -87,6 +87,19 @@ class CustomJWTSerializer(JSONWebTokenSerializer):
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     categorys = serializers.SerializerMethodField()
+    class Meta:
+        model = models.User
+        fields = ('username', 'email', 'gender', 'age', 'categorys')
+
+    def get_categorys(self,obj):
+        categorys = []
+        for i in obj.favoriteCategory.all():
+            categorys.append(i.name)
+        return categorys
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    categorys = serializers.SerializerMethodField()
     review_set = MyReviewSerializer(many=True)
     class Meta:
         model = models.User
