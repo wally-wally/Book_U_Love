@@ -33,7 +33,7 @@ function fetchMyInfo(userId) {
 
 // MyPage의 Account 페이지에서 추가정보 입력 후 추가정보 변경 API
 function updateMyInfo(userData, userId) {
-  return instance.post(`accounts/user/${userId}/`, userData)
+  return instance.put(`accounts/user/${userId}/`, userData)
 }
 
 // 저장된 모든 책 데이터를 가져오는 API
@@ -67,6 +67,7 @@ function fetchCategories() {
 function fetchjjim(params){
   return instance.post('api/like', params)
 }
+
 export {
   registerUser,
   loginUser,
@@ -79,5 +80,5 @@ export {
   fetchBookReview,
   addBookReview,
   fetchjjim,
-  deleteBookReview
+  deleteBookReview,
 }

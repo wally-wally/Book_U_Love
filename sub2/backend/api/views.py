@@ -132,3 +132,7 @@ def like_book(request):
 #         review = get_object_or_404(models.Review, pk=review_pk)
 #         review.delete()
 #         return Response({'message':'deleted!!'})
+
+@api_view(['GET'])
+def mylike(request):
+    return

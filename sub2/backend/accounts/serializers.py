@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, get_user_model
 from rest_framework_jwt.settings import api_settings
 from django.utils.translation import ugettext as _
 from . import models
-
+from api.serializers import MyReviewSerializer
 User = get_user_model()
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -86,6 +86,14 @@ class CustomJWTSerializer(JSONWebTokenSerializer):
                 raise serializers.ValidationError(msg)
 
 class UserUpdateSerializer(serializers.ModelSerializer):
+    categorys = serializers.SerializerMethodField()
+    review_set = MyReviewSerializer(many=True)
     class Meta:
         model = models.User
-        fields = ('username', 'email', 'gender', 'age', 'favoriteCategory')
+        fields = ('username', 'email', 'gender', 'age', 'categorys', 'review_set')
+
+    def get_categorys(self,obj):
+        categorys = []
+        for i in obj.favoriteCategory.all():
+            categorys.append(i.name)
+        return categorys

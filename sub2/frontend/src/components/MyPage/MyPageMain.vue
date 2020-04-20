@@ -1,6 +1,13 @@
 <template>
   <div class="mypage-main-wrapper">
     <div class="mypage-intro">
+      <div class="text-center row">
+        <div v-for="r in userinfo.review_set" :key="r.id">
+          <BookCard class="col-10" :bookData="r.book"/>
+          <div>{{r.score}} - {{r.content}}</div>
+        </div>
+      </div>
+      <hr>
       <div class="mypage-menu" data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
         <table>
           <tr>
@@ -79,10 +86,27 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { fetchMyInfo } from '@/api/index.js'
+import BookCard from '@/components/Books/BookCard'
 
 export default {
+  components: {BookCard},
   computed: {
     ...mapGetters(['info'])
+  },
+  data() {
+    return {
+      userinfo : {},
+    }
+  },
+  mounted() {
+    this.myinfo(this.$store.getters.info.user_id)
+  },
+  methods : {
+    async myinfo(id) {
+      const data = await fetchMyInfo(id)
+      this.userinfo = data.data
+    },
   }
 }
 </script>

@@ -22,8 +22,18 @@ class ReviewSerializer(serializers.ModelSerializer):
         user = get_user_model().objects.get(id=obj.user_id)
         return user.username
 
-        
+class MyReviewSerializer(serializers.ModelSerializer):
+    book = BookSerializer()
+    class Meta:
+        model = Review
+        fields = ('id','content','score','book')
+
 class BookDetailSerializer(serializers.ModelSerializer):
     review_set = ReviewSerializer(many=True)
     class Meta(BookSerializer.Meta):
         fields = BookSerializer.Meta.fields + ['review_set']
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta():
+        model = Book
+        field = '__all__'
