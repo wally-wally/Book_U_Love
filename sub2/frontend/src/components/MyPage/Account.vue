@@ -111,21 +111,21 @@ export default {
   methods: {
     async fetchMyInfo() {
       const myInfo = await this.$store.dispatch('GET_MYINFO')
-      this.gender = myInfo.results.gender
-      this.age = myInfo.results.age
-      this.getMyCategory(myInfo.results.favoriteCategory)
+      this.gender = myInfo.gender
+      this.age = myInfo.age
+      this.getMyCategory(myInfo.categorys)
     },
     getMyCategory(favoriteCategory) {
-      this.selectedCategories = this.categories.filter(category => favoriteCategory.includes(category.id)).map(item => `${item.id}-${item.name}`)
+      this.selectedCategories = this.categories.filter(category => favoriteCategory.includes(category.name)).map(item => `${item.id}-${item.name}`)
     },
     async updateMyAddInfo() {
-      let convertCategoryIDs = this.selectedCategories.map(category => Number(category.split('-')[0])).sort((a, b) => a - b)
+      let convertCategoryIDs = this.selectedCategories.map(category => category.split('-')[1])
       const userAddData = {
         username: this.info.username,
         email: this.info.email,
         gender: this.gender,
         age: this.age,
-        favoriteCategory: convertCategoryIDs
+        categorys: convertCategoryIDs
       }
       try {
         await this.$store.dispatch('CHANGE_USER_INFO', userAddData)

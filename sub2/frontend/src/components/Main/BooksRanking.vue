@@ -83,17 +83,8 @@ export default {
 
 .book-detail .book-name,
 .book-detail .book-author {
-  display: inline-block;
   width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   font-size: 0.9em;
-}
-
-.book-detail .book-name span:hover {
-  cursor: pointer;
-  font-weight: 600;
 }
 
 .book-detail .book-author::before {
