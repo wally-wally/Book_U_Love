@@ -135,4 +135,6 @@ def like_book(request):
 
 @api_view(['GET'])
 def mylike(request):
-    return
+    book = models.Book.objects.filter(like_user=request.user)
+    serializer = serializers.BookSerializer(book,many=True)
+    return Response(serializer.data)

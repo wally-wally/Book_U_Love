@@ -1,10 +1,18 @@
 <template>
   <div class="mypage-main-wrapper">
     <div class="mypage-intro">
-      <div class="text-center row">
+      <!-- 좋아하는 책 -->
+      mylike
+      <div v-for="l in likes" :key="l.id">
+        {{l.author}} - {{l.title}}
+      </div>
+      <hr>
+      <!-- 리뷰 책 BookCard 고치면,  text-center옆에 row추가-->
+      myreview 
+      <div class="text-center">
         <div v-for="r in userinfo.review_set" :key="r.id">
-          <BookCard class="col-10" :bookData="r.book"/>
-          <div>{{r.score}} - {{r.content}}</div>
+          <!-- <BookCard class="col-10" :bookData="r.book"/> -->
+          <div>{{r.book.title}} - {{r.score}} - {{r.content}}</div>
         </div>
       </div>
       <hr>
@@ -86,7 +94,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { fetchMyInfo } from '@/api/index.js'
+import { fetchMyInfo, mylike } from '@/api/index.js'
 import BookCard from '@/components/Books/BookCard'
 
 export default {
@@ -97,16 +105,22 @@ export default {
   data() {
     return {
       userinfo : {},
+      likes : [],
     }
   },
   mounted() {
     this.myinfo(this.$store.getters.info.user_id)
+    this.mylikes()
   },
   methods : {
     async myinfo(id) {
       const data = await fetchMyInfo(id)
       this.userinfo = data.data
     },
+    async mylikes() {
+      const data = await mylike()
+      this.likes = data.data
+    }
   }
 }
 </script>

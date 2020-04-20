@@ -68,6 +68,10 @@ function fetchjjim(params){
   return instance.post('api/like', params)
 }
 
+function mylike(params){
+  return instance.get('api/mylike', params)
+}
+
 export {
   registerUser,
   loginUser,
@@ -81,4 +85,5 @@ export {
   addBookReview,
   fetchjjim,
   deleteBookReview,
+  mylike,
 }
