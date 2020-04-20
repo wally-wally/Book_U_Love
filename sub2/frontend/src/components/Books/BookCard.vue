@@ -2,7 +2,7 @@
   <div class="book-card-wrapper">
       <router-link :to="`/book/${this.bookData.id}`">
     <div class="book-img">
-      <img style="width:200px;height:250px;" :src="this.imgUrl" alt="book-image">
+      <img style="width:200px;height:265px;" :src="this.imgUrl" alt="book-image">
     </div>
       </router-link>
     <div class="book-info">
