@@ -1,15 +1,16 @@
 <template>
   <div class="book-card-wrapper">
-    <div class="book-img">
-      <img :src="this.imgUrl" alt="book-image">
-    </div>
-    <div class="book-info">
-      {{bookData.avg}} - {{bookData.review_cnt}}
-      <div class="book-category">{{ bookCategory.name }}</div>
-      <div class="book-title">{{ this.bookData.title }}</div>
       <router-link :to="`/book/${this.bookData.id}`">
-        <div class="book-detail-link">상세정보 보기</div>
+    <div class="book-img">
+      <img style="width:200px;height:250px;" :src="this.imgUrl" alt="book-image">
+    </div>
       </router-link>
+    <div class="book-info">
+      <div class="book-category">{{ bookCategory.name }}</div>
+      <router-link :to="`/book/${this.bookData.id}`">
+        <div class="book-title" style="color:black;">{{ this.bookData.title }}</div>
+      </router-link>
+      <span style="color:#f9d71c">★</span>{{bookData.avg}} ({{bookData.review_cnt}}명)
     </div>
   </div>
 </template>

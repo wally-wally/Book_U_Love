@@ -8,7 +8,7 @@
           {{book.categoryname}}
         </div>
         <div class="rating my-4 py-3">
-          평점 ★{{book.avg}} ({{book.review_cnt}}명)
+          <span style="color:#f9d71c">★</span>{{book.avg}} ({{book.review_cnt}}명)
         </div>
           <div class="row detailbody pb-10">
             <div class="col-4">
@@ -217,14 +217,14 @@ li {
 .score > input:checked ~ label,
 .score:not(:checked) > label:hover,
 .score:not(:checked) > label:hover ~ label {
-  color: rgb(255, 228, 73);
+  color: #f9d71c;
 }
 
 .score > input:checked + label:hover,
 .score > input:checked ~ label:hover,
 .score > label:hover ~ input:checked ~ label,
 .score > input:checked ~ label:hover ~ label {
-  color: rgb(255, 220, 24);
+  color:#f9d71c;
 }
 
 .review-input-box{ border: 1px solid black; }

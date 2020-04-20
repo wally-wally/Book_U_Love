@@ -67,7 +67,7 @@ export default {
 
 <style scoped>
 .fa{
-    color:rgb(255, 228, 73);
+    color:#f9d71c;
 }
 i:hover {
     cursor: pointer;
