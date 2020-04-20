@@ -23,11 +23,9 @@ def signup(request):
 def user(request, id):
     # print(request.data)
     user = get_object_or_404(User, id=id)
-    print(user)
     if request.method == 'GET':
         serializer = UserUpdateSerializer(user)
         return Response(serializer.data)
-
     elif request.method == 'PUT':
         data = request.data
         serializer = UserUpdateSerializer(data=data, instance=user)
