@@ -28,6 +28,7 @@ export default {
     }
   },
   created() {
+    this.getCategory()
     this.responsiveHeaderHeight()
   },
   mounted() {
@@ -36,6 +37,9 @@ export default {
     })
   },
   methods: {
+    async getCategory() {
+      await this.$store.dispatch('GET_CATEGORIES')
+    },
     responsiveHeaderHeight() {
       let height = window.innerWidth >= 550 ? 113.344 : 141.797
       this.headerStyle = `padding-top: ${height}px;`

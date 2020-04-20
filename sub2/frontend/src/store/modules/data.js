@@ -26,7 +26,6 @@ const actions = {
   },
   async GET_REVIEWS({ commit },id) {  // 전체 리뷰가져오기
     const { data } = await fetchBookReview(id)
-    console.log(data)
     return data
   },
 
