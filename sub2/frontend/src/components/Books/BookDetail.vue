@@ -116,6 +116,7 @@ export default {
   methods : {
     async getBookDetail(id) {
       let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', id)
+      console.log(bookData)
       this.book = bookData.results[0]
     },
     // async getBookReview(id) {
