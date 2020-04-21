@@ -17,7 +17,7 @@
       <div class="text-center row dot-border" style="margin:0 auto">
         <div v-for="r in userinfo.review_set" :key="r.id">
           <BookCard class="col-10" :bookData="r.book"/>
-          <div>{{r.score}} - {{r.content}}</div>
+          <div class="myreview"><span style="font-size:0.9em;">★{{r.score}} {{r.content}}</span></div>
         </div>
       </div>
     </div>
@@ -77,5 +77,12 @@ export default {
   border: 2px dashed rgba(0, 0, 0, 0.17);
   border-radius: 20px;
   box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.05);
+}
+.myreview{
+  border-radius:5px;
+  display:inline-block;
+  width:190px;
+  background-color:lavender;
+  text-overflow: ellipsis;
 }
 </style>
