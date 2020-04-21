@@ -82,7 +82,7 @@ export default {
   border-radius:5px;
   display:inline-block;
   width:190px;
-  background-color:lavender;
+  background-color:#f6e9e6;
   text-overflow: ellipsis;
 }
 </style>
