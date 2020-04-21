@@ -25,7 +25,7 @@ class Book(models.Model):
     @property
     def avg(self):
         avg = self.review_set.aggregate(Avg('score'))['score__avg'] 
-        return avg if avg else 0
+        return round(avg,1) if avg else 0
     @property
     def categoryname(self):
         return Category.objects.get(id=self.category_id).name

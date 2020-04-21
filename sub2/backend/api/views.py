@@ -71,20 +71,19 @@ class BookDetailViewSet(viewsets.ModelViewSet):
             else:
                 a = False
         return a
-
-# @api_view(['GET'])
-# def review(request,id):
-#     book= get_object_or_404(models.Book, id=id)
-#     review = models.Review.objects.filter(book_id=id)
-#     serializer = serializers.ReviewSerializer(review, many=True)
-#     return Response(serializer.data)
-
-@api_view(['POST'])
+        
+@api_view(['GET','POST'])
 def review_create(request):
-    serializer = serializers.ReviewSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-    return Response(serializer.data)
+    if request.method == 'GET':
+        review = models.Review.objects.all()
+        serializer = serializers.ReviewSerializer(review, many=True)
+        print(review)
+        return Response(serializer.data)
+    else:
+        serializer = serializers.ReviewSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response(serializer.data)
 
 @api_view(['PUT','DELETE'])
 def review_command(request,review_pk):
