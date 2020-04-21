@@ -60,7 +60,6 @@ a,
   text-decoration:none;
   color: black;
 }
-
 .blind {
   pointer-events: none;
   touch-action:none;

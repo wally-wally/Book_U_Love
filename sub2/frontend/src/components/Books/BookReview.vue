@@ -1,24 +1,21 @@
 <template>
   <div v-if="!isdelete">
     <div class="align-items-center container">
-        <div class="row">
-            <div class="col-2">{{review.username}}</div>
-            <div class="col-3">
-                <div id="stars">
+            <div class="review-username">{{review.username}}</div>
+            <div class="pb-2">
+                <div id="stars" style="display:inline">
                     <i class="fa fa-star-o"></i>
                     <i class="fa fa-star-o"></i>
                     <i class="fa fa-star-o"></i>
                     <i class="fa fa-star-o"></i>
                     <i class="fa fa-star-o"></i>
                 </div>
+                <div class="review-score ml-2">{{review.score}}
+                </div>
             </div>
-            <div class="col-6">
-                {{review.score}}
-            </div>
-            <div @click="deletereview" class="col-1">
+            <div @click="deletereview" style="display:inline;">
                 <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
             </div>
-        </div>
         <div style="border-bottom:1px solid lightgray">{{review.content}}</div>
         <div style="margin:10px;"/>
     </div>
@@ -67,9 +64,20 @@ export default {
 
 <style scoped>
 .fa{
-    color:rgb(255, 228, 73);
+    color:#f9d71c;
 }
 i:hover {
     cursor: pointer;
+}
+.review-score{
+    display:inline;
+    font-weight:bold;
+    font-size:0.9em;
+}
+.review-username{
+    font-size: .875rem;
+    line-height: 1.375rem;
+    letter-spacing: .0071428571em;
+    font-weight: bolder;
 }
 </style>

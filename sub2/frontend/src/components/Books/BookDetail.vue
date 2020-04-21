@@ -8,7 +8,7 @@
           {{book.categoryname}}
         </div>
         <div class="rating my-4 py-3">
-          평점 ★{{book.avg}} ({{book.review_cnt}}명)
+          <span style="color:#f9d71c">★</span>{{book.avg}} ({{book.review_cnt}}명)
         </div>
           <div class="row detailbody pb-10">
             <div class="col-4">
@@ -51,9 +51,10 @@
 
     <div class="review">
       <div class="py-5" style="margin-right:50px; background-color:white;border-radius: 15px; border: 1px solid lightgray">
-        <h2>Review</h2>
-          <form class="row" v-if="this.$store.state.user.isLogin">
-              <fieldset class="score col-3">
+        <h2 class="pt-3 review-title">도서 리뷰</h2>
+          <form v-if="this.$store.state.user.isLogin">
+            <div class="row">
+              <fieldset class="score" style="margin-left:7%">
                   <input v-model="score" type="radio" id="star10" name="score" value="10"/>
                   <label class="full" for="star10" title="최고의 책입니다. 10점"></label>
                   <input v-model="score" type="radio" id="star9" name="score" value="9"/>
@@ -75,10 +76,11 @@
                   <input v-model="score" type="radio" id="star1" name="score" value="1"/>
                   <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
               </fieldset>
-              <textarea v-model="content" class="col-8" style="background-color:white; border:1px solid gray"/> 
+            </div>
+            <textarea v-model="content" style="background-color:white; border:1px solid gray;display:block;width:90%;margin-left:5%;" placeholder=" 리뷰를 입력해주세요."/> 
+            <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register"> 리뷰등록</div>
           </form>
-          <div @click="this.addBookReview" style="display:block; text-align:right"> 리뷰등록</div>
-          <div class="px-3 py-3">
+          <div class="px-3 py-3" style="width:95%;margin:0 auto">
             <div v-for="(review,index) in book.review_set" :key="index">
               <BookReview :review="review" :index="index"/>
             </div>
@@ -177,6 +179,7 @@ li {
 
 .score {
   border: none;
+  padding-bottom: 0.5em;
 }
 
 .score > input {
@@ -217,14 +220,14 @@ li {
 .score > input:checked ~ label,
 .score:not(:checked) > label:hover,
 .score:not(:checked) > label:hover ~ label {
-  color: rgb(255, 228, 73);
+  color: #f9d71c;
 }
 
 .score > input:checked + label:hover,
 .score > input:checked ~ label:hover,
 .score > label:hover ~ input:checked ~ label,
 .score > input:checked ~ label:hover ~ label {
-  color: rgb(255, 220, 24);
+  color:#f9d71c;
 }
 
 .review-input-box{ border: 1px solid black; }
@@ -257,5 +260,18 @@ li {
   line-height: 22px;
   border-top:1px solid lightgray;
   border-bottom:1px solid lightgray;
+}
+.review-title{
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: 'Noto Sans KR';
+  margin-bottom: 0.5em;
+  margin-left:5%;
+}
+.review-register{
+  display:block;
+  text-align:right;
+  margin-right:5%;
+  margin-top:0.4em;
 }
 </style>
