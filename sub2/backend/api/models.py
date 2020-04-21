@@ -4,6 +4,14 @@ from django.conf import settings
 from django.db.models import Avg
 
 
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    imgUrl = models.CharField(max_length=300)
+    boneDate = models.CharField(max_length=100, blank=True, null=True)
+    region = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField()
+
+
 class Category(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=40)

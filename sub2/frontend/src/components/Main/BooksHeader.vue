@@ -36,9 +36,6 @@ export default {
       categories: state => state.data.categories
     })
   },
-  created() {
-    this.getCategory()
-  },
   mounted() {
     window.addEventListener('resize', () => {
       if (window.innerWidth > 550) {
@@ -50,9 +47,6 @@ export default {
     })
   },
   methods: {
-    async getCategory() {
-      await this.$store.dispatch('GET_CATEGORIES')
-    },
     showDrawer() {
       this.clickedDrawerIcon = !this.clickedDrawerIcon
     }
