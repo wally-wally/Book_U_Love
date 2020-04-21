@@ -10,7 +10,7 @@
       <router-link :to="`/book/${this.bookData.id}`">
         <div class="book-title" style="color:black;">{{ this.bookData.title }}</div>
       </router-link>
-      <span style="color:#f9d71c">★</span>{{bookData.avg}} ({{bookData.review_cnt}}명)
+      <span style="color:#ffa136">★{{bookData.avg}}</span><span style="font-size:0.9em"> ({{bookData.review_cnt}}명)</span>
     </div>
   </div>
 </template>
@@ -99,5 +99,10 @@ export default {
   .book-info .book-title {
     font-size: 0.9em;
   }
+}
+.book-title{
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 20px;
 }
 </style>
