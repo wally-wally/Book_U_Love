@@ -7,5 +7,6 @@ urlpatterns = [
     path('signup/', views.signup, name="signup"),
     path('auth-login/',ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer)),
     path('user/<int:id>/', views.user),
-    path('user/<int:id>/like/',views.user_like)
+    path('user/like/',views.user_like),
+    path('user/recommend',views.recommend),
 ]
