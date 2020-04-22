@@ -72,6 +72,14 @@ function mylike(params){
   return instance.get('api/mylike', params)
 }
 
+function myBookdata(){
+  return instance.get(`accounts/user/like`)
+}
+
+function recommend() {
+  return instance.get(`accounts/user/recommend`)
+}
+
 export {
   registerUser,
   loginUser,
@@ -86,4 +94,6 @@ export {
   fetchjjim,
   deleteBookReview,
   mylike,
+  myBookdata,
+  recommend,
 }

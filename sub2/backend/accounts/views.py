@@ -5,9 +5,11 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from .models import User
 from django.shortcuts import get_object_or_404
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Sum
 # Create your views here.
 from api.models import Book
+from django.http import JsonResponse
+from api.serializers import BookSerializer
 
 @api_view(['POST'])
 def signup(request):
@@ -40,48 +42,54 @@ def user(request, id):
         user.delete()
         return Response({'message':'deleted!'})
 
-def user_like(request,id):
-    user = User.objects.get(id=id)
-    # data = User.objects.get(id=id).review_set.all().values()
-    # df = pd.DataFrame(list(data))
-    category = user.review_set.values('book__category__name').annotate(Avg('score'))
-    category_cnt = user.review_set.values('book__category__name').annotate(Count('score'))
-    print(category_cnt)
-    print(category)
-    # values('book').annotate(Avg('score'))
-    #     for genre in review.movie.genres.all():
-    #         if genre.name not in user_genres:
-    #             user_genres[genre.name] = [0,0]
-    #         user_genres[genre.name][0] += review.score
-    #         user_genres[genre.name][1] += 1
-    # for idx,value in user_genres.items():
-    #     user_genres[idx] = [round(value[0]/value[1],2),value[1]]
-    # genres = sorted(user_genres.items(),key=lambda x:x[1][0],reverse=True)
-    from math import sqrt
+@api_view(['GET'])
+def user_like(request):
+    user = request.user
+    category = user.review_set.values('book__category__name').annotate(Avg('score')).annotate(Count('score'))
+    data = {'category' : list(category)}
+    return JsonResponse(data,json_dumps_params = {'ensure_ascii':False})
+from math import sqrt
+@api_view(['GET'])
+def recommend(request):
+    user = request.user
     users = User.objects.all()
     mybook = Book.objects.filter(review__user=user)
-    vs ={}
+    pearson ={}
+    cos = {}
     for other in users:
         X,Y, XX,YY,XY,cnt = 0,0,0,0,0,0
         if other != user:
             same_books = mybook.filter(review__user=other)
-            print(other)
             for book in same_books:
-                # print(book.review_set.values('user','score'))
                 a = book.review_set.filter(user=user)[0].score
                 b = book.review_set.filter(user=other)[0].score
-                print(a,b)
                 X += a
                 Y += b
                 XX += a*a
                 YY += b*b
                 XY += a*b
                 cnt += 1
-        print(X,Y, XX, YY, XY, cnt)
-        try:
-            vs[other] = (XY-(X*Y)/cnt)/ sqrt((XX-(X*X)/cnt) * (YY-(Y*Y)/cnt))
-        except:
-            pass
-    print(vs)
-    sorted_vs = sorted(vs.items(), key=lambda kv: kv[1],reverse=True)
-    return review
+            try:
+                cos[other.id] = XY/(sqrt(XX) * sqrt(YY))
+                pearson[other] = (XY-(X*Y)/cnt)/ sqrt((XX-(X*X)/cnt) * (YY-(Y*Y)/cnt))
+            except:
+                pass
+    sorted_pearson = sorted(pearson.items(), key=lambda kv: kv[1],reverse=True)
+    otherUserReview = None
+    for pearson in sorted_pearson[:2]:
+        user = pearson[0]
+        if otherUserReview:
+            otherUserReview = otherUserReview | user.review_set.all()
+        else:
+            otherUserReview = user.review_set.all()
+    print(otherUserReview.all())
+    recommend = otherUserReview.values('book').annotate(Avg('score')).annotate(Count('score')).annotate(Sum('score'))
+    print(recommend)
+    print('총 ', len(otherUserReview),'개에서 - ', len(recommend),'개')
+    bookdata = []
+    for book in recommend.order_by('-score__avg'):
+        bookdata.append(book['book'])
+    recommend_bookdata = Book.objects.filter(id__in=bookdata).difference(mybook)
+    print(recommend_bookdata)
+    serializer = BookSerializer(recommend_bookdata,many=True)
+    return Response(serializer.data)

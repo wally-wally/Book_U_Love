@@ -24,7 +24,7 @@
           </div>
           <div v-if="this.$store.state.user.isLogin" @click="this.jjim" class="jjim">
               <i class="fas fa-bookmark mr-5" style="font-size:20px; color:#fff;"></i>
-              <div v-if="is_liked" class="jjimtxt">
+              <div v-if="book.my" class="jjimtxt">
                 찜에서 제거
               </div>
               <div v-else class="jjimtxt">
@@ -85,6 +85,7 @@
               <BookReview :review="review" :index="index"/>
             </div>
           </div>
+          {{this.stat}}
       </div>
     </div>
   </div>
@@ -107,13 +108,27 @@ export default {
       score : 0,
       id :this.$route.params.id,
       like : 0,
-      is_liked : false,
+      stat : { 1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0}
     }
   },
   mounted() {
     this.getBookDetail(this.id)
   },
+  watch : {
+    book : function () {
+      const reviews = this.book.review_set
+      for (var i in reviews) {
+        this.stat[reviews[i].score] ++ 
+      }
+    }
+  },
   methods : {
+    // stat() {
+    //   for (review in book.review_set){
+    //     this.stat[review.score] ++
+    //     console.log(review.score)
+    //   } 
+    // },
     async getBookDetail(id) {
       let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', id)
       this.book = bookData.results[0]
@@ -141,7 +156,7 @@ export default {
       formData.append('user', this.$store.getters.info.user_id)
       formData.append('book',this.id)
       const data = await fetchjjim(formData)
-      this.is_liked = !this.is_liked
+      this.book.my = !this.book.my
     }
   }
 }
