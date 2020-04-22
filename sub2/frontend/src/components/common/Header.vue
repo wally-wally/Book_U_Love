@@ -1,5 +1,5 @@
 <template>
-  <div style="position: fixed; width: 100%; z-index:10000;">
+  <div style="position: fixed; width: 100%; z-index:3;">
     <TopHeader/>
     <SubHeader />
     <transition name="fade">

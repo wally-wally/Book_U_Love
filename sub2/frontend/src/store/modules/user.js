@@ -14,6 +14,7 @@ const mutations = {
     state.token = token
     sessionStorage.setItem('token', token)
     state.isLogin = true
+    state.isLoginError = false
   },
   logout(state) {
     state.token = ''
@@ -68,6 +69,10 @@ const actions = {
   async CHANGE_PASSWORD({ getters }, userData) { // 유저의 비밀번호 변경을 요청하는 비동기 로직
     const { data } = await changePassword(userData, getters.info.user_id)
     return data
+  },
+  async GET_MYBOOK_REVIEW_CNT({ getters }) {
+    const { data } = await fetchMyInfo(getters.info.user_id)
+    return data.review_set.length
   }
 };
 

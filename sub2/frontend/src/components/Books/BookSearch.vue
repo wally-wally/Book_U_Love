@@ -56,7 +56,7 @@ export default {
         'query': query,
         'page': this.pageNm
       }
-      let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', paramsData)
+      let bookData = await this.$store.dispatch('GET_BOOKS', paramsData)
       this.books = bookData.results
       this.totalBookCount = bookData.count
       this.pageCount = parseInt(bookData.count / 10) + 1

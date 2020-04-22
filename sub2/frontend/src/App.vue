@@ -1,21 +1,29 @@
 <template>
-  <v-app id="app">
+  <v-app id="app" :class="this.postLoading ? 'all-wrapper' : ''">
+    <div :class="this.postLoading ? 'background-black' : ''"></div>
+    <div :class="this.postLoading ? 'loader' : ''"></div>
+    <span :class="this.postLoading ? 'loading-alert' : ''"></span>
     <Header />
       <v-content :style="headerStyle" :class="className">
         <router-view />
+        <AlertCollectReview></AlertCollectReview>
       </v-content>
     <Footer />
   </v-app>
 </template>
 
 <script>
-import Header from '@/components/common/Header';
-import Footer from '@/components/common/Footer';
+import { mapState } from 'vuex'
+import Header from '@/components/common/Header'
+import Footer from '@/components/common/Footer'
+import AlertCollectReview from '@/components/common/AlertCollectReview'
+import '@/assets/css/loader.css'
 
 export default {
   components: {
     Header,
-    Footer
+    Footer,
+    AlertCollectReview
   },
   data() {
     return {
@@ -23,6 +31,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      postLoading: state => state.data.postReviewLoading
+    }),
     className() {
       return this.$store.state.common.onMobileDrawer ? 'blind' : ''
     }
