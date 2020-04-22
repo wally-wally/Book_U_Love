@@ -30,9 +30,17 @@ class MyReviewSerializer(serializers.ModelSerializer):
 
 class BookDetailSerializer(serializers.ModelSerializer):
     review_set = ReviewSerializer(many=True)
+    my = serializers.SerializerMethodField()
     class Meta(BookSerializer.Meta):
-        fields = BookSerializer.Meta.fields + ['review_set']
+        fields = BookSerializer.Meta.fields + ['review_set','my']
 
+    def get_my(self,obj):
+        try:
+            user = self.context['request'].user
+            myreview = obj.like_user.filter(id=user.id)
+            return True if myreview else False
+        except:
+            return False
 class LikeSerializer(serializers.ModelSerializer):
     class Meta():
         model = Book

@@ -58,19 +58,12 @@ class BookViewSet(viewsets.ModelViewSet):
 
 class BookDetailViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookDetailSerializer
+    
     def get_queryset(self):
         book = models.Book.objects.filter(id=self.kwargs['id'])
         queryset = (book)
         return queryset
 
-    def get_my(self):
-        book = models.Book.objects.filter(id=self.kwargs['id'])
-        if self.request.user.id:
-            if self.request.user in book[0].like_user.all():
-                a = True
-            else:
-                a = False
-        return a
         
 @api_view(['GET','POST'])
 def review_create(request):
