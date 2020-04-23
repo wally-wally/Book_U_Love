@@ -3,8 +3,8 @@
     <div class="mybooks">My Books</div>
     <!-- 좋아하는 책 -->
     <div class="add-info">
-      <div class="mybooks-sub">💜 내가 좋아요 누른 책</div>
-      <div class="text-center row dot-border">
+      <div class="mybooks-sub">💜 내가 읽고 싶은 책</div>
+      <div class="text-center row dot-border" style="padding:15px">
         <div v-for="l in likes" :key="l.id">
           <BookCard class="col-10" :bookData="l"/>
         </div>
@@ -14,10 +14,16 @@
       <!-- 리뷰 책 BookCard 고치면,  text-center옆에 row추가-->
     <div class="add-info">
       <div class="mybooks-sub">📝 내가 리뷰 남긴 책</div>
-      <div class="text-center row dot-border" style="margin:0 auto">
-        <div v-for="r in userinfo.review_set" :key="r.id">
-          <BookCard class="col-10" :bookData="r.book"/>
-          <div class="myreview"><span style="font-size:0.9em;">★{{r.score}} {{r.content}}</span></div>
+      <div class="text-center dot-border">
+        <div class="row">
+          <div class="table-head col-3">도서</div>
+          <div class="table-head col-2">내 평점</div>
+          <div class="table-head col-7">내 리뷰</div>
+        </div>
+        <div v-for="r in userinfo.review_set" :key="r.id" class="row">
+            <BookCard class="col-3" :bookData="r.book"/>
+            <div class="myscore col-1" style="margin:auto;">★{{r.score}}</div>
+            <div class="myreview col-6" style="margin:auto;">{{r.content}}</div>
         </div>
       </div>
     </div>
@@ -80,9 +86,20 @@ export default {
 }
 .myreview{
   border-radius:5px;
-  display:inline-block;
-  width:190px;
   background-color:#f6e9e6;
   text-overflow: ellipsis;
+  font-family: 'Nanum Gothic';
+  font-weight: 600;
+  padding:50px;
+}
+.table-head{
+  font-family: 'Nanum Gothic';
+  font-weight: 600;
+  font-size: 1.1em;
+  padding-bottom: 0.8em;
+}
+.myscore{
+  color:#ffa136;
+  font-size: 1.3em;
 }
 </style>
