@@ -1,7 +1,6 @@
 <template>
   <div class="dashboard-wrapper">
     <div class="dashboard">Dashboard</div>
-    <!-- <div>chart.js 를 이용하여 인사이트를 구성해봅시다</div> -->
     <div class="dashboard-sub">{{this.$store.getters.info.username}} 님의 선호 카테고리 분석 결과</div>
     <div class="chart-container" style="padding:30px 0;">
      <canvas ref="pieChart" id="pieChart"></canvas>
@@ -36,7 +35,6 @@ export default {
   watch:{
     mydata(){
       this.makechart()
-      // console.log(this.mydata)
     }
   },
   methods : {
@@ -81,25 +79,12 @@ export default {
           }]
         },
         options:{
-          // responsive: false,
           aspectRatio: 4,
           legend:{
             align: 'center',
             position: 'top'
           }
         }
-      //  options: {
-      //   tooltips: {
-      //     callbacks: {
-      //       label: function(tooltipItem) {
-      //         let totalReviewCount = getData['score_distribution'].reduce((total, x) => total += x, 0)
-      //         let hoverData = getData['score_distribution'][tooltipItem.index]
-      //         let rate = ((hoverData / totalReviewCount) * 100).toFixed(2)
-      //         return `${rate}%`
-      //       }
-      //     }
-      //   }
-      // }
     })
     }
   }

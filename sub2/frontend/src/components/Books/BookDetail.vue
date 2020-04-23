@@ -85,7 +85,9 @@
               <BookReview :review="review" :index="index"/>
             </div>
           </div>
+        <h2 class="pt-3 review-title">평점 그래프</h2>  
           {{this.stat}}
+          <canvas ref="barChart" id="barChart"></canvas>
       </div>
     </div>
   </div>
@@ -108,18 +110,20 @@ export default {
       score : 0,
       id :this.$route.params.id,
       like : 0,
-      stat : { 1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0}
+      stat : [0,0,0,0,0,0,0,0,0,0,0]
     }
   },
   mounted() {
     this.getBookDetail(this.id)
   },
   watch : {
-    book : function () {
+    book : async function () {
+      this.stat = [0,0,0,0,0,0,0,0,0,0,0]
       const reviews = this.book.review_set
       for (var i in reviews) {
         this.stat[reviews[i].score] ++ 
       }
+      await this.makechart()
     }
   },
   methods : {
@@ -158,6 +162,38 @@ export default {
       formData.append('book',this.id)
       const data = await fetchjjim(formData)
       this.book.my = !this.book.my
+    },
+    makechart(){
+      let chartLabels = [0,1,2,3,4,5,6,7,8,9,10]
+      let chartData = this.stat
+
+      new this.$_Chart(this.$refs.barChart, {
+        type: 'bar',
+        data: {
+        labels: chartLabels,
+        datasets: [{
+            label: '# of mean review',
+            data: chartData,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+      }
+    })
     }
   }
 }
