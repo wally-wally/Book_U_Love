@@ -1,5 +1,5 @@
 <template>
-  <div class="book-card-wrapper">
+  <div class="book-card-wrapper" style="width:200px;align-items:center">
       <router-link :to="`/book/${this.bookData.id}`">
     <div class="book-img">
       <img style="width:200px;height:265px;" :src="this.imgUrl" alt="book-image">
@@ -45,7 +45,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 4px;
+  margin:30px;
 }
 .book-img {
   padding-bottom: 1.4em;
@@ -104,5 +104,6 @@ export default {
   font-weight: 400;
   letter-spacing: -0.5px;
   line-height: 20px;
+  /* width:200px; */
 }
 </style>
