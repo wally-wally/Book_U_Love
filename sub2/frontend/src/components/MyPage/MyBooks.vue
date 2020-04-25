@@ -43,12 +43,12 @@ export default {
     }
   },
   mounted() {
-    this.myinfo(this.$store.getters.info.user_id)
+    this.myinfo()
     this.mylikes()
   },
   methods : {
-    async myinfo(id) {
-      const data = await fetchMyInfo(id)
+    async myinfo() {
+      const data = await fetchMyInfo()
       this.userinfo = data.data
     },
     async mylikes() {

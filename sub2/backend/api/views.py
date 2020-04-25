@@ -21,7 +21,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_class = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = (models.Category.objects.all())
+        queryset = (models.MainCategory.objects.all())
         return queryset
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -34,15 +34,18 @@ class BookViewSet(viewsets.ModelViewSet):
         id = self.request.query_params.get("id","")
         if id:
             book = book.filter(id=id)
-        category = self.request.query_params.get("category","")
-        if category:
-            if int(category) % 100:
-                book = book.filter(category_id=category)
-            else:
-                book = book.filter(category_id__gt=category).filter(category_id__lt=int(category)+100)
+        maincategory = self.request.query_params.get("maincategory","")
+        if maincategory:
+            book = book.filter(mainCategory_id=maincategory)
+        subcategory = self.request.query_params.get("subcategory","")
+        if subcategory:
+            book = book.filter(subCategory_id=subcategory)
+        detailcategory = self.request.query_params.get("detailcategory","")
+        if detailcategory:
+            book = book.filter(detailCategory_id=detailcategory)
         query = self.request.query_params.get("query","")
         if query:
-            book = book.filter(author__contains=query) | book.filter(title__contains=query)
+            book = book.filter(author__name__contains=query) | book.filter(title__contains=query)
         sortby = self.request.query_params.get("sortby","")
         if sortby=="count":
             book = sorted(book, key=lambda t: (t.review_cnt,t.avg),reverse=True)
@@ -58,7 +61,6 @@ class BookViewSet(viewsets.ModelViewSet):
 
 class BookDetailViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookDetailSerializer
-    
     def get_queryset(self):
         book = models.Book.objects.filter(id=self.kwargs['id'])
         queryset = (book)
@@ -130,3 +132,12 @@ def mylike(request):
     book = models.Book.objects.filter(like_user=request.user)
     serializer = serializers.BookSerializer(book,many=True)
     return Response(serializer.data)
+
+    
+class LikeCategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.MyMainCategorySerializer
+    
+    def get_queryset(self):
+        mycategory = models.MainCategory.objects.all()
+        queryset = (mycategory)
+        return queryset

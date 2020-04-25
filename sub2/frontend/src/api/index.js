@@ -27,13 +27,13 @@ function changePassword(userData) {
 }
 
 // MyPage의 Account 페이지에서 유저 추가정보 가져오는 API
-function fetchMyInfo(userId) {
-  return instance.get(`accounts/user/${userId}`)
+function fetchMyInfo() {
+  return instance.get(`accounts/user/`)
 }
 
 // MyPage의 Account 페이지에서 추가정보 입력 후 추가정보 변경 API
-function updateMyInfo(userData, userId) {
-  return instance.put(`accounts/user/${userId}/`, userData)
+function updateMyInfo(userData) {
+  return instance.put(`accounts/user/`, userData)
 }
 
 // 저장된 모든 책 데이터를 가져오는 API
@@ -73,7 +73,7 @@ function mylike(params){
 }
 
 function myBookdata(){
-  return instance.get(`accounts/user/like`)
+  return instance.get(`api/likecategory`)
 }
 
 function recommend() {

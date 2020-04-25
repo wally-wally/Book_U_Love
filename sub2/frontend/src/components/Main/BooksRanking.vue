@@ -19,7 +19,8 @@
         <div class="book-name">
           <span>{{ book.title }}</span>
         </div>
-        <div class="book-author">{{ book.author }}</div>
+        <div v-if="book.author.length > 1 " class="book-author">{{ book.author[0].name }} 외 {{book.author.length-1}}명</div>
+        <div v-else class="book-author">{{ book.author[0].name }}</div>
       </div>
       </div>
     </div>
@@ -40,6 +41,7 @@ export default {
   methods : {
     async getBooks() {
       const scoredata = await this.$store.dispatch('GET_BOOKS', {sortby: "score",top:10})
+      console.log(scoredata)
       this.books['평점순'] = scoredata["results"]
       const reviewdata =  await this.$store.dispatch('GET_BOOKS', {sortby: "count",top:10})
       this.books['리뷰 갯수순'] = reviewdata["results"]
