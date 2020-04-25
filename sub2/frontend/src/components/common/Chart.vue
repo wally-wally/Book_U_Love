@@ -25,7 +25,7 @@ export default {
         data: {
           labels: this.chartLabels,
           datasets: [{
-            label: '# of rate',
+            label: '리뷰 개수',
             data: this.chartData,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
@@ -51,7 +51,7 @@ export default {
               'rgba(75, 192, 192, 1)',
               'rgba(153, 102, 255, 1)'
             ],
-            borderWidth: 1
+            // borderWidth: 1
           }]
         },
         options:{
@@ -59,6 +59,13 @@ export default {
           legend:{
             align: 'center',
             position: 'top'
+          },
+          scales: {
+            yAxes: [{
+                gridLines: {
+                    display: false
+                }
+            }]
           }
         }
     })
