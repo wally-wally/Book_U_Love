@@ -22,27 +22,37 @@
               <div class="col-2">Price</div><div class="col-10">{{book.priceStandard}}원 </div>
             </div>
           </div>
-          <div v-if="this.$store.state.user.isLogin" @click="this.jjim" class="jjim">
-              <i class="fas fa-bookmark mr-5" style="font-size:20px; color:#fff;"></i>
+          <div v-if="this.$store.state.user.isLogin" @click="this.jjim" style="margin-bottom:40px">
+              <!-- <i class="fas fa-bookmark mr-5" style="font-size:20px; color:#fff;"></i>
               <div v-if="book.my" class="jjimtxt">
                 찜에서 제거
               </div>
               <div v-else class="jjimtxt">
                 책 추가하기
+              </div> -->
+              <div v-if="book.my" class="like-content">
+                <button class="btn-secondary like-review">
+                  <i class="fa fa-heart" aria-hidden="true"></i> 찜에서 제거
+                </button>
+              </div>
+              <div v-else class="like-content">
+                <button class="btn-secondary like-review">
+                  <i class="fa fa-heart" aria-hidden="true"></i> 책 추가하기
+                </button>
               </div>
           </div>
           <v-card v-if="book.description" class="ctr-80 mb-5" style="width:100%;">
-            <v-card-title class="pt-10 pb-10" style="text-align:center;">
-            Description
+            <v-card-title class="pt-10 pb-10 book-sub" style="text-align:center;">
+            책소개
             </v-card-title>
-            <v-card-text v-html="book.description" style="text-align:center;">
+            <v-card-text v-html="book.description" style="text-align:center;padding:0 4em 2em 4em;">
             </v-card-text>
           </v-card>
           <v-card v-if="book.contents" class="ctr-80 mt-5 mb-5" style="width:100%;">
-            <v-card-title class="pt-10 pb-10" style="text-align:center;">
-            Contents
+            <v-card-title class="pt-10 pb-10 book-sub" style="text-align:center;">
+            목차
             </v-card-title>
-            <v-card-text>
+            <v-card-text style="padding:0 3em 2em 3em;">
             <div v-html="book.contents"></div>
             </v-card-text>
           </v-card>
@@ -50,7 +60,7 @@
     </div>
 
     <div class="review">
-      <div class="py-5" style="margin-right:50px; background-color:white;border-radius: 15px; border: 1px solid lightgray">
+      <div class="py-5 reviewbox">
         <h2 class="pt-3 review-title">도서 리뷰</h2>
           <form v-if="this.$store.state.user.isLogin">
             <div class="row">
@@ -194,6 +204,7 @@ li {
 
 .booktitle{
   font-size : 2rem;
+  font-family: 'Noto Sans KR';
 }
 
 .score {
@@ -292,5 +303,60 @@ li {
   text-align:right;
   margin-right:5%;
   margin-top:0.4em;
+}
+.book-sub{
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: 'Noto Sans KR';
+  margin-left:1%;
+}
+.reviewbox{
+  margin-right:50px;
+  background-color:white;
+  border-radius: 15px;
+  border: 1px solid lightgray;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.05);
+}
+.like-content {
+    display: inline-block;
+    width: 100%;
+    padding: 0 20px 0 0;
+    font-size: 18px;
+    border-bottom: 9px dashed #eee;
+    text-align: center;
+}
+.like-content .btn-secondary {
+    display: block;
+    margin:0 auto 30px;
+    text-align: center;
+    background: #ed2553;
+    border-radius: 3px;
+    box-shadow: 0 10px 20px -8px rgb(240, 75, 113);
+    padding: 9px 17px;
+    font-size: 18px;
+    font-family: 'Noto Sans KR';
+    cursor: pointer;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    text-decoration: none;
+    -webkit-transition: 0.3s ease;
+    transition: 0.3s ease;
+}
+.like-content .btn-secondary:hover {
+    transform: translateY(-3px);
+}
+.like-content .btn-secondary .fa {
+    margin-right: 5px;
+}
+.animate-like {
+    animation-name: likeAnimation;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-duration: 0.65s;
+}
+@keyframes likeAnimation {
+  0%   { transform: scale(30); }
+  100% { transform: scale(1); }
 }
 </style>
