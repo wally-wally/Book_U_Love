@@ -1,8 +1,11 @@
 <template>
   <div class="category-wrapper">
     <div class="category-name ml-2 my-2 pl-3">
-      {{ searchCategory }}
+      카테고리이름
     </div>
+  <div @click="getBookDetail('score')">평점순</div>
+    <div @click="getBookDetail('count')">리뷰순</div>
+
     <div class="row" v-if="books.length && !loadingStatus">
       <div v-for="book in books" :key="book.id" class="books-list col-lg-3 col-md-4 col-sm-6">
         <BookCard :bookData="book"/>
@@ -38,6 +41,7 @@ export default {
   },
   data() {
     return {
+      id : this.$route.params.id,
       pageNm: 1,
       pageCount: 0,
       books : [],
@@ -45,20 +49,19 @@ export default {
     }
   },
   computed: {
-    searchCategory() {
-      let categoryList = this.$store.state.data.categories
-      return categoryList.find(category => category.id === Number(this.$route.params.id))['name']
-    }
   },
-  created() {
+  mounted() {
     this.onBookDetail()
   },
   methods : {
-    async getBookDetail(id) {
-      let paramsData = {
-        'category': id,
-        'page': this.pageNm
+    async getBookDetail(sort) {
+      const paramsData ={}
+      if (sort) {
+        this.pageNm = 1
+        paramsData['sortby'] = sort
       }
+      paramsData['page'] = this.pageNm
+      paramsData[this.$route.name] = this.id
       let bookData = await this.$store.dispatch('GET_BOOKS', paramsData)
       this.books = bookData.results
       this.pageCount = parseInt(bookData.count / 10) + (bookData.count % 10 === 0 ? 0 : 1)
@@ -66,8 +69,7 @@ export default {
     },
     onBookDetail() {
       this.loadingStatus = true
-      let categoryID = Number(this.$route.params.id)
-      this.getBookDetail(categoryID)
+      this.getBookDetail()
     },
     goToBookListTop() {
       window.scrollTo(0, 0)
@@ -75,9 +77,10 @@ export default {
   },
   watch: {
     '$route'() {
+      this.id = this.$route.params.id
       this.pageNm = 1
-      this.onBookDetail()
       this.goToBookListTop()
+      this.onBookDetail()
     },
     pageNm() {
       this.onBookDetail()

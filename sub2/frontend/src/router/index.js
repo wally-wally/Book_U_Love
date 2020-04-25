@@ -40,7 +40,9 @@ export default new Router({
       path: "/category",
       component: loadView('CategoryPage'),
       children: [
-        { path: ':id', name: 'category', component:loadComponent('Books','Category'), props: true}
+        { path: 'main/:id', name: 'maincategory', component:loadComponent('Books','Category'), props: true},
+        { path: 'sub/:id' , name : 'subcategory', component:loadComponent('Books','Category'), props: true},
+        { path: 'detail/:id' , name : 'detailcategory', component:loadComponent('Books','Category'), props: true}
       ]
     },
     {

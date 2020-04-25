@@ -6,10 +6,10 @@
     </div>
       </router-link>
     <div class="book-info">
-      <div class="book-category">{{ bookCategory.name }}</div>
       <router-link :to="`/book/${this.bookData.id}`">
         <div class="book-title" style="color:black;">{{ this.bookData.title }}</div>
       </router-link>
+      <div class="book-category">{{bookData.categorylist}}</div>
       <span style="color:#ffa136">★{{bookData.avg}}</span><span style="font-size:0.9em"> ({{bookData.review_cnt}}명)</span>
     </div>
   </div>
@@ -28,9 +28,6 @@ export default {
     ...mapState({
       categories: state => state.data.categories
     }),
-    bookCategory() {
-      return this.categories.find(category => category.id === this.bookData.category)
-    },
     imgUrl() {
       let url = this.bookData.coverLargeUrl
       let noImageCondition = [' ', 'http://bimage.interpark.com/bookpinion/add_images/noimg_70_98.gif']
