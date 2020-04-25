@@ -8,7 +8,7 @@ router = DefaultRouter(trailing_slash=False)
 router.register(r"books",views.BookViewSet,basename="books")
 router.register(r"book/(?P<id>.+)",views.BookDetailViewSet,basename="book")
 router.register(r"category",views.CategoryViewSet,basename="categorys")
-
+router.register(r"likecategory",views.LikeCategoryViewSet,basename="likecategory")
 urlpatterns = [
     path('review/', views.review_create),
     path('review/<int:review_pk>/',views.review_command),

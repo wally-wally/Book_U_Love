@@ -7,7 +7,7 @@ from .models import User
 from django.shortcuts import get_object_or_404
 from django.db.models import Avg, Count, Sum
 # Create your views here.
-from api.models import Book
+from api.models import Book, MainCategory
 from django.http import JsonResponse
 from api.serializers import BookSerializer
 
@@ -23,9 +23,8 @@ def signup(request):
         return Response(serializer.data)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def user(request, id):
-    # print(request.data)
-    user = get_object_or_404(User, id=id)
+def user(request):
+    user = request.user
     if request.method == 'GET':
         serializer = UserDetailSerializer(user)
         return Response(serializer.data)
@@ -42,12 +41,6 @@ def user(request, id):
         user.delete()
         return Response({'message':'deleted!'})
 
-@api_view(['GET'])
-def user_like(request):
-    user = request.user
-    category = user.review_set.values('book__category__name').annotate(Avg('score')).annotate(Count('score'))
-    data = {'category' : list(category)}
-    return JsonResponse(data,json_dumps_params = {'ensure_ascii':False})
 from math import sqrt
 @api_view(['GET'])
 def recommend(request):
@@ -82,14 +75,16 @@ def recommend(request):
             otherUserReview = otherUserReview | user.review_set.all()
         else:
             otherUserReview = user.review_set.all()
-    print(otherUserReview.all())
-    recommend = otherUserReview.values('book').annotate(Avg('score')).annotate(Count('score')).annotate(Sum('score'))
-    print(recommend)
-    print('총 ', len(otherUserReview),'개에서 - ', len(recommend),'개')
-    bookdata = []
-    for book in recommend.order_by('-score__avg'):
-        bookdata.append(book['book'])
-    recommend_bookdata = Book.objects.filter(id__in=bookdata).difference(mybook)
-    print(recommend_bookdata)
-    serializer = BookSerializer(recommend_bookdata,many=True)
-    return Response(serializer.data)
+    if otherUserReview:
+        recommend = otherUserReview.values('book').annotate(Avg('score')).annotate(Count('score')).annotate(Sum('score'))
+        print(recommend)
+        print('총 ', len(otherUserReview),'개에서 - ', len(recommend),'개')
+        bookdata = []
+        for book in recommend.order_by('-score__avg'):
+            bookdata.append(book['book'])
+        recommend_bookdata = Book.objects.filter(id__in=bookdata).difference(mybook)
+        print(recommend_bookdata)
+        serializer = BookSerializer(recommend_bookdata,many=True)
+        return Response(serializer.data)
+    else:
+        return Response({'message':'비교할 유저가 없네요'})

@@ -14,16 +14,12 @@
                 </span>
                 <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
                   <ul class="category-list">
-                    <li v-for="category in koreaCategories.slice(0, 14)" :key="category.id" @click="goCategoryPage(category.id)">
-                      {{ category.name | showAllText }}
-                    </li>
-                  </ul>
-                </div>
-                <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
-                  <ul class="category-list">
-                    <li v-for="category in koreaCategories.slice(15)" :key="category.id" @click="goCategoryPage(category.id)">
-                      {{ category.name | showAllText }}
-                    </li>
+                    <div v-for="(main,idx) in this.categorylist" :key="main.id">
+                      <div :class="{select : c_setting[0]==idx}" class="categoryname" @click="goCategoryPage('main',main.id)">
+                      {{ main.name }}
+                      </div>
+                      <i @click="maincategory(idx)" class="fas fa-arrow-right"/>
+                    </div>
                   </ul>
                 </div>
               </li>
@@ -32,10 +28,26 @@
                   <i class="fas fa-caret-down ml-2"></i>
                 </span>
                 <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
-                  <ul class="category-list">
-                    <li v-for="category in foreignCategories" :key="category.id" @click="goCategoryPage(category.id)">
-                      {{ category.name | showAllText }}
-                    </li>
+                  <ul v-if="c_setting[0]!=null" class="category-list">
+                    <div v-for="(sub,idx) in this.categorylist[this.c_setting[0]]['subcategory_set']" :key="sub.id">
+                      <div :class="{select : c_setting[1]==idx}" class="categoryname" @click="goCategoryPage('sub',sub.id)">
+                      {{ sub.name }}
+                      </div>
+                      <i @click="subcategory(idx)" class="fas fa-arrow-right"/>
+                    </div>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <span class="ml-2">
+                </span>
+                <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
+                  <ul v-if="c_setting[1]!=null" class="category-list">
+                    <div v-for="(detail,idx) in this.categorylist[this.c_setting[0]]['subcategory_set'][this.c_setting[1]]['detailcategory_set']" :key="detail.id">
+                      <div :class="{select : c_setting[2]==idx}" class="categoryname" @click="goCategoryPage('detail',detail.id);detailcategory(idx)">
+                      {{ detail.name }}
+                      </div>
+                    </div>
                   </ul>
                 </div>
               </li>
@@ -115,7 +127,7 @@
 
 <script>
 import { mapState } from 'vuex'
-
+import { fetchCategories } from '@/api/index.js'
 export default {
   data() {
     return {
@@ -126,7 +138,9 @@ export default {
       showCategory: false,
       showKoreaCategoryList: false,
       showForeignCategoryList: false,
-      subHeaderBoxShadow: '3px 5px 5px rgba(0, 0, 0, 0.1)'
+      subHeaderBoxShadow: '3px 5px 5px rgba(0, 0, 0, 0.1)',
+      categorylist :[],
+      c_setting : [null,null,null],
     }
   },
   computed: {
@@ -143,6 +157,7 @@ export default {
     },
   },
   mounted() {
+    this.getcategorylist()
     window.addEventListener('resize', () => {
       if (window.innerWidth <= 970) {
         this.showCategory = false
@@ -159,9 +174,26 @@ export default {
     })
   },
   methods: {
+    maincategory(tmp){
+      this.showAllCategory()
+      this.c_setting = [tmp,null,null]
+    },
+    subcategory(tmp){
+      this.showAllCategory()
+      this.c_setting[1] = tmp
+      this.c_setting[2] = null
+    },
+    detailcategory(tmp){
+      this.c_setting[2] = tmp
+    },
+    async getcategorylist() {
+      const data = await fetchCategories()
+      this.categorylist = data.data.results
+    },
     showAllCategory() {
       this.showCategory = !this.showCategory
       this.toggleSubHeaderShadow()
+      // if (this.showCategory)
     },
     toggleSubHeaderShadow() {
       document.querySelector('.sub-header').style.boxShadow = this.showCategory || document.documentElement.scrollTop >= 180 ? this.subHeaderBoxShadow : ''
@@ -173,8 +205,8 @@ export default {
       this.showKoreaCategoryList = false
       this.showForeignCategoryList = false
     },
-    goCategoryPage(categoryID) {
-      this.$router.push(`/category/${categoryID}`)
+    goCategoryPage(type,categoryID) {
+      this.$router.push(`/category/${type}/${categoryID}`)
     },
     searchPage() {
       if (this.searchKeyword) {
@@ -205,6 +237,10 @@ export default {
       }
     },
     '$route' (to, from) {
+      this.closeDrawerCategoryList()
+      if (to.name == 'MainPage') {
+        this.c_setting = [null,null,null]
+      }
       if (to.path !== from.path) {
         setTimeout(() => {
           this.showCategory = false
@@ -231,6 +267,23 @@ export default {
   height: auto;
 }
 
+.select {
+  background-color:rgb(204, 205, 207)
+}
+.categoryname {
+  display : inline-block;
+  margin : 0.3em;
+  font-size: 1.02em;
+  font-family: 'Gothic A1';
+  font-weight: 600;}
+
+.categoryname:hover {
+  cursor : pointer
+}
+
+i:hover{
+  cursor: pointer;
+}
 #ext {
   height: 450px;
 }
@@ -325,9 +378,6 @@ export default {
   content: '국내도서'
 }
 
-.book-category-wrapper ul li:last-child span::before {
-  content: '외국도서'
-}
 
 .sub-header-right-wrapper {
   font-size: 1.01em;
