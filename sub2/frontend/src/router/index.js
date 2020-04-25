@@ -62,6 +62,11 @@ export default new Router({
       component: loadView('AdminPage')
     },
     {
+      path: '/collect',
+      name: 'CollectData',
+      component: loadComponent('Books', 'CollectReview')
+    },
+    {
       path: '*',
       name: 'NotFound',
       component: loadView('NotFoundPage'),  // 등록된 URL 주소가 아닌 곳으로 접근할 때 Not Found Page

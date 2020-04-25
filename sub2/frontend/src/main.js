@@ -10,9 +10,12 @@ import infiniteScroll from "vue-infinite-scroll";
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
+import ChartPlugin from './plugins/ChartPlugin.js'
+
 Vue.config.productionTip = false;
 Vue.use(infiniteScroll);
 Vue.use(AOS)
+Vue.use(ChartPlugin)
 AOS.init()
 
 new Vue({

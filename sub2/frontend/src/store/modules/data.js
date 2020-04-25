@@ -1,12 +1,16 @@
 import { fetchBooks, fetchBookDetail, fetchCategories, addBookReview, fetchBookReview } from '@/api/index.js'
 
 const state = {
-  categories: []
+  categories: [],
+  postReviewLoading: false
 }
 
 const mutations = {
   getCategoryList(state, categories) {
     state.categories = categories
+  },
+  togglePostReviewLoading(state, status) {
+    state.postReviewLoading = status
   }
 }
 
@@ -28,11 +32,10 @@ const actions = {
     const { data } = await fetchBookReview(id)
     return data
   },
-
   async ADD_REVIEWS({commit}, params) {
     const { data } = await addBookReview(params)
     return data
-  }
+  },
 };
 
 export default {

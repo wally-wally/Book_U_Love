@@ -49,7 +49,7 @@ export default {
       this.loadingStatus = false
     },
     goToBookListTop() {
-      let goToHeight = window.innerWidth > 800 ? 400 : 820
+      let goToHeight = window.innerWidth > 800 ? 400 : 1730
       window.scrollTo(0, goToHeight)
     }
   },
