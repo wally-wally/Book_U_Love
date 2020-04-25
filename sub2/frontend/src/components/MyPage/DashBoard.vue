@@ -48,9 +48,10 @@
       
     <div class="dashboard">Dashboard</div>
     <div class="dashboard-sub">{{this.$store.getters.info.username}} 님의 선호 카테고리 분석 결과</div>
-    <div class="chart-container" style="padding:30px 0;">
+    <div class="chart-container" style="padding:30px 0;display:inline">
      <canvas ref="pieChart" id="pieChart"></canvas>
     </div>
+    <!-- <div><b>{{}}</b> 선호형</div> -->
     <hr>
     <div class="dashboard-sub pt-5">For You</div>
     <div class="row">
@@ -167,9 +168,10 @@ export default {
           }]
         },
         options:{
-          aspectRatio: 4,
+          responsive:false,
+          aspectRatio: 1,
           legend:{
-            align: 'center',
+            align: 'start',
             position: 'top'
           }
         }
