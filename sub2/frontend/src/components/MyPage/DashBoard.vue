@@ -59,7 +59,7 @@
         <BookCard class="col-10" :bookData="book"/>
       </div>
     </div>
-
+    </div>
   </div>
 </template>
 

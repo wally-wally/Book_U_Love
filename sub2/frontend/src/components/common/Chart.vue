@@ -57,14 +57,23 @@ export default {
         options:{
           aspectRatio: 4,
           legend:{
-            align: 'center',
-            position: 'top'
+            // align: 'start',
+            // position: 'bottom'
+            display: false
           },
           scales: {
+            xAxes: [{
+              gridLines: {
+                display: false
+              }
+             }],
             yAxes: [{
                 gridLines: {
                     display: false
-                }
+                },
+                ticks: {
+                   display: false
+               }
             }]
           }
         }

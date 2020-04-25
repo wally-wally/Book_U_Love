@@ -86,7 +86,7 @@
             </div>
           </div>
         <h2 class="pt-3 review-title">평점 그래프</h2>
-          <Chart :chartData="this.stat" :chartLabels=[0,1,2,3,4,5,6,7,8,9,10] chartType="bar"></Chart>
+          <Chart :chartData="this.stat" :chartLabels=[0,1,2,3,4,5,6,7,8,9,10] chartType="bar" style="width:95%;margin:0 auto"></Chart>
       </div>
     </div>
   </div>
