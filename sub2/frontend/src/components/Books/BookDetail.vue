@@ -16,7 +16,12 @@
             </div>
             <div class="col-8 row">
               <!-- <div class="col-2">Description</div><div class="col-10">{{book.description}} </div> -->
-              <div class="col-2">Author</div><div class="col-10">{{book.author}} </div>
+              <div class="col-2">Author</div>
+                <div class="col-10">
+                <router-link  v-for="author in book.author" :key="author.id" :to="`/author/${author.id}`">
+                  {{author.name}}
+                </router-link>
+              </div>
               <div class="col-2">Publisher</div><div class="col-10">{{book.publisher}} </div>
               <div class="col-2">Publish Date</div><div class="col-10">{{book.pubDate.slice(0,4)}}.{{book.pubDate.slice(4,6)}}.{{book.pubDate.slice(6,8)}}</div>
               <div class="col-2">Price</div><div class="col-10">{{book.priceStandard}}원 </div>
@@ -52,6 +57,7 @@
     <div class="review">
       <div class="py-5" style="margin-right:50px; background-color:white;border-radius: 15px; border: 1px solid lightgray">
         <h2 class="pt-3 review-title">도서 리뷰</h2>
+        <input type="text" v-model="this.time">
           <form v-if="this.$store.state.user.isLogin">
             <div class="row">
               <fieldset class="score" style="margin-left:7%">
@@ -110,7 +116,8 @@ export default {
       score : 0,
       id :this.$route.params.id,
       like : 0,
-      stat : [0,0,0,0,0,0,0,0,0,0,0]
+      stat : [0,0,0,0,0,0,0,0,0,0,0],
+      time : 0
     }
   },
   mounted() {
@@ -142,18 +149,36 @@ export default {
     //   this.reviews = data
     // },
     async addBookReview() {
-      const formData = new FormData()
-      formData.append('user', this.$store.getters.info.user_id)
-      formData.append('content',this.content)
-      formData.append('score',this.score)
-      formData.append('book',this.id)
-      await this.$store.dispatch('ADD_REVIEWS',formData)
-      this.getBookDetail(this.id)
-      this.initForm()
+      if (this.time == 0){
+        if (this.score){
+        const formData = new FormData()
+        formData.append('user', this.$store.getters.info.user_id)
+        formData.append('content',this.content)
+        formData.append('score',this.score)
+        formData.append('book',this.id)
+        await this.$store.dispatch('ADD_REVIEWS',formData)
+        this.getBookDetail(this.id)
+        this.initForm()
+        this.time = 5
+        } else {
+          alert('평점을 입력해주세요')
+        }
+      } else {
+        alert(this.time + '초 후에 시도해 주세요')
+      }
+      this.timego()
     },
     initForm() {
       this.content = ''
       this.score = 0
+    },
+    timego(){
+      setTimeout(() => {
+        if (this.time){
+          this.time = this.time -1
+          this.timego()
+        }
+      },1000)
     },
     async jjim() {
       const formData = new FormData()

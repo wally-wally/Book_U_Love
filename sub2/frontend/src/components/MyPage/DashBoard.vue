@@ -47,7 +47,7 @@
       
       
     <div class="dashboard">Dashboard</div>
-    <div class="dashboard-sub">{{this.$store.getters.info.username}} 님의 선호 카테고리 분석 결과</div>
+    <div class="dashboard-sub">{{$store.getters.info.username}} 님의 선호 카테고리 분석 결과</div>
     <div class="chart-container" style="padding:30px 0;display:inline">
      <canvas ref="pieChart" id="pieChart"></canvas>
     </div>
@@ -59,7 +59,7 @@
         <BookCard class="col-10" :bookData="book"/>
       </div>
     </div>
-
+  </div>
   </div>
 </template>
 

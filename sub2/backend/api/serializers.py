@@ -3,10 +3,16 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.db.models import Avg, Count, Sum
 
+class SimpleBookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = "__all__"
+
 class AuthorSerializer(serializers.ModelSerializer):
+    author_books = SimpleBookSerializer(many=True)
     class Meta:
         model = Author
-        fields = '__all__'
+        fields = ['id','name','imgUrl','boneDate','region','description','author_books']
 
 class BookSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True,many=True)
