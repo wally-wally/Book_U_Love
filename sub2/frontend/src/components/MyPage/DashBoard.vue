@@ -59,7 +59,11 @@
         <BookCard class="col-10" :bookData="book"/>
       </div>
     </div>
+<<<<<<< HEAD
   </div>
+=======
+    </div>
+>>>>>>> ah_graph
   </div>
 </template>
 
