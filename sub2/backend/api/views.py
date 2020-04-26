@@ -24,6 +24,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
         queryset = (models.MainCategory.objects.all())
         return queryset
 
+class AuthorViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.AuthorSerializer
+    pagination_class = SmallPagination
+    def get_queryset(self):
+        author = models.Author.objects.all()
+        return (author)
+
 class BookViewSet(viewsets.ModelViewSet):
     permission_class = [IsAuthenticated]
     serializer_class = serializers.BookSerializer
@@ -136,8 +143,11 @@ def mylike(request):
     
 class LikeCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.MyMainCategorySerializer
-    
     def get_queryset(self):
-        mycategory = models.MainCategory.objects.all()
+        main = self.request.user.review_set.values('book__mainCategory').annotate(Count('book__mainCategory')).order_by('-book__mainCategory__count')
+        mainlist = []
+        for m in main[:10]:
+            mainlist.append(m['book__mainCategory'])
+        mycategory = models.MainCategory.objects.filter(id__in=mainlist)
         queryset = (mycategory)
         return queryset

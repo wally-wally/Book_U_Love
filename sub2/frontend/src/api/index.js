@@ -80,6 +80,9 @@ function recommend() {
   return instance.get(`accounts/user/recommend`)
 }
 
+function fetchauthor(id){
+  return instance.get(`api/author/`+id)
+}
 export {
   registerUser,
   loginUser,
@@ -96,4 +99,5 @@ export {
   mylike,
   myBookdata,
   recommend,
+  fetchauthor
 }

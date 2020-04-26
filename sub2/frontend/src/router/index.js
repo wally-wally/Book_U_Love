@@ -46,6 +46,13 @@ export default new Router({
       ]
     },
     {
+      path : "/author",
+      component: loadView('BookPage'),
+      children : [
+        {path : ':id',name:'authordeteil',component:loadComponent('Books','author'),props:true}
+      ]
+    },
+    {
       path: '/myinfo',
       component: loadView('MyPage'),
       beforeEnter: checkLoginUser,
