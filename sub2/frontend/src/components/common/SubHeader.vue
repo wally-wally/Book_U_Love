@@ -1,18 +1,35 @@
 <template>
   <div style="background: #fafafa;">
-    <div class="sub-header" :id="this.showCategory ? 'ext' : ''">
+    <div class="sub-header">
       <div class="sub-header-wrapper">
         <div class="sub-header-left">
           <div class="service-logo">
             <img src="../../assets/images/team_logo/books.png" alt="service-logo">
           </div>
           <nav class="book-category-wrapper">
-            <ul @click.stop="showAllCategory()">
-              <li class="korea-category-tab">
-                <span>
-                  <i class="fas fa-caret-down ml-2"></i>
-                </span>
-                <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
+            <ul>
+              <li class="category-tab">
+                <span><i class="fas fa-caret-down ml-2"></i></span>
+                <ul class="main-category">
+                  <li class="main-category-item" v-for="category in this.categoryList" :key="category.name">
+                    <div class="main-category-name" @click="goCategoryPage('main', category.id)">
+                      {{ category.name }}<i class="fas fa-chevron-right" v-if="category.subcategory_set.length"/>
+                    </div>
+                    <ul class="sub-category" v-if="category.subcategory_set.length">
+                      <li class="sub-category-item" v-for="subcategory in category.subcategory_set" :key="subcategory.name">
+                        <div class="sub-category-name" @click="goCategoryPage('sub', subcategory.id)">
+                          {{ subcategory.name }}<i class="fas fa-chevron-right pl-1" v-if="subcategory.detailcategory_set.length"/>
+                        </div>
+                        <ul class="detail-category" v-if="subcategory.detailcategory_set.length">
+                          <li class="detail-category-item" v-for="detailcategory in subcategory.detailcategory_set" :key="detailcategory.name">
+                            <div class="detail-category-name" @click="goCategoryPage('detail', detailcategory.id)">{{ detailcategory.name }}</div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                <!-- <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
                   <ul class="category-list">
                     <div v-for="(main,idx) in this.categorylist" :key="main.id">
                       <div :class="{select : c_setting[0]==idx}" class="categoryname" @click="goCategoryPage('main',main.id)">
@@ -21,12 +38,9 @@
                       <i @click="maincategory(idx)" class="fas fa-arrow-right"/>
                     </div>
                   </ul>
-                </div>
+                </div> -->
               </li>
-              <li class="foreign-category-tab">
-                <span>
-                  <i class="fas fa-caret-down ml-2"></i>
-                </span>
+              <!-- <li class="foreign-category-tab">
                 <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
                   <ul v-if="c_setting[0]!=null" class="category-list">
                     <div v-for="(sub,idx) in this.categorylist[this.c_setting[0]]['subcategory_set']" :key="sub.id">
@@ -50,7 +64,7 @@
                     </div>
                   </ul>
                 </div>
-              </li>
+              </li> -->
             </ul>
           </nav>
         </div>
@@ -83,43 +97,35 @@
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list dense class="py-1">
-        <v-list-item class="mobile-menu-list-item">
-          <v-list-item-icon class="my-3 mr-1">
-            <v-icon class="fas fa-dice-one" small></v-icon>
-          </v-list-item-icon>
-          <v-list-item-content class="mobile-menu-title">
-            <v-list-item-title>
-              <span class="region-title" @click="showKoreaCategoryList = !showKoreaCategoryList">국내도서<i class="fas fa-caret-down ml-2"></i></span>
+      <v-list dense>
+        <v-list-group ref="main-list" v-for="category in this.categoryList" :key="category.name" no-action>
+          <template v-slot:activator>
+            <v-list-item-title class="d-flex justify-space-between">
+              <div class="mobile-category-name">{{ category.name }}</div>
+              <div class="mobile-category-link" @click="goCategoryPage('main', category.id)"><i class="fas fa-external-link-alt"></i></div>
             </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <div class="korea-book-category" v-if="showKoreaCategoryList">
-          <ul>
-            <li v-for="category in koreaCategories" :key="category.id" @click="goCategoryPage(category.id)">
-              {{ category.name | showAllText }}
-            </li>
-          </ul>
-        </div>
-      </v-list>
-      <v-list dense class="py-1">
-        <v-list-item class="mobile-menu-list-item">
-          <v-list-item-icon class="my-3 mr-1">
-            <v-icon class="fas fa-dice-two" small></v-icon>
-          </v-list-item-icon>
-          <v-list-item-content class="mobile-menu-title">
-            <v-list-item-title>
-              <span class="region-title" @click="showForeignCategoryList = !showForeignCategoryList">외국도서<i class="fas fa-caret-down ml-2"></i></span>
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <div class="foreign-book-category" v-if="showForeignCategoryList">
-          <ul>
-            <li v-for="category in foreignCategories" :key="category.id" @click="goCategoryPage(category.id)">
-              {{ category.name | showAllText }}
-            </li>
-          </ul>
-        </div>
+          </template>
+          <div v-if="category.subcategory_set.length">
+            <v-list-group sub-group v-for="subcategory in category.subcategory_set" :key="subcategory.name" :prepend-icon="subcategory.detailcategory_set.length ? 'mdi-menu-down' : ' '">
+              <template v-slot:activator>
+                <v-list-item-content v-if="subcategory.detailcategory_set.length">
+                  <v-list-item-title class="d-flex justify-space-between">
+                    <div class="mobile-category-name">{{ subcategory.name }}</div>
+                    <div class="mobile-category-link" @click="goCategoryPage('sub', subcategory.id)"><i class="fas fa-external-link-alt"></i></div>
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-title v-else>
+                  <div class="mobile-category-name" @click="goCategoryPage('sub', subcategory.id)">{{ subcategory.name }}</div>
+                </v-list-item-title>
+              </template>
+              <div v-if="subcategory.detailcategory_set.length">
+                <v-list-item v-for="detailcategory in subcategory.detailcategory_set" :key="detailcategory.name" link @click="goCategoryPage('detail', detailcategory.id)">
+                  <v-list-item-title :style="{ 'fontSize': '13px' }">{{ detailcategory.name }}</v-list-item-title>
+                </v-list-item>
+              </div>
+            </v-list-group>
+          </div>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -131,33 +137,19 @@ import { fetchCategories } from '@/api/index.js'
 export default {
   data() {
     return {
-      onKoreaCategory: false,
-      onForeignCategory: false,
       searchKeyword: '',
       onDrawer: false,
-      showCategory: false,
-      showKoreaCategoryList: false,
-      showForeignCategoryList: false,
       subHeaderBoxShadow: '3px 5px 5px rgba(0, 0, 0, 0.1)',
-      categorylist :[],
       c_setting : [null,null,null],
     }
   },
   computed: {
     ...mapState({
       isLogin: state => state.user.isLogin,
-    }),
-    koreaCategories() {
-      let categoryList = this.$store.state.data.categories
-      return categoryList.filter(data => data.name.slice(0, 2) === '국내')
-    },
-    foreignCategories() {
-      let categoryList = this.$store.state.data.categories
-      return categoryList.filter(data => data.name.slice(0, 2) === '외국')
-    },
+      categoryList: state => state.data.categories
+    })
   },
   mounted() {
-    this.getcategorylist()
     window.addEventListener('resize', () => {
       if (window.innerWidth <= 970) {
         this.showCategory = false
@@ -168,9 +160,6 @@ export default {
     })
     window.addEventListener('scroll', () => {
       this.toggleSubHeaderShadow()
-      if (this.showCategory) {
-        this.showCategory = false
-      }
     })
   },
   methods: {
@@ -185,15 +174,6 @@ export default {
     },
     detailcategory(tmp){
       this.c_setting[2] = tmp
-    },
-    async getcategorylist() {
-      const data = await fetchCategories()
-      this.categorylist = data.data.results
-    },
-    showAllCategory() {
-      this.showCategory = !this.showCategory
-      this.toggleSubHeaderShadow()
-      // if (this.showCategory)
     },
     toggleSubHeaderShadow() {
       document.querySelector('.sub-header').style.boxShadow = this.showCategory || document.documentElement.scrollTop >= 180 ? this.subHeaderBoxShadow : ''
@@ -222,17 +202,15 @@ export default {
       }
     }
   },
-  filters: {
-    showAllText(name) {
-      return name.length === 4 ? `${name} 전체보기` : name.split('>')[1]
-    }
-  },
   watch: {
     onDrawer: {
       handler(newVal, oldVal) {
         this.$store.commit('showDrawer', this.onDrawer)
         if (!newVal && oldVal) {
           this.closeDrawerCategoryList()
+          this.$refs['main-list'].forEach(function(component) {
+            component.isActive = false
+          })
         }
       }
     },
@@ -256,6 +234,10 @@ export default {
 </script>
 
 <style scoped>
+li {
+  list-style-type: none;
+}
+
 .v-application a {
   text-decoration: none;
   color: black;
@@ -268,14 +250,16 @@ export default {
 }
 
 .select {
-  background-color:rgb(204, 205, 207)
+  background-color:rgb(204, 205, 207);
 }
+
 .categoryname {
   display : inline-block;
   margin : 0.3em;
   font-size: 1.02em;
   font-family: 'Gothic A1';
-  font-weight: 600;}
+  font-weight: 600;
+}
 
 .categoryname:hover {
   cursor : pointer
@@ -283,9 +267,6 @@ export default {
 
 i:hover{
   cursor: pointer;
-}
-#ext {
-  height: 450px;
 }
 
 .sub-header-wrapper {
@@ -306,6 +287,7 @@ i:hover{
   vertical-align: middle;
 }
 
+/* ALL CATEGORY 메뉴 */
 .book-category-wrapper {
   margin-left: 1.5em;
   vertical-align: middle;
@@ -330,16 +312,123 @@ i:hover{
   font-size: 1.02em;
   font-family: 'Gothic A1';
   font-weight: 600;
-  position: relative;
 }
 
-.book-category-wrapper > ul > li > .category-list-wrapper {
+.main-category {
+  position: absolute;
+  top: 100%;
+  width: 140px;
+  background-color: #fafafa;
+  padding: 4px 0 4px 4px;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  font-family: 'Gothic A1';
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .2s;
+}
+
+.book-category-wrapper:hover .main-category{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.main-category > li,
+.sub-category > li,
+.detail-category > li {
+  padding: 3px 0;
+}
+
+.main-category > li:not(:last-child),
+.sub-category > li:not(:last-child),
+.detail-category > li:not(:last-child) {
+  border-bottom: 0.5px solid silver;
+}
+
+.main-category:before {
+  content: ' ';
+  position: absolute;
+  top: -25px;
+  left: 0;
+  right: 0;
+  height: 25px;
+}
+
+.sub-category {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 140%;
+  height: 722.5px;
+  background-color: #fafafa;
+  padding: 4px 0;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  font-family: 'Gothic A1';
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .2s;
+}
+
+.main-category-item:hover .sub-category{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.detail-category {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 722.5px;
+  background-color: #fafafa;
+  padding: 4px 0;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  font-family: 'Gothic A1';
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .2s;
+}
+
+.sub-category-item:hover .detail-category{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.fa-chevron-right {
+  padding-left: 3px;
+  /* color: rgba(0, 0, 0, 0.6); */
+}
+
+.main-category-item:hover .main-category-name,
+.sub-category-item:hover .sub-category-name,
+.detail-category-item:hover .detail-category-name {
+  color: darkgoldenrod;
+  background-color: ivory;
+  cursor: pointer;
+}
+
+.book-category-wrapper > ul > li > span:hover {
+  cursor: pointer;
+  color: #F1AF4D;
+}
+
+.book-category-wrapper ul li:first-child span::before {
+  content: 'ALL CATEGORY'
+}
+
+/* 예전 카테고리 css */
+/* .book-category-wrapper > ul > li > .category-list-wrapper {
   position: absolute;
   top: 70px;
   font-size: 0.9em;
 }
 
-.book-category-wrapper > ul > li[class="korea-category-tab"] > .category-list-wrapper:last-child {
+.book-category-wrapper > ul > li[class="category-tab"] > .category-list-wrapper:last-child {
   display: inline;
   margin-left: 50px;
 }
@@ -367,17 +456,9 @@ i:hover{
 
 .korea-category-tab ul[class="category-list"] {
   display: inline;
-}
+} */
 
-.book-category-wrapper > ul > li > span:hover {
-  cursor: pointer;
-  color: #F1AF4D;
-}
-
-.book-category-wrapper ul li:first-child span::before {
-  content: '국내도서'
-}
-
+/* 여기까지 */
 
 .sub-header-right-wrapper {
   font-size: 1.01em;
@@ -442,7 +523,16 @@ i:hover{
 }
 
 /* When mobile size, navigation-drawer */
-aside {
+.mobile-category-name {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.mobile-category-link {
+  font-size: 13px;
+}
+/* 예전꺼 */
+/* aside {
   z-index: 50000;
 }
 
@@ -466,7 +556,7 @@ aside .region-title {
   font-size: 1rem;
   font-weight: bold;
   font-family: 'Gothic A1';
-}
+} */
 
 /* responsive web */
 @media (min-width: 550px) and (max-width: 970px) {

@@ -49,13 +49,13 @@
           <v-stepper-items>
             <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
               <div class="book-wrapper">
-                <div class="book-category">{{ bookData[writtenReviewCnt].categoryname }}</div>
-                <img :src="bookData[writtenReviewCnt].coverLargeUrl" alt="">
+                <div class="book-category">{{ bookData[writtenReviewCnt].categorylist.join('>') }}</div>
+                <img :src="bookData[writtenReviewCnt].coverLargeUrl" alt="book-image">
                 <p class="book-title">
                   {{ bookData[writtenReviewCnt].title }}
                 </p>
                 <div class="book-small-info">
-                  <p>작가: {{ bookData[writtenReviewCnt].author }}</p>
+                  <p>작가: {{ bookData[writtenReviewCnt].author | authorList }}</p>
                   <p>출판사: {{ bookData[writtenReviewCnt].publisher }}</p>
                 </div>
               </div>
@@ -91,8 +91,8 @@
                 {{ bookData[writtenReviewCnt].title }}
               </p>
               <div class="book-small-info">
-                <p>카테고리: {{ bookData[writtenReviewCnt].categoryname }}</p>
-                <p>작가: {{ bookData[writtenReviewCnt].author }}</p>
+                <p>카테고리: {{ bookData[writtenReviewCnt].categorylist.join('>') }}</p>
+                <p>작가: {{ bookData[writtenReviewCnt].author | authorList }}</p>
                 <p>출판사: {{ bookData[writtenReviewCnt].publisher }}</p>
               </div>
               <div v-if="bookData[writtenReviewCnt].description.length" class="description-title">상세정보</div>
@@ -327,7 +327,7 @@ p {
 .book-category {
   font-size: 14px;
   color: grey;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .book-title {

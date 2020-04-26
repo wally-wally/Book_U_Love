@@ -1,10 +1,14 @@
 <template>
   <div class="category-wrapper">
-    <div class="category-name ml-2 my-2 pl-3">
-      카테고리이름
+    <div class="category-header">
+      <div class="category-name my-2 pl-3">
+        {{ categoryName }}
+      </div>
+      <div class="sort-wrapper my-2 pl-3">
+        <div class="sort-item" @click="getBookDetail('score')">평점순</div>
+        <div class="sort-item" @click="getBookDetail('count')">리뷰순</div>
+      </div>
     </div>
-  <div @click="getBookDetail('score')">평점순</div>
-    <div @click="getBookDetail('count')">리뷰순</div>
 
     <div class="row" v-if="books.length && !loadingStatus">
       <div v-for="book in books" :key="book.id" class="books-list col-lg-3 col-md-4 col-sm-6">
@@ -32,6 +36,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import BookCard from '@/components/Books/BookCard'
 
 export default {
@@ -45,12 +50,11 @@ export default {
       pageNm: 1,
       pageCount: 0,
       books : [],
-      loadingStatus: false
+      loadingStatus: false,
+      categoryName: ''
     }
   },
-  computed: {
-  },
-  mounted() {
+  created() {
     this.onBookDetail()
   },
   methods : {
@@ -65,6 +69,9 @@ export default {
       let bookData = await this.$store.dispatch('GET_BOOKS', paramsData)
       this.books = bookData.results
       this.pageCount = parseInt(bookData.count / 10) + (bookData.count % 10 === 0 ? 0 : 1)
+      let categorySet = bookData.results[0].categorylist
+      let sliceIdx = this.$route.path.includes('category/main') ? 1 : this.$route.path.includes('category/sub') ? 2 : 3
+      this.categoryName = categorySet.slice(0, sliceIdx).join(' > ')
       this.loadingStatus = false
     },
     onBookDetail() {
@@ -73,7 +80,7 @@ export default {
     },
     goToBookListTop() {
       window.scrollTo(0, 0)
-    }
+    },
   },
   watch: {
     '$route'() {
@@ -100,6 +107,26 @@ export default {
   font-family: 'Noto Sans KR';
   font-weight: 600;
   font-size: 1.1em;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.sort-wrapper {
+  font-family: 'Noto Sans KR';
+  display: flex;
+}
+
+.sort-wrapper .sort-item:last-child {
+  margin-left: 12px;
+}
+
+.sort-wrapper .sort-item:hover {
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .no-category-books {

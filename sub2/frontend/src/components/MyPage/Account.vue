@@ -64,7 +64,39 @@
       </div>
       <div class="out-user">
         <div class="out-user-title">✔️회원탈퇴</div>
+        <div class="out-user-form">
+          <div class="out-user-section">
+            <div class="out-user-question">
+              <span class="mr-4">회원을 탈퇴하시겠습니까?</span>
+            <v-btn @click="withdrawalAlert" color="error" small>탈퇴 진행</v-btn></div>
+            <v-alert
+              class="alert-box"
+              dense
+              type="error"
+              border="left"
+              prominent>
+              회원을 탈퇴하면 {{ this.info.username }}님의 정보가 모두 삭제됩니다.<br>상단 '탈퇴 진행' 버튼을 누르면 회원 탈퇴가 진행됩니다.
+            </v-alert>
+          </div>
+        </div>
       </div>
+      <v-dialog v-model="withdrawalDialog" width="600" persistent>
+        <v-card>
+          <v-card-text class="pb-0">
+            <div class="text-center out-user-dialog-text">
+              <i class="fas fa-user-minus"></i>
+              <div>정말로 탈퇴를 진행하시려면 <span style="color: crimson;">'탈퇴'</span> 버튼을 눌러주세요.</div>
+              <div>탈퇴를 취소하시려면 <span style="color: orange;">'닫기'</span> 버튼을 눌러주세요.</div>
+            </div>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="error" @click="goWithdrawal" :style="{ 'fontFamily': 'Stylish', 'fontSize': '17px' }">탈퇴</v-btn>
+            <v-btn color="warning" @click="withdrawalDialog = false" :style="{ 'fontFamily': 'Stylish', 'fontSize': '17px' }">닫기</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </div>
 </template>
@@ -88,7 +120,8 @@ export default {
       logMessage: [
         '비밀번호를 잘못 입력했습니다.',
         '비밀번호가 일치하지 않거나 비밀번호 양식에 어긋납니다.'
-      ]
+      ],
+      withdrawalDialog: false
     }
   },
   created() {
@@ -178,6 +211,13 @@ export default {
       this.renewPassword = ''
       this.availableNewPassword = false
       this.showErrorMessage = false
+    },
+    withdrawalAlert() {
+      this.withdrawalDialog = true
+    },
+    async goWithdrawal() {
+      await alert('회원탈퇴 기능 추후 구현')
+      this.$router.push('/')
     }
   }
 }
@@ -206,12 +246,14 @@ export default {
 }
 
 .add-info,
-.change-password {
+.change-password,
+.out-user {
   margin-bottom: 2em;
 }
 
 .add-info-form,
-.change-password-form {
+.change-password-form,
+.out-user-form {
   border: 2px dashed rgba(0, 0, 0, 0.17);
   border-radius: 20px;
   box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.05);
@@ -231,11 +273,13 @@ export default {
   border: 1px solid silver;
 }
 
-.change-password-form > div[class$='form'] {
+.change-password-form > div[class$='form'],
+.out-user-section {
   padding: 1em 0.65em;
 }
 
-.change-password-form > div[class$='form'] > label {
+.change-password-form > div[class$='form'] > label,
+.out-user-question {
   font-size: 1.1em;
   font-weight: 600;
   font-family: 'Noto Sans KR';
@@ -257,6 +301,21 @@ export default {
   font-family: 'Noto Sans KR';
   color: crimson;
   margin-top: 0.25em;
+}
+
+.out-user-dialog-text {
+  font-family: 'Stylish';
+  font-weight: 600;
+}
+
+.out-user-dialog-text i {
+  font-size: 100px;
+  margin-bottom: 12px;
+}
+
+.out-user-dialog-text > div {
+  font-size: 18px;
+  line-height: 2;
 }
 
 @media (max-width: 900px) {
