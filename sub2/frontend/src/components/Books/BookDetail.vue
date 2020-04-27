@@ -1,6 +1,6 @@
 <template>
-  <div class="row mt-5">
-    <div class="bookdetail">
+  <div class="book-deatil-wrapper row mt-5">
+    <div class="bookdetail" v-if="!loadingStatus">
       <div class="ctr-80">
         <div>
           <span class="booktitle">{{book.title}}</span>
@@ -64,11 +64,11 @@
       </div>
     </div>
 
-    <div class="review">
+    <div class="review" v-if="!loadingStatus">
       <div class="py-5 reviewbox">
         <h2 class="pt-3 review-title">도서 리뷰</h2>
-        <input type="text" v-model="this.time">
-          <form v-if="this.$store.state.user.isLogin">
+        <input type="text" v-model="this.time" class="time-section">
+          <form v-if="this.$store.state.user.isLogin && !myReview.length">
             <div class="row">
               <fieldset class="score" style="margin-left:7%">
                   <input v-model="score" type="radio" id="star10" name="score" value="10"/>
@@ -93,23 +93,32 @@
                   <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
               </fieldset>
             </div>
-            <textarea v-model="content" style="background-color:white; border:1px solid gray;display:block;width:90%;margin-left:5%;" placeholder=" 리뷰를 입력해주세요."/> 
+            <textarea v-model="content" placeholder=" 리뷰를 입력해주세요."/> 
             <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register"> 리뷰등록</div>
           </form>
-          <div class="px-3 py-3" style="width:95%;margin:0 auto">
-            <div v-for="(review,index) in book.review_set" :key="index">
-              <BookReview :review="review" :index="index"/>
+          <div class="my-review-section px-3" v-if="myReview.length">
+            <BookReview :review="myReview[0]" :index="0" @deleteSign="deleteSign" />
+          </div>
+          <div class="px-3 pb-3" style="width:95%;margin:0 auto" v-if="remainReview.length">
+            <div v-for="(review,index) in remainReview" :key="index">
+              <BookReview :review="review" :index="index + myReview.length ? 1 : 0"/>
             </div>
           </div>
         <h2 class="pt-3 review-title">평점 그래프</h2>
           <Chart :chartData="this.stat" :chartLabels=[1,2,3,4,5,6,7,8,9,10] chartType="bar" style="width:95%;margin:0 auto"></Chart>
       </div>
     </div>
+    <div class="loading" v-if="loadingStatus">
+      <div class="service-logo">
+        <img src="../../assets/images/team_logo/books.png" alt="team-logo">
+      </div>
+      <div class="loading-message">데이터를 불러오는 중 입니다.</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import BookReview from '@/components/Books/BookReview'
 import Chart from '@/components/common/Chart'
 import { fetchjjim } from '@/api/index.js'
@@ -127,16 +136,23 @@ export default {
       id :this.$route.params.id,
       like : 0,
       stat : [0,0,0,0,0,0,0,0,0,0],
-      time : 0
+      time : 0,
+      loadingStatus: false,
+      myReview: [],
+      remainReview: []
     }
   },
-  mounted() {
+  computed: {
+    ...mapGetters(['info'])
+  },
+  created() {
+    this.loadingStatus = true
     this.getBookDetail(this.id)
   },
   watch : {
     book : function () {
       this.stat = [0,0,0,0,0,0,0,0,0,0]
-      const reviews = this.book.review_set
+      const reviews = this.myReview.concat(this.remainReview)
       for (var i in reviews) {
         this.stat[reviews[i].score-1] ++ 
       }
@@ -151,8 +167,18 @@ export default {
     // },
     async getBookDetail(id) {
       let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', id)
-      console.log(bookData)
       this.book = bookData.results[0]
+      let reviewData = this.book.review_set
+      for (let i = 0; i < reviewData.length; ++i) {
+        if (reviewData[i].username === this.info.username) {
+          this.myReview = reviewData.splice(i, i + 1)
+          this.remainReview = reviewData
+          this.loadingStatus = false
+          return
+        }
+      }
+      this.remainReview = reviewData
+      this.loadingStatus = false
     },
     // async getBookReview(id) {
     //   const data = await this.$store.dispatch('GET_REVIEWS', id)
@@ -190,6 +216,9 @@ export default {
         }
       },1000)
     },
+    deleteSign() {
+      this.myReview = []
+    },
     async jjim() {
       const formData = new FormData()
       formData.append('user', this.$store.getters.info.user_id)
@@ -202,6 +231,10 @@ export default {
 </script>
 
 <style scoped>
+.book-detail-wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
 .ctr-80 {
   margin: 0 auto;
   width: 85%;
@@ -380,6 +413,46 @@ li {
     animation-fill-mode: forwards;
     animation-duration: 0.65s;
 }
+
+.time-section {
+  display: none;
+}
+
+.my-review-section {
+  width: 95%;
+  margin: 0 auto;
+  /* border-bottom: 1.5px dotted rgba(0, 0, 0, 0.1); */
+}
+
+textarea {
+  background-color: white;
+  border: 1px solid gray;
+  display: block;
+  width: 90%;
+  margin-left: 5%;
+  height: 100px;
+}
+
+.loading {
+  margin: 0 auto;
+}
+
+.service-logo {
+  text-align: center;
+}
+
+.service-logo img {
+  margin: 34px 0;
+  width: 200px;
+  height: 200px;
+}
+
+.loading-message {
+  font-family: 'Noto Sans KR';
+  font-size: 18px;
+  font-weight: 600;
+}
+
 @keyframes likeAnimation {
   0%   { transform: scale(30); }
   100% { transform: scale(1); }

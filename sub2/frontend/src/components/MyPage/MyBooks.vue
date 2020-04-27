@@ -4,27 +4,51 @@
     <!-- 좋아하는 책 -->
     <div class="add-info">
       <div class="mybooks-sub">💜 내가 읽고 싶은 책</div>
-      <div class="text-center row dot-border" style="padding:15px">
-        <div v-for="l in likes" :key="l.id">
+      <div class="text-center row dot-border" style="padding:15px" v-if="!loadingStatus.likes">
+        <div v-for="l in likes.slice(10 * (likePageNm - 1), 10 * likePageNm)" :key="l.id">
           <BookCard class="col-10" :bookData="l"/>
         </div>
+        <v-pagination
+          v-model="likePageNm"
+          :length="likePageCount"
+          :total-visible="7"
+          circle
+          color="grey"></v-pagination>
+      </div>
+      <div class="dot-border text-center" v-else>
+        <div class="service-logo">
+          <img src="../../assets/images/team_logo/books.png" alt="team-logo">
+        </div>
+        <div class="loading-message">데이터를 불러오는 중 입니다.</div>
       </div>
     </div>
 
       <!-- 리뷰 책 BookCard 고치면,  text-center옆에 row추가-->
     <div class="add-info">
       <div class="mybooks-sub">📝 내가 리뷰 남긴 책</div>
-      <div class="text-center dot-border">
+      <div class="text-center dot-border" v-if="!loadingStatus.reviews">
         <div class="row">
           <div class="table-head col-3">도서</div>
           <div class="table-head col-2">내 평점</div>
           <div class="table-head col-7">내 리뷰</div>
         </div>
-        <div v-for="r in userinfo.review_set" :key="r.id" class="row">
-            <BookCard class="col-3" :bookData="r.book"/>
-            <div class="myscore col-1" style="margin:auto;">★{{r.score}}</div>
-            <div class="myreview col-6" style="margin:auto;">{{r.content}}</div>
+        <div v-for="r in userinfo.review_set.slice(10 * (reviewPageNm - 1), 10 * reviewPageNm)" :key="r.id" class="row">
+          <BookCard class="col-3" :bookData="r.book"/>
+          <div class="myscore col-1" style="margin:auto;">★{{r.score}}</div>
+          <div class="myreview col-6" style="margin:auto;">{{r.content}}</div>
         </div>
+        <v-pagination
+          v-model="reviewPageNm"
+          :length="reviewPageCount"
+          :total-visible="7"
+          circle
+          color="grey"></v-pagination>
+      </div>
+      <div class="dot-border text-center" v-else>
+        <div class="service-logo">
+          <img src="../../assets/images/team_logo/books.png" alt="team-logo">
+        </div>
+        <div class="loading-message">데이터를 불러오는 중 입니다.</div>
       </div>
     </div>
   </div>
@@ -38,11 +62,21 @@ export default {
   components: {BookCard},
   data() {
     return {
+      reviewPageNm: 1,
+      reviewPageCount: 0,
+      likePageNm: 1,
+      likePageCount: 0,
       userinfo : {},
       likes : [],
+      loadingStatus: {
+        'likes': false,
+        'reviews': false
+      }
     }
   },
-  mounted() {
+  created() {
+    this.loadingStatus.likes = true
+    this.loadingStatus.reviews = true
     this.myinfo()
     this.mylikes()
   },
@@ -50,10 +84,14 @@ export default {
     async myinfo() {
       const data = await fetchMyInfo()
       this.userinfo = data.data
+      this.reviewPageCount = parseInt(this.userinfo.review_set.length / 10) + (this.userinfo.review_set.length % 10 === 0 ? 0 : 1)
+      this.loadingStatus.reviews = false
     },
     async mylikes() {
       const data = await mylike()
       this.likes = data.data
+      this.likePageCount = parseInt(this.likes.length / 10) + (this.likes.length % 10 === 0 ? 0 : 1)
+      this.loadingStatus.likes = false
     }
   }
 }
@@ -101,5 +139,26 @@ export default {
 .myscore{
   color:#ffa136;
   font-size: 1.3em;
+}
+
+.service-logo img {
+  margin: 30px 0;
+  width: 200px;
+  height: 200px;
+}
+
+.loading-message {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Noto Sans KR';
+  padding-bottom: 30px;
+}
+
+@media (max-width: 900px) {
+  .mybooks-wrapper {
+    width: 95%;
+    transform: translateX(0%);
+  }
 }
 </style>

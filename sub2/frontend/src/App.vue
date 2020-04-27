@@ -5,8 +5,10 @@
     <span :class="this.postLoading ? 'loading-alert' : ''"></span>
     <Header />
       <v-content :style="headerStyle" :class="className">
-        <router-view />
-        <AlertCollectReview></AlertCollectReview>
+        <transition name="fade">
+          <router-view />
+        </transition>
+        <AlertCollectReview />
       </v-content>
     <Footer />
   </v-app>
@@ -78,5 +80,12 @@ a,
   background-color:rgb(33, 33, 33);
   border-color: rgb(33, 33, 33);
   opacity: 0.46;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
