@@ -58,6 +58,7 @@ export default {
 header {
   position: relative;
   margin-bottom: 0.6em; 
+  clear: both;
 }
 
 header .books-header-title span {
@@ -112,7 +113,7 @@ header .books-category ul[class='mobile-size-header'] {
 header .books-category ul[class='mobile-size-header'] .mobile-drawer {
   position: absolute;
   right: 0;
-  width: 130px;
+  width: 150px;
   z-index: 10;
   background-color: #fff;
   border: 0.5px solid lightgray;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-carousel height="400" show-arrows-on-hover>
+    <v-carousel :height="sliderHeight" show-arrows-on-hover>
       <v-carousel-item
         v-for="(image,i) in images"
         :key="i"
@@ -25,6 +25,7 @@ export default {
   name: 'ImageSlider',
   data() {
     return {
+      sliderHeight: 400,
       images: [
         {
           src: 'https://user-images.githubusercontent.com/52685250/78128664-3e9ef800-7451-11ea-9145-c00d7f34b7a3.jpg',
@@ -51,6 +52,19 @@ export default {
           }
         },
       ]
+    }
+  },
+   created() {
+    this.responsiveHeight()
+  },
+  mounted() {
+    window.addEventListener('resize', () => {
+      this.responsiveHeight()
+    })
+  },
+  methods: {
+    responsiveHeight() {
+      this.sliderHeight = window.innerWidth < 550 ? 300 : 400
     }
   }
 }

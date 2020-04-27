@@ -49,7 +49,7 @@ export default {
       this.loadingStatus = false
     },
     goToBookListTop() {
-      let goToHeight = window.innerWidth > 800 ? 400 : 1730
+      let goToHeight = window.innerWidth > 800 ? 400 : window.innerWidth >= 550 ? 1110 : 1010
       window.scrollTo(0, goToHeight)
     }
   },
@@ -73,7 +73,7 @@ export default {
 
 @media (max-width: 600px) {
   .books-list {
-    padding: 40px 20px;
+    padding: 20px;
   }
 }
 
