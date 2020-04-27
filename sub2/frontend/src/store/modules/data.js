@@ -2,7 +2,8 @@ import { fetchBooks, fetchBookDetail, fetchCategories, addBookReview, fetchBookR
 
 const state = {
   categories: [],
-  postReviewLoading: false
+  postReviewLoading: false,
+  searchKeyword: ''
 }
 
 const mutations = {
@@ -11,6 +12,9 @@ const mutations = {
   },
   togglePostReviewLoading(state, status) {
     state.postReviewLoading = status
+  },
+  setSearchKeyword(state, keyword) {
+    state.searchKeyword = keyword
   }
 }
 

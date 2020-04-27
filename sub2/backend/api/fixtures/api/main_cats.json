@@ -1,0 +1,44 @@
+[
+  {
+    "model": "api.maincategory",
+    "pk": 1,
+    "fields": {
+      "name": "소설"
+    }
+  },
+  {
+    "model": "api.maincategory",
+    "pk": 2,
+    "fields": {
+      "name": "시/에세이"
+    }
+  },
+  {
+    "model": "api.maincategory",
+    "pk": 3,
+    "fields": {
+      "name": "사회과학"
+    }
+  },
+  {
+    "model": "api.maincategory",
+    "pk": 4,
+    "fields": {
+      "name": "자연과 과학"
+    }
+  },
+  {
+    "model": "api.maincategory",
+    "pk": 5,
+    "fields": {
+      "name": "인문"
+    }
+  },
+  {
+    "model": "api.maincategory",
+    "pk": 6,
+    "fields": {
+      "name": "역사와 문화"
+    }
+  }
+]

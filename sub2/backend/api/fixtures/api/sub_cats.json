@@ -1,0 +1,210 @@
+[
+  {
+    "model": "api.subcategory",
+    "pk": 1,
+    "fields": {
+      "name": "한국소설",
+      "main": 1
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 2,
+    "fields": {
+      "name": "외국소설",
+      "main": 1
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 3,
+    "fields": {
+      "name": "장르소설",
+      "main": 1
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 4,
+    "fields": {
+      "name": "주제가 있는 문학",
+      "main": 1
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 5,
+    "fields": {
+      "name": "문학상 수상작",
+      "main": 1
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 6,
+    "fields": {
+      "name": "에세이/산문",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 7,
+    "fields": {
+      "name": "시",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 8,
+    "fields": {
+      "name": "희곡",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 9,
+    "fields": {
+      "name": "정치/외교",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 10,
+    "fields": {
+      "name": "생명과학",
+      "main": 4
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 11,
+    "fields": {
+      "name": "법",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 12,
+    "fields": {
+      "name": "여성학/남성학",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 13,
+    "fields": {
+      "name": "사회학 일반",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 14,
+    "fields": {
+      "name": "생태/환경/지리",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 15,
+    "fields": {
+      "name": "교육",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 16,
+    "fields": {
+      "name": "언론/미디어",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 17,
+    "fields": {
+      "name": "북한학",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 18,
+    "fields": {
+      "name": "사회문제",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 19,
+    "fields": {
+      "name": "사회학 이론/사상",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 20,
+    "fields": {
+      "name": "심리학",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 21,
+    "fields": {
+      "name": "인문교양",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 22,
+    "fields": {
+      "name": "동양사",
+      "main": 6
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 23,
+    "fields": {
+      "name": "독서/출판/글쓰기",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 24,
+    "fields": {
+      "name": "철학의 이해",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 25,
+    "fields": {
+      "name": "뇌과학",
+      "main": 4
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 26,
+    "fields": {
+      "name": "서양철학",
+      "main": 5
+    }
+  }
+]
