@@ -81,8 +81,8 @@ class Command(BaseCommand):
                     more_list[0] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
                 elif outer_blocks[j].get_text() == '목차':
                     more_list[1] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
-                # elif outer_blocks[j].get_text() == '출판사 서평':
-                #     more_list[2] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
+                elif outer_blocks[j].get_text() == '출판사 서평':
+                    more_list[2] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
                 if more_list[0] != '' and more_list[1] != '':
                     break
 
@@ -170,17 +170,24 @@ class Command(BaseCommand):
             try:
                 author_links = soup.select('div.writerInfo > div.infoTitle > a.bt_writerDB')
                 for i in range(len(author_links)):
-                    if '[역]' not in soup.select('div.writerInfo > div.infoTitle > span')[i].text:
+                    if '역' not in soup.select('div.writerInfo > div.infoTitle > .writerName')[i].text:
+                        # print('not 역')
+                        # print(soup.select('div.writerInfo > div.infoTitle > span')[i].text)
                         author_ids.append(int(author_links[i].get('onclick').split('prsnNo=')[1].split('"')[0])) # 책 상세 페이지에서 추출한 작가 고유 ID
+                    # else:
+                    #     print('역 들어감')
+                    #     print(soup.select('div.writerInfo > div.infoTitle > span')[i].text)
             except IndexError:
                 author_ids = []
             
+            # print('위', author_ids)
             if len(author_ids):
                 for author_id in author_ids:
                     if author_id not in author_nums: # 처음으로 해당 작가를 가져오는 경우 작가 데이터 저장
                         get_author_data(str(author_id))
                         author_nums.append(author_id)
-
+            # print('')
+            # print('아래', author_ids)
             return [more_list, category_set, author_ids]
 
 
@@ -222,7 +229,7 @@ class Command(BaseCommand):
             dumpdata_fields["translator"] = response_data["translator"]
             dumpdata_fields["pubDate"] = response_data["pubDate"]
             dumpdata_fields["contents"] = response_data["contents"]
-            # dumpdata_fields["publisherReview"] = response_data["publisherReview"]
+            dumpdata_fields["publisherReview"] = response_data["publisherReview"] if "publisherReview" in response_data else None
             dumpdata_fields["author"] = response_data["authorID"]
             dumpdata_fields["like_user"] = []
             
@@ -231,7 +238,8 @@ class Command(BaseCommand):
 
         # cat_nums은 추후 아래 리스트로 교체
         # cat_nums = ['0101', '0102', '0201', '0203', '0202', '0204', '0301', '0304', '0305', '0307', '0302', '0306', '0405', '0401', '0402', '0403', '0505', '0501', '0504', '0502', '0509', '0508', '0503', '0507']
-        cat_nums = ['0101', '0102', '0201', '0203']
+        # cat_nums = ['0101', '0102', '0201', '0203']
+        cat_nums = ['0101']
         # 또는 cat_nums에 숫자를 임의로 지정하여(ex. ['0101', '0102']) 각 카테고리별로 가져오는 책 권수를 다르게 할 수도 있음
         books_list = []
         pk = 1
