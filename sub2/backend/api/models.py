@@ -43,6 +43,7 @@ class Book(models.Model):
     mainCategory = models.ForeignKey(MainCategory,on_delete=models.CASCADE, null=True)
     subCategory = models.ForeignKey(SubCategory, on_delete =models.CASCADE, null=True)
     detailCategory = models.ForeignKey(DetailCategory, on_delete=models.CASCADE, null=True)
+    publisherReview = models.TextField(null=True)
     @property
     def avg(self):
         avg = self.review_set.aggregate(Avg('score'))['score__avg'] 

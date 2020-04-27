@@ -6,6 +6,9 @@ from rest_framework.response import Response
 from .models import User
 from django.shortcuts import get_object_or_404
 from django.db.models import Avg, Count, Sum
+from django.core.mail import EmailMessage
+import string
+import random
 # Create your views here.
 from api.models import Book, MainCategory
 from django.http import JsonResponse
@@ -40,6 +43,41 @@ def user(request):
     elif request.method == 'DELETE':
         user.delete()
         return Response({'message':'deleted!'})
+
+@api_view(['POST'])
+def find_password(request):
+    # print('here')
+    Len = 12
+    string_pool = string.ascii_letters + string.digits
+    result = ''
+    for _ in range(Len):
+        result += random.choice(string_pool)
+
+    # print('request: ', request)
+    # print('request.data: ', request.data)
+    user = get_object_or_404(User, username=request.data.get('username'))
+    # print('user', user)
+    if user.username == request.data.get('username') and user.email == request.data.get('email'):
+        # print('passed')
+        user.password = result
+        user.set_password(user.password)
+        user.save()
+        template = f'''
+        비밀번호 재생성을 위해 임시 비밀번호를 발급해드렸습니다.
+        비밀번호 : '{result}' 를 입력해주세요.
+        '''
+        mail = EmailMessage(
+            'Book U Love 임시비밀번호 발급', # 제목
+            template, # 내용
+            to=[f'{user.email}'], # 받을 주소
+        )
+        # 메일 보내기
+        mail.send()
+        
+        return Response({'message': '메일을 성공적으로 보냈습니다.'})
+    else:
+        return Response(EOFError)
+
 
 from math import sqrt
 @api_view(['GET'])
