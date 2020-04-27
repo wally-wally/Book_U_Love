@@ -5,8 +5,8 @@
       <div class="book-count-message" v-if="totalBookCount">총 {{ totalBookCount }} 권이 있습니다.</div>
     </div>
     <div class="row" v-if="books.length && !loadingStatus">
-      <div v-for="book in books" :key="book.id" class="books-list col-lg-3 col-md-4 col-sm-6">
-        <BookCard :bookData="book"/>
+      <div v-for="i in books.length" :key="i" class="books-list col-lg-3 col-md-4 col-sm-6">
+        <BookCard :bookData="books[i - 1]"/>
       </div>
       <v-pagination
         v-model="pageNm"
