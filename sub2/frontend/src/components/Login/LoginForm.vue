@@ -23,8 +23,7 @@
         </form>
         <div class="find-account-box">
           <span @click="goSignupPage">회원가입</span>
-          <span>아이디 찾기</span>
-          <span>비밀번호 찾기</span>
+          <span @click="goFindAccount">비밀번호 찾기</span>
         </div>
         <hr class="my-6">
         <div class="sns-login-box">
@@ -88,6 +87,9 @@ export default {
     },
     goSignupPage() {
       this.$router.push('/signup')
+    },
+    goFindAccount(type) {
+      this.$router.push('/login/findaccount')
     }
   }
 }

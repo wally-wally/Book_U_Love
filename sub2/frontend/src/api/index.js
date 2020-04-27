@@ -36,6 +36,14 @@ function updateMyInfo(userData) {
   return instance.put(`accounts/user/`, userData)
 }
 
+function deleteUser(userData) {
+  return instance.delete('accounts/user/', userData)
+}
+
+function findPassword(userData) {
+  return instance.get('accounts/findpassword', userData)
+}
+
 // 저장된 모든 책 데이터를 가져오는 API
 function fetchBooks(params) {
   return instance.get('api/books', { params: params })
@@ -89,6 +97,8 @@ export {
   changePassword,
   fetchMyInfo,
   updateMyInfo,
+  deleteUser,
+  findPassword,
   fetchBooks,
   fetchBookDetail,
   fetchCategories,

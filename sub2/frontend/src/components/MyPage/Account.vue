@@ -216,7 +216,8 @@ export default {
       this.withdrawalDialog = true
     },
     async goWithdrawal() {
-      await alert('회원탈퇴 기능 추후 구현')
+      await this.$store.dispatch('DELETE_USER')
+      this.$store.commit('logout')
       this.$router.push('/')
     }
   }

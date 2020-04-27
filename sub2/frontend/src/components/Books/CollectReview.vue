@@ -26,7 +26,7 @@
     </v-select>
     <div class="progress-box">
       <v-progress-linear
-        :value="(writtenReviewCnt / 20) * 100"
+        :value="(writtenReviewCnt / 10) * 100"
         color="blue-grey"
         height="25" 
         reactive>
@@ -49,7 +49,7 @@
           <v-stepper-items>
             <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
               <div class="book-wrapper">
-                <div class="book-category">{{ bookData[writtenReviewCnt].categorylist.join('>') }}</div>
+                <div class="book-category">{{ bookData[writtenReviewCnt].categorylist }}</div>
                 <img :src="bookData[writtenReviewCnt].coverLargeUrl" alt="book-image">
                 <p class="book-title">
                   {{ bookData[writtenReviewCnt].title }}
@@ -65,12 +65,18 @@
               </div>
               <div class="d-flex justify-space-between">
                 <v-btn color="yellow" @click="toggleDialog" small><span class="more-info-text">Information</span></v-btn>
-                <v-btn v-if="n !== steps" color="warning" @click="storeReview(n)" small>다음 도서</v-btn>
-                <v-btn v-else-if="completePage < 3" color="error" @click="storeReview(n)" small>
+                <v-btn color="warning" @click="storeReview(n, 1)" small>리뷰 등록</v-btn>
+                <!-- <v-btn v-if="n !== steps" color="warning" @click="storeReview(n, 1)" small>다음 도서</v-btn>
+                <v-btn v-else-if="completePage < 3" color="error" @click="storeReview(n, 1)" small>
                   {{ n + 5 * completePage + 1 }}~{{ n + 5 * completePage + 5 }}번 도서로
                 </v-btn>
-                <v-btn v-else color="error" @click="storeReview(n)" small>
+                <v-btn v-else color="error" @click="storeReview(n, 1)" small>
                   리뷰 등록
+                </v-btn> -->
+              </div>
+              <div class="no-read-btn">
+                <v-btn color="error" @click="storeReview(n, 0)" small>
+                  이 책은 아직 읽지 않았어요
                 </v-btn>
               </div>
             </v-stepper-content>
@@ -91,7 +97,7 @@
                 {{ bookData[writtenReviewCnt].title }}
               </p>
               <div class="book-small-info">
-                <p>카테고리: {{ bookData[writtenReviewCnt].categorylist.join('>') }}</p>
+                <p>카테고리: {{ bookData[writtenReviewCnt].categorylist }}</p>
                 <p>작가: {{ bookData[writtenReviewCnt].author | authorList }}</p>
                 <p>출판사: {{ bookData[writtenReviewCnt].publisher }}</p>
               </div>
@@ -122,9 +128,10 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      selectType: '리뷰 개수 기준 TOP20',
-      types: ['리뷰 개수 기준 TOP20', '평점 기준 TOP20'],
+      selectType: '리뷰 개수 기준 TOP10',
+      types: ['리뷰 개수 기준 TOP10', '평점 기준 TOP10'],
       writtenReviewCnt: 0,
+      realReviewCnt: 0,
       bookData: [],
       reviewData: [],
       loading: false,
@@ -146,61 +153,98 @@ export default {
     this.fetchBooks(this.selectType)
   },
   methods: {
-    storeBooks(books) {
-      books.forEach(data => this.bookData.push(data))
-    },
     loadingComplete() {
       this.loading = false
     },
     async fetchBooks(type) {
-      let sortTag = type === '리뷰 개수 기준 TOP20' ? 'count' : 'score'
-      const pageOneData = await this.$store.dispatch('GET_BOOKS', {page: 1, sortby: sortTag, top: 20})
-      await this.storeBooks(pageOneData['results'])
-      const pageTwoData = await this.$store.dispatch('GET_BOOKS', {page: 2, sortby: sortTag, top: 20})
-      await this.storeBooks(pageTwoData['results'])
-      await this.loadingComplete()
-    },
-    addReviewCnt() {
-      this.writtenReviewCnt += 1
-    },
-    storeReview(n) {
-      if (this.score && this.content.length) {
-        this.user = this.info.user_id
-        this.book = this.bookData[this.writtenReviewCnt].id
-        let data = {
-          user: this.user,
-          book : this.book,
-          score: this.score * 2,
-          content: this.content
+      const myReviewData = await this.$store.dispatch('GET_MYINFO')
+      const myReviewIDs = myReviewData.review_set.map(data => data.book.id)
+      let sortTag = type === '리뷰 개수 기준 TOP10' ? 'count' : 'score'
+      let pageIdx = 1
+      while(true) {
+        const pageData = await this.$store.dispatch('GET_BOOKS', {page: pageIdx, sortby: sortTag})
+        for (const data of pageData['results']) {
+          if (!myReviewIDs.includes(data.id)) {
+            await this.bookData.push(data)
+          }
+          if (this.bookData.length === 10) {
+            await this.loadingComplete()
+            return
+          }
         }
-        this.reviewData.push(data)
-        if (n === this.steps && this.completePage === 3) {
-          this.$store.commit('togglePostReviewLoading', true)
-          this.postReviews()
-        } else {
-          this.addReviewCnt()
+        pageIdx += 1
+      }
+    },
+    addReviewCnt(val) {
+      this.writtenReviewCnt += 1
+      this.realReviewCnt += val
+    },
+    storeReview(n, readStatus) {
+      if (readStatus) {
+        if (this.score && this.content.length) {
+          this.user = this.info.user_id
+          this.book = this.bookData[this.writtenReviewCnt].id
+          const data = {
+            user: this.user,
+            book : this.book,
+            score: this.score * 2,
+            content: this.content
+          }
+          this.postReview(data)
+          this.addReviewCnt(1)
           this.nextStep(n)
           this.initForm()
+        } else {
+          alert('평점(1점 이상)과 내용을 작성해주세요.')
         }
       } else {
-        alert('평점(1점 이상)과 내용을 작성해주세요.')
+        this.addReviewCnt(0)
+        this.nextStep(n)
+        this.initForm()
       }
+
+      // if (this.score && this.content.length) {
+      //   this.user = this.info.user_id
+      //   this.book = this.bookData[this.writtenReviewCnt].id
+      //   let data = {
+      //     user: this.user,
+      //     book : this.book,
+      //     score: this.score * 2,
+      //     content: this.content
+      //   }
+      //   this.reviewData.push(data)
+      //   if (n === this.steps && this.completePage === 1) {
+      //     this.$store.commit('togglePostReviewLoading', true)
+      //     this.postReviews()
+      //   } else {
+      //     this.addReviewCnt()
+      //     this.nextStep(n)
+      //     this.initForm()
+      //   }
+      // } else {
+      //   alert('평점(1점 이상)과 내용을 작성해주세요.')
+      // }
     },
-    async postReviews() {
-      for (const review of this.reviewData) {
+    async postReview(data) {
+      // for (const review of this.reviewData) {
         const formData = new FormData()
-        formData.append('user', review.user)
-        formData.append('content', review.content)
-        formData.append('score', review.score)
-        formData.append('book', review.book)
+        formData.append('user', data.user)
+        formData.append('content', data.content)
+        formData.append('score', data.score)
+        formData.append('book', data.book)
         await this.$store.dispatch('ADD_REVIEWS', formData)
-      }
-      this.$store.commit('togglePostReviewLoading', false)
-      alert('작성한 리뷰가 등록되었습니다. 메인 페이지로 이동합니다.')
-      this.$router.push('/')
+      // }
+      // this.$store.commit('togglePostReviewLoading', false)
+      // alert('작성한 리뷰가 등록되었습니다. 메인 페이지로 이동합니다.')
+      // this.$router.push('/')
     },
     nextStep(n) {
       if (n === this.steps) {
+        if (this.completePage === 1) {
+          alert(`10권 중 ${this.realReviewCnt}권의 리뷰 등록이 끝났습니다. 메인 페이지로 이동합니다.`)
+          this.$router.push('/')
+          return
+        }
         this.e1 = 1
         this.completePage += 1
       } else {
@@ -359,6 +403,12 @@ p {
   width: 100%;
   height: 150px;
   resize: none;
+}
+
+.no-read-btn {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 8px;
 }
 
 /* dialog */
