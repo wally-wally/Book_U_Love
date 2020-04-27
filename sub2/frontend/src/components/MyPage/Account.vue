@@ -25,7 +25,7 @@
             <v-select
               v-model="selectedCategories"
               class="pa-0"
-              :items="this.categories.map(category => `${category.id}-${category.name}`)"
+              :items="this.categories.map(category => `${category.id}-${category.mainCatsName}-${category.subCatsName}-${category.name}`)"
               multiple
               chips
             ></v-select>
@@ -130,7 +130,7 @@ export default {
   },
   computed: {
     ...mapState({
-      categories: state => state.data.categories.slice(0, 41).filter(category => category.id % 100)
+      categories: state => state.data.detailCategories
     }),
     ...mapGetters(['info']),
     isNewPasswordValid() {
@@ -149,10 +149,10 @@ export default {
       this.getMyCategory(myInfo.categorys)
     },
     getMyCategory(favoriteCategory) {
-      this.selectedCategories = this.categories.filter(category => favoriteCategory.includes(category.name)).map(item => `${item.id}-${item.name}`)
+      this.selectedCategories = this.categories.filter(category => favoriteCategory.includes(category.name)).map(item => `${item.id}-${item.mainCatsName}-${item.subCatsName}-${item.name}`)
     },
     async updateMyAddInfo() {
-      let convertCategoryIDs = this.selectedCategories.map(category => category.split('-')[1])
+      let convertCategoryIDs = this.selectedCategories.map(category => category.split('-')[3])
       const userAddData = {
         username: this.info.username,
         email: this.info.email,
@@ -216,7 +216,8 @@ export default {
       this.withdrawalDialog = true
     },
     async goWithdrawal() {
-      await alert('회원탈퇴 기능 추후 구현')
+      await this.$store.dispatch('DELETE_USER')
+      this.$store.commit('logout')
       this.$router.push('/')
     }
   }

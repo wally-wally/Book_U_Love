@@ -1,8 +1,3 @@
-#########################################################################
-# [주의!] 이 코드는 여기 프로젝트에서 안 돌아감                               #
-# 개인적으로 book db 테스트 해본 프로젝트에서 성공한 크롤링 + dumpdata 생성 코드 #
-#########################################################################
-
 import html
 import json
 import os
@@ -14,7 +9,7 @@ from django.core.management.base import BaseCommand
 from pathlib import Path
 from backend import settings
 
-# 인터파크 도서 BOOK DB 전자도서관 홈페이지의 도서 리스트를 이용하여 도서 데이터를 크롤링하여 자동으로 dumpdata 형태로 json 파일 만듬
+# 인터파크 도서 BOOK DB 전자도서관 홈페이지의 도서 리스트를 이용하여 도서 데이터를 크롤링하는 코드
 # 활용 기술 : BeautifulSoup을 이용한 크롤링 + 인터파크 도서 API를 이용해 REST 통신으로 데이터 수집
 # 최종적으로 동일선상의 디렉토리 레벨에 도서 데이터, 작가 데이터, 대분류 데이터, 중분류 데이터, 소분류 데이터를 담은 json 파일이 각각 생성
 
@@ -80,15 +75,15 @@ class Command(BaseCommand):
             res = requests.get(f'http://book.interpark.com/product/BookDisplay.do?_method=detail&sc.prdNo={bookID}').text
             soup = BeautifulSoup(res, 'html.parser')
             outer_blocks = soup.find_all('p')
-            more_list = ['', '', ''] # 책소개(description)(index=0), 목차(contents)(index=1), 출판사 서평(publisher_review)(index=2)
+            more_list = ['', ''] # 책소개(description)(index=0), 목차(contents)(index=1)
             for j in range(len(outer_blocks)):
                 if outer_blocks[j].get_text() == '책소개':
                     more_list[0] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
                 elif outer_blocks[j].get_text() == '목차':
                     more_list[1] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
-                elif outer_blocks[j].get_text() == '출판사 서평':
-                    more_list[2] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
-                if more_list[0] != '' and more_list[1] != '' and more_list[2] != '':
+                # elif outer_blocks[j].get_text() == '출판사 서평':
+                #     more_list[2] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
+                if more_list[0] != '' and more_list[1] != '':
                     break
 
             # 대분류(index=0), 중분류(index=1), 소분류(index=2)
@@ -159,7 +154,7 @@ class Command(BaseCommand):
                     detail_category_dumpdata["pk"] = int(detail_cat_id)
                     detail_category_dumpdata["fields"] = {
                         "name": detail_category,
-                        "like_user": []
+                        "book_category": []
                     }
                     if sub_category in sub_cats:
                         detail_category_dumpdata["fields"]['sub'] = sub_cats.index(sub_category) + 1
@@ -176,14 +171,14 @@ class Command(BaseCommand):
                 author_links = soup.select('div.writerInfo > div.infoTitle > a.bt_writerDB')
                 for i in range(len(author_links)):
                     if '[역]' not in soup.select('div.writerInfo > div.infoTitle > span')[i].text:
-                        author_ids.append(author_links[i].get('onclick').split('prsnNo=')[1].split('"')[0]) # 책 상세 페이지에서 추출한 작가 고유 ID
+                        author_ids.append(int(author_links[i].get('onclick').split('prsnNo=')[1].split('"')[0])) # 책 상세 페이지에서 추출한 작가 고유 ID
             except IndexError:
                 author_ids = []
             
             if len(author_ids):
                 for author_id in author_ids:
                     if author_id not in author_nums: # 처음으로 해당 작가를 가져오는 경우 작가 데이터 저장
-                        get_author_data(author_id)
+                        get_author_data(str(author_id))
                         author_nums.append(author_id)
 
             return [more_list, category_set, author_ids]
@@ -207,7 +202,7 @@ class Command(BaseCommand):
             
             # 목차 정보, description의 전체 내용과 카테고리, 작가 ID 가져오기
             more_Info = get_more_info(bookID)
-            response_data["description"], response_data["contents"], response_data["publisherReview"] = more_Info[0]
+            response_data["description"], response_data["contents"] = more_Info[0]
             response_data["mainCategory"] = more_Info[1][0]
             response_data["subCategory"] = more_Info[1][1]
             response_data["detailCategory"] = more_Info[1][2]
@@ -227,7 +222,7 @@ class Command(BaseCommand):
             dumpdata_fields["translator"] = response_data["translator"]
             dumpdata_fields["pubDate"] = response_data["pubDate"]
             dumpdata_fields["contents"] = response_data["contents"]
-            dumpdata_fields["publisherReview"] = response_data["publisherReview"]
+            # dumpdata_fields["publisherReview"] = response_data["publisherReview"]
             dumpdata_fields["author"] = response_data["authorID"]
             dumpdata_fields["like_user"] = []
             
@@ -236,7 +231,7 @@ class Command(BaseCommand):
 
         # cat_nums은 추후 아래 리스트로 교체
         # cat_nums = ['0101', '0102', '0201', '0203', '0202', '0204', '0301', '0304', '0305', '0307', '0302', '0306', '0405', '0401', '0402', '0403', '0505', '0501', '0504', '0502', '0509', '0508', '0503', '0507']
-        cat_nums = ['0101', '0102', '0201', '0202', '0301', '0302']
+        cat_nums = ['0101', '0102', '0201', '0203']
         # 또는 cat_nums에 숫자를 임의로 지정하여(ex. ['0101', '0102']) 각 카테고리별로 가져오는 책 권수를 다르게 할 수도 있음
         books_list = []
         pk = 1
@@ -278,6 +273,7 @@ class Command(BaseCommand):
 
             print(f'*******{cat_num}번 카테고리 도서 정보 크롤링 완료*******')
 
+        # (1) 개별 파일로 저장하는 방법
         with open (f'./api/fixtures/api/author.json', 'w', encoding='UTF-8') as f: # 작가 데이터
             json.dump(author_list, f, indent=2, ensure_ascii=False)
 
@@ -292,6 +288,27 @@ class Command(BaseCommand):
 
         with open (f'./api/fixtures/api/book.json', 'w', encoding='UTF-8') as f: # 책 데이터
             json.dump(books_list, f, indent=2, ensure_ascii=False)
+        
+        # (2) 하나의 dummy.json 파일에 저장하는 방법
+        dummy_data = []
+
+        for data in author_list:
+            dummy_data.append(data)
+
+        for data in main_cats_list:
+            dummy_data.append(data)
+
+        for data in sub_cats_list:
+            dummy_data.append(data)
+
+        for data in detail_cats_list:
+            dummy_data.append(data)
+
+        for data in books_list:
+            dummy_data.append(data)
+
+        with open (f'./api/fixtures/api/dummy.json', 'w', encoding='UTF-8') as f: # 모든 데이터를 dummy.json에 압축
+            json.dump(dummy_data, f, indent=2, ensure_ascii=False)
 
 
     def _initialize(self):

@@ -54,6 +54,11 @@ export default {
       categoryName: ''
     }
   },
+  computed: {
+    ...mapState({
+      categories: state => state.data.categories
+    })
+  },
   created() {
     this.onBookDetail()
   },
@@ -69,9 +74,24 @@ export default {
       let bookData = await this.$store.dispatch('GET_BOOKS', paramsData)
       this.books = bookData.results
       this.pageCount = parseInt(bookData.count / 10) + (bookData.count % 10 === 0 ? 0 : 1)
-      let categorySet = bookData.results[0].categorylist
-      let sliceIdx = this.$route.path.includes('category/main') ? 1 : this.$route.path.includes('category/sub') ? 2 : 3
-      this.categoryName = categorySet.slice(0, sliceIdx).join(' > ')
+      let pathUrl = this.$route.path
+      const pageCategoryID = Number(pathUrl.split('/').reverse()[0])
+      if (pathUrl.includes('category/main')) {
+        let idx = this.categories.find(category => category.id === pageCategoryID).id
+        this.categoryName = this.categories[idx - 1].name
+      } else if (pathUrl.includes('category/sub')) {
+        for (let i = 0; i < this.categories.length; ++i) {
+          if (this.categories[i].subcategory_set.some(category => category.id === pageCategoryID)) {
+            let subCategory_name = this.categories[i].subcategory_set.find(category => category.id === pageCategoryID).name
+            this.categoryName = [this.categories[i].name, subCategory_name].join('>')
+            break
+          }
+        }
+      } else {
+        let categorySet = bookData.results[0].categorylist
+        let sliceIdx = this.$route.path.includes('category/main') ? 1 : this.$route.path.includes('category/sub') ? 2 : 3
+        this.categoryName = categorySet.slice(0, sliceIdx).join(' > ')
+      }
       this.loadingStatus = false
     },
     onBookDetail() {

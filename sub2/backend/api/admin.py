@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Review
+from .models import Book, Review, DetailCategory
 
 # Register your models here.
 class BookAdmin(admin.ModelAdmin):
@@ -12,3 +12,4 @@ class ReviewAdmin(admin.ModelAdmin):
 
 admin.site.register(Book, BookAdmin)
 admin.site.register(Review, ReviewAdmin)
+admin.site.register(DetailCategory)

@@ -1,0 +1,479 @@
+[
+  {
+    "model": "api.detailcategory",
+    "pk": 1,
+    "fields": {
+      "name": "현대소설",
+      "book_category": [],
+      "sub": 1
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 2,
+    "fields": {
+      "name": "프랑스 소설",
+      "book_category": [],
+      "sub": 2
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 3,
+    "fields": {
+      "name": "일본소설",
+      "book_category": [],
+      "sub": 2
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 4,
+    "fields": {
+      "name": "영미소설",
+      "book_category": [],
+      "sub": 2
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 5,
+    "fields": {
+      "name": "추리/미스터리소설",
+      "book_category": [],
+      "sub": 3
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 6,
+    "fields": {
+      "name": "독일소설",
+      "book_category": [],
+      "sub": 2
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 7,
+    "fields": {
+      "name": "고전",
+      "book_category": [],
+      "sub": 1
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 8,
+    "fields": {
+      "name": "성장문학",
+      "book_category": [],
+      "sub": 4
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 9,
+    "fields": {
+      "name": "판타지소설",
+      "book_category": [],
+      "sub": 3
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 10,
+    "fields": {
+      "name": "유럽소설",
+      "book_category": [],
+      "sub": 2
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 11,
+    "fields": {
+      "name": "해외 문학상",
+      "book_category": [],
+      "sub": 5
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 12,
+    "fields": {
+      "name": "여성문학",
+      "book_category": [],
+      "sub": 4
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 13,
+    "fields": {
+      "name": "한국에세이",
+      "book_category": [],
+      "sub": 6
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 14,
+    "fields": {
+      "name": "외국에세이",
+      "book_category": [],
+      "sub": 6
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 15,
+    "fields": {
+      "name": "한국현대시",
+      "book_category": [],
+      "sub": 7
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 16,
+    "fields": {
+      "name": "종교에세이",
+      "book_category": [],
+      "sub": 6
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 17,
+    "fields": {
+      "name": "심리에세이",
+      "book_category": [],
+      "sub": 6
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 18,
+    "fields": {
+      "name": "기행에세이",
+      "book_category": [],
+      "sub": 6
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 19,
+    "fields": {
+      "name": "사랑/연애에세이",
+      "book_category": [],
+      "sub": 6
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 20,
+    "fields": {
+      "name": "자전에세이",
+      "book_category": [],
+      "sub": 6
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 21,
+    "fields": {
+      "name": "사진/그림에세이",
+      "book_category": [],
+      "sub": 6
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 22,
+    "fields": {
+      "name": "외국희곡",
+      "book_category": [],
+      "sub": 8
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 23,
+    "fields": {
+      "name": "한국정치",
+      "book_category": [],
+      "sub": 9
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 24,
+    "fields": {
+      "name": "정치인",
+      "book_category": [],
+      "sub": 9
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 25,
+    "fields": {
+      "name": "정치일반",
+      "book_category": [],
+      "sub": 9
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 26,
+    "fields": {
+      "name": "생태학/환경학",
+      "book_category": [],
+      "sub": 10
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 27,
+    "fields": {
+      "name": "생활법률",
+      "book_category": [],
+      "sub": 11
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 28,
+    "fields": {
+      "name": "여성문제",
+      "book_category": [],
+      "sub": 12
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 29,
+    "fields": {
+      "name": "환경실태/해결법",
+      "book_category": [],
+      "sub": 14
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 30,
+    "fields": {
+      "name": "정치비평",
+      "book_category": [],
+      "sub": 9
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 31,
+    "fields": {
+      "name": "교육학 일반",
+      "book_category": [],
+      "sub": 15
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 32,
+    "fields": {
+      "name": "선거/정당",
+      "book_category": [],
+      "sub": 9
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 33,
+    "fields": {
+      "name": "특수교육",
+      "book_category": [],
+      "sub": 15
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 34,
+    "fields": {
+      "name": "언론일반/언론이론 ",
+      "book_category": [],
+      "sub": 16
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 35,
+    "fields": {
+      "name": "세계의 정치",
+      "book_category": [],
+      "sub": 9
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 36,
+    "fields": {
+      "name": "북한정치/경제/사회",
+      "book_category": [],
+      "sub": 17
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 37,
+    "fields": {
+      "name": "외교/국제관계",
+      "book_category": [],
+      "sub": 9
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 38,
+    "fields": {
+      "name": "사회복지",
+      "book_category": [],
+      "sub": 13
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 39,
+    "fields": {
+      "name": "그밖의 사회문제",
+      "book_category": [],
+      "sub": 18
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 40,
+    "fields": {
+      "name": "민주주의",
+      "book_category": [],
+      "sub": 19
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 41,
+    "fields": {
+      "name": "법학일반",
+      "book_category": [],
+      "sub": 11
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 42,
+    "fields": {
+      "name": "여성학이론/페미니즘",
+      "book_category": [],
+      "sub": 12
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 43,
+    "fields": {
+      "name": "심리학 입문",
+      "book_category": [],
+      "sub": 20
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 44,
+    "fields": {
+      "name": "인문교양일반",
+      "book_category": [],
+      "sub": 21
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 45,
+    "fields": {
+      "name": "중국사",
+      "book_category": [],
+      "sub": 22
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 46,
+    "fields": {
+      "name": "심리 이야기",
+      "book_category": [],
+      "sub": 20
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 47,
+    "fields": {
+      "name": "독서/책읽기",
+      "book_category": [],
+      "sub": 23
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 48,
+    "fields": {
+      "name": "철학일반/철학에세이",
+      "book_category": [],
+      "sub": 24
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 49,
+    "fields": {
+      "name": "글쓰기",
+      "book_category": [],
+      "sub": 23
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 50,
+    "fields": {
+      "name": "뇌과학일반",
+      "book_category": [],
+      "sub": 25
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 51,
+    "fields": {
+      "name": "인지심리",
+      "book_category": [],
+      "sub": 20
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 52,
+    "fields": {
+      "name": "고전/옛글읽기",
+      "book_category": [],
+      "sub": 21
+    }
+  },
+  {
+    "model": "api.detailcategory",
+    "pk": 53,
+    "fields": {
+      "name": "현대철학",
+      "book_category": [],
+      "sub": 26
+    }
+  }
+]

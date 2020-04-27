@@ -9,7 +9,7 @@
       <router-link :to="`/book/${this.bookData.id}`">
         <div class="book-title" style="color:black;">{{ this.bookData.title }}</div>
       </router-link>
-      <div class="book-category">{{bookData.categorylist.join(' > ')}}</div>
+      <div class="book-category">{{bookData.categorylist | categoryList }}</div>
       <span style="color:#ffa136">★{{bookData.avg}}</span><span style="font-size:0.9em"> ({{bookData.review_cnt}}명)</span>
     </div>
   </div>

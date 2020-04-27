@@ -37,26 +37,17 @@
 
 ## :gear: How to Run
 
-### Sub1
-
-```sh
-cd sub1
-pip install -r requirements.txt
-python parse.py
-python analyse.py
-python visualize.py
-```
-
-### Sub 2
-
 **Backend**
+
+(지금은 아직 유저 정보는 없고 책 데이터만 있는 상태 / 추후 유저 관련 dummp data 추가 예정)
 
 ```sh
 cd sub2/backend
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
-python manage.py initialize
+python manage.py makedumpdata
+python manage.py loaddata api/dummy.json
 python manage.py runserver
 ```
 

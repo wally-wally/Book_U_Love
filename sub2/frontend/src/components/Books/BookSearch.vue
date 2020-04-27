@@ -47,6 +47,11 @@ export default {
       loadingStatus: false
     }
   },
+  computed: {
+    ...mapState({
+      searchKeyword: state => state.data.searchKeyword
+    })
+  },
   created() {
     this.onBookDetail()
   },
@@ -71,8 +76,12 @@ export default {
     }
   },
   watch: {
-    '$route': 'onBookDetail',
     pageNm() {
+      this.onBookDetail()
+      this.goToBookListTop()
+    },
+    searchKeyword() {
+      this.pageNm = 1
       this.onBookDetail()
       this.goToBookListTop()
     }

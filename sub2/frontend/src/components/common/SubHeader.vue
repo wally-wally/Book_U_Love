@@ -190,6 +190,7 @@ export default {
     },
     searchPage() {
       if (this.searchKeyword) {
+        this.$store.commit('setSearchKeyword', this.searchKeyword)
         this.$router.push(`/search/${this.searchKeyword}`)
       } else {
         alert('최소 1자 이상 키워드를 입력해주세요.')
@@ -227,6 +228,7 @@ export default {
       }
       if (to.name !== 'search') {
         this.searchKeyword = ''
+        this.$store.commit('setSearchKeyword', '')
       }
     }
   }

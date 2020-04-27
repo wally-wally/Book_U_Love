@@ -27,7 +27,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      themes: ['Best Sellers', 'Review TOP 100'],
+      themes: ['All Books', 'Recommend Books'],
       clickedDrawerIcon: false,
     }
   },
