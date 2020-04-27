@@ -49,7 +49,7 @@ class Book(models.Model):
         return round(avg,1) if avg else 0
     @property
     def categorylist(self):
-        return [self.mainCategory.name, self.subCategory.name, self.detailCategory.name]
+        return [self.mainCategory.name, self.subCategory.name, self.detailCategory.name if self.detailCategory != None else '']
     @property
     def review_cnt(self):
         return self.review_set.count()

@@ -49,7 +49,7 @@
           <v-stepper-items>
             <v-stepper-content v-for="n in steps" :key="`${n}-content`" :step="n">
               <div class="book-wrapper">
-                <div class="book-category">{{ bookData[writtenReviewCnt].categorylist }}</div>
+                <div class="book-category">{{ bookData[writtenReviewCnt].categorylist  | categoryList }}</div>
                 <img :src="bookData[writtenReviewCnt].coverLargeUrl" alt="book-image">
                 <p class="book-title">
                   {{ bookData[writtenReviewCnt].title }}
@@ -97,7 +97,7 @@
                 {{ bookData[writtenReviewCnt].title }}
               </p>
               <div class="book-small-info">
-                <p>카테고리: {{ bookData[writtenReviewCnt].categorylist }}</p>
+                <p>카테고리: {{ bookData[writtenReviewCnt].categorylist | categoryList }}</p>
                 <p>작가: {{ bookData[writtenReviewCnt].author | authorList }}</p>
                 <p>출판사: {{ bookData[writtenReviewCnt].publisher }}</p>
               </div>

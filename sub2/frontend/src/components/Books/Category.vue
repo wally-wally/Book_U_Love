@@ -73,7 +73,6 @@ export default {
       paramsData[this.$route.name] = this.id
       let bookData = await this.$store.dispatch('GET_BOOKS', paramsData)
       this.books = bookData.results
-      console.log(this.books)
       this.pageCount = parseInt(bookData.count / 10) + (bookData.count % 10 === 0 ? 0 : 1)
       let pathUrl = this.$route.path
       const pageCategoryID = Number(pathUrl.split('/').reverse()[0])
