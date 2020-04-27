@@ -28,7 +28,7 @@ class DetailCategory(models.Model):
     )
     
 class Book(models.Model):
-    isbn = models.CharField(max_length=12, null=True)
+    isbn = models.CharField(max_length=15, null=True)
     title = models.CharField(max_length=140)
     description = models.TextField()
     priceStandard = models.CharField(max_length=10)
