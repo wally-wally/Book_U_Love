@@ -1,0 +1,3 @@
+web: gunicorn backend.wsgi --log-file -
+migrate: python manage.py migrate --settings=myapp.settings.local
+seed: python manage.py loaddata python manage.py loaddata api/dummy.json
