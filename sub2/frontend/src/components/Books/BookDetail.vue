@@ -102,7 +102,7 @@
             </div>
           </div>
         <h2 class="pt-3 review-title">평점 그래프</h2>
-          <Chart :chartData="this.stat" :chartLabels=[0,1,2,3,4,5,6,7,8,9,10] chartType="bar" style="width:95%;margin:0 auto"></Chart>
+          <Chart :chartData="this.stat" :chartLabels=[1,2,3,4,5,6,7,8,9,10] chartType="bar" style="width:95%;margin:0 auto"></Chart>
       </div>
     </div>
   </div>
@@ -126,7 +126,7 @@ export default {
       score : 0,
       id :this.$route.params.id,
       like : 0,
-      stat : [0,0,0,0,0,0,0,0,0,0,0],
+      stat : [0,0,0,0,0,0,0,0,0,0],
       time : 0
     }
   },
@@ -135,10 +135,10 @@ export default {
   },
   watch : {
     book : function () {
-      this.stat = [0,0,0,0,0,0,0,0,0,0,0]
+      this.stat = [0,0,0,0,0,0,0,0,0,0]
       const reviews = this.book.review_set
       for (var i in reviews) {
-        this.stat[reviews[i].score] ++ 
+        this.stat[reviews[i].score-1] ++ 
       }
     }
   },
