@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-from .serializers import UserSerializer, UserUpdateSerializer, UserDetailSerializer
+from .serializers import UserSerializer, UserUpdateSerializer, UserDetailSerializer, UserUpdatePasswordSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from .models import User
@@ -34,9 +34,7 @@ def user(request):
     elif request.method == 'PUT':
         data = request.data
         serializer = UserUpdateSerializer(data=data, instance=user)
-        # print('serializer', serializer)
         if serializer.is_valid(raise_exception=True):
-            # print('request.data: ', request.data)
             serializer.save()
             return Response(serializer.data)
 
@@ -46,19 +44,14 @@ def user(request):
 
 @api_view(['POST'])
 def find_password(request):
-    # print('here')
     Len = 12
     string_pool = string.ascii_letters + string.digits
     result = ''
     for _ in range(Len):
         result += random.choice(string_pool)
 
-    # print('request: ', request)
-    # print('request.data: ', request.data)
     user = get_object_or_404(User, username=request.data.get('username'))
-    # print('user', user)
     if user.username == request.data.get('username') and user.email == request.data.get('email'):
-        # print('passed')
         user.password = result
         user.set_password(user.password)
         user.save()
@@ -77,6 +70,18 @@ def find_password(request):
         return Response({'message': '메일을 성공적으로 보냈습니다.'})
     else:
         return Response(EOFError)
+
+
+@api_view(['PUT'])
+def password_update(request, id):
+    user = get_object_or_404(User, id=id)
+    user.password = request.data.get('password')
+    serializer = UserUpdatePasswordSerializer(data=request.data, instance=user)
+    if serializer.is_valid(raise_exception=True):
+        user = serializer.save()
+        user.set_password(request.data.get('password'))
+        user.save()
+        return Response({'message': '비밀번호 변경이 성공적으로 완료되었습니다.'})
 
 
 from math import sqrt
