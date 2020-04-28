@@ -2,7 +2,7 @@
   <div class="mypage-main-wrapper">
     <div class="mypage-intro">
       
-      <div class="mypage-menu" data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
+      <div class="mypage-menu">
         <table>
           <tr>
             <td rowspan="2">
@@ -20,7 +20,7 @@
           </tr>
         </table>
       </div>
-      <div class="mypage-menu" data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
+      <div class="mypage-menu">
         <table>
           <tr>
             <td rowspan="2">
@@ -38,7 +38,7 @@
           </tr>
         </table>
       </div>
-      <div class="mypage-menu" data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
+      <div class="mypage-menu">
         <table>
           <tr>
             <td rowspan="2">
@@ -56,7 +56,7 @@
           </tr>
         </table>
       </div>
-      <div class="mypage-menu" data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
+      <div class="mypage-menu">
         <table>
           <tr>
             <td rowspan="2">

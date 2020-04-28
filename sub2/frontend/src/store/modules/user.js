@@ -78,7 +78,8 @@ const actions = {
     return data.review_set.length
   },
   async FIND_PASSWORD({ commit }, userData) {
-    await findPassword(userData)
+    const data = await findPassword(userData)
+    return data
   }
 };
 

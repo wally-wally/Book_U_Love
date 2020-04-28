@@ -1,20 +1,24 @@
 <template>
   <div v-if="!isdelete">
     <div class="align-items-center container">
-            <div class="review-username">{{review.username}}</div>
-            <div class="pb-2">
-                <div id="stars" style="display:inline">
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
+            <div class="review-header">
+                <div class="review-username">
+                    {{review.username}}
+                    <div @click="deletereview" style="display:inline;">
+                        <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
+                    </div>
                 </div>
-                <div class="review-score ml-2">{{review.score}}
+                <div class="pb-2">
+                    <div id="stars" style="display:inline">
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <div class="review-score ml-2">{{review.score}}
+                    </div>
                 </div>
-            </div>
-            <div @click="deletereview" style="display:inline;">
-                <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
             </div>
         <div style="border-bottom:1px solid lightgray">{{review.content}}</div>
         <div style="margin:10px;"/>
@@ -56,6 +60,7 @@ export default {
                 const data = await deleteBookReview(this.review.id)
                 console.log(data)
                 this.isdelete = true
+                this.$emit('deleteSign')
             }
         }
     }
@@ -79,5 +84,11 @@ i:hover {
     line-height: 1.375rem;
     letter-spacing: .0071428571em;
     font-weight: bolder;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 </style>

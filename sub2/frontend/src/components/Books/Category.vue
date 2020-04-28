@@ -9,7 +9,6 @@
         <div class="sort-item" @click="getBookDetail('count')">리뷰순</div>
       </div>
     </div>
-
     <div class="row" v-if="books.length && !loadingStatus">
       <div v-for="book in books" :key="book.id" class="books-list col-lg-3 col-md-4 col-sm-6">
         <BookCard :bookData="book"/>

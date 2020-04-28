@@ -59,11 +59,15 @@ export default {
   methods: {
     async submitForm() {
       try {
-        await this.$store.dispatch('FIND_PASSWORD', {
+        const responseData = await this.$store.dispatch('FIND_PASSWORD', {
           username: this.username,
           email: this.email
         })
-        this.issueTempPassword = true
+        if (responseData.status === 200) {
+          this.issueTempPassword = true
+        } else {
+          alert('예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요.')
+        }
       } catch (error) {
         console.log(error)
         alert('이름과 이메일을 올바르게 다시 작성해주세요.')
