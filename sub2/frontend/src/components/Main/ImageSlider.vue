@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-carousel height="400" show-arrows-on-hover>
+    <v-carousel :height="sliderHeight" show-arrows-on-hover>
       <v-carousel-item
         v-for="(image,i) in images"
         :key="i"
@@ -25,9 +25,10 @@ export default {
   name: 'ImageSlider',
   data() {
     return {
+      sliderHeight: 400,
       images: [
         {
-          src: 'https://user-images.githubusercontent.com/52685250/78128664-3e9ef800-7451-11ea-9145-c00d7f34b7a3.jpg',
+          src: 'https://www.incimages.com/uploaded_files/image/970x450/getty_496612468_2000138820009280460_336567.jpg',
           contents: {
             title: 'Book_U_Love',
             body: 'We recommend you a book that you might like.',
@@ -35,7 +36,7 @@ export default {
           }
         },
         {
-          src: 'https://user-images.githubusercontent.com/52685250/78128668-4068bb80-7451-11ea-974a-b6ed4a209ba6.jpg',
+          src: 'https://cdn.lagerbox.com/thumb/media/758/how-books-age-and-what-harms-them_e928f0b8_11fcba1d_1_s1150-l85--s2300-l85.jpg',
           contents: {
             title: 'Book Recommendation',
             body: 'We recommend you a book considering your age, interests, writers, etc.',
@@ -43,7 +44,7 @@ export default {
           }
         },
         {
-          src: 'https://user-images.githubusercontent.com/52685250/78128670-41015200-7451-11ea-8fd1-09928821d29d.jpg',
+          src: 'http://www.p-lib.es/wp-content/uploads/2017/05/Libros-Parque-alargada-1024x512.jpg',
           contents: {
             title: 'Best Sellers',
             body: 'We introduce you to the bestseller.',
@@ -51,6 +52,19 @@ export default {
           }
         },
       ]
+    }
+  },
+   created() {
+    this.responsiveHeight()
+  },
+  mounted() {
+    window.addEventListener('resize', () => {
+      this.responsiveHeight()
+    })
+  },
+  methods: {
+    responsiveHeight() {
+      this.sliderHeight = window.innerWidth < 550 ? 300 : 400
     }
   }
 }
