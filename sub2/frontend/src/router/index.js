@@ -22,7 +22,7 @@ export default new Router({
         { path: '/signup', name: 'Signup', component: loadComponent('Login', 'SignUpToS'), beforeEnter: checkNoLoginUser },  // 로그인 페이지에서 회원가입 눌렀을 때 처음 나오는 이용약관 동의 페이지
         { path: '/signup/register', name: 'SignupForm', component: loadComponent('Login', 'SignUpForm'), beforeEnter: checkSignUpUser },  // 회원가입 Form(기본 정보 입력)
         { path: '/signup/success', name: 'SuccessSignup', component: loadComponent('Login', 'SuccessSignUp'), beforeEnter: checkAgreeToS },  // 회원가입 완료 후 페이지
-        { path: 'findaccount', name: 'FindAccount', component: loadComponent('Login', 'FindAccount'), beforeEnter: checkNoLoginUser } // 아이디 찾기, 비밀번호 찾기
+        { path: 'findaccount', name: 'FindAccount', component: loadComponent('Login', 'FindAccount'), beforeEnter: checkNoLoginUser } // 비밀번호 찾기
       ],
     },
     {

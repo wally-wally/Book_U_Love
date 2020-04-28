@@ -1,10 +1,11 @@
-import { fetchBooks, fetchBookDetail, fetchCategories, addBookReview, fetchBookReview } from '@/api/index.js'
+import { fetchBooks, fetchBookDetail, fetchCategories, addBookReview, fetchBookReview, recommend } from '@/api/index.js'
 
 const state = {
   categories: [],
   postReviewLoading: false,
   searchKeyword: '',
-  detailCategories: []
+  detailCategories: [],
+  mainBookTheme: 'All Books'
 }
 
 const mutations = {
@@ -33,6 +34,9 @@ const mutations = {
   },
   setSearchKeyword(state, keyword) {
     state.searchKeyword = keyword
+  },
+  toggleMainBookTheme(state, keyword) {
+    state.mainBookTheme = keyword
   }
 }
 
@@ -59,6 +63,10 @@ const actions = {
     const { data } = await addBookReview(params)
     return data
   },
+  async GET_RECOMMEND_BOOKS({ commit }) {
+    const { data } = await recommend()
+    return data
+  }
 };
 
 export default {

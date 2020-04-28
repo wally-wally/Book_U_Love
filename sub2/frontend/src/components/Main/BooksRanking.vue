@@ -111,7 +111,12 @@ export default {
 }
 
 .book-rank-wrapper {
-  margin-bottom: 16px;
+  padding: 4px 0;
+  border-bottom: 1px solid silver;
+}
+
+.book-rank-wrapper:first-child {
+  border-top: 1px solid silver;
 }
 
 .book-ranking-list {
@@ -137,7 +142,7 @@ export default {
   font-size: 0.9em;
 }
 
-.book-detail .book-author::before {
+.book-detail .book-author:before {
   content: 'by '
 }
 

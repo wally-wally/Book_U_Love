@@ -15,7 +15,10 @@
       <div class="service-logo">
         <img src="../../assets/images/team_logo/books.png" alt="team-logo">
       </div>
-      <div class="loading-message">데이터를 불러오는 중 입니다.</div>
+      <div class="loading-message">
+        <span v-if="loadingStatus">데이터를 불러오는 중 입니다.</span>
+        <span v-else>해당 데이터가 없습니다.</span>
+      </div>
     </div>
   </div>
 </template>
@@ -34,18 +37,35 @@ export default {
       pageNm: 1,
       pageCount: 0,
       books: [],
+      recommendBooks : [],
       loadingStatus: false
     }
   },
+  computed: {
+    ...mapState({
+      bookTheme: state => state.data.mainBookTheme
+    })
+  },
   created() {
+    this.getRecommendBooks()
+    this.$store.commit('toggleMainBookTheme', 'All Books')
     this.getBooksList()
   },
   methods: {
+    async getRecommendBooks() {
+      this.recommendBooks = await this.$store.dispatch('GET_RECOMMEND_BOOKS')
+    },
     async getBooksList() {
       this.loadingStatus = true
-      const booksData = await this.$store.dispatch('GET_BOOKS', { 'page': this.pageNm })
-      this.books = booksData.results
-      this.pageCount = parseInt(booksData.count / 10) + 1
+      let booksData = []
+      if (this.bookTheme === 'All Books') {
+        booksData = await this.$store.dispatch('GET_BOOKS', { 'page': this.pageNm })
+        this.books = booksData.results
+        this.pageCount = parseInt(booksData.count / 10) + (booksData.count % 10 === 0 ? 0 : 1)
+      } else if (this.bookTheme === 'Recommend Books') {
+        this.books = this.recommendBooks.slice(10 * (this.pageNm - 1), 10 * this.pageNm)
+        this.pageCount = parseInt(this.recommendBooks.length / 10) + (this.recommendBooks.length % 10 === 0 ? 0 : 1)
+      }
       this.loadingStatus = false
     },
     goToBookListTop() {
@@ -57,6 +77,10 @@ export default {
     pageNm() {
       this.getBooksList()
       this.goToBookListTop()
+    },
+    bookTheme() {
+      this.pageNm = 1
+      this.getBooksList()
     }
   }
 }
