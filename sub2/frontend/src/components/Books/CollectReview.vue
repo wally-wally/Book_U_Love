@@ -1,7 +1,7 @@
 <template>
   <div class="collect-form-wrapper">
     <div class="collect-form-title">
-      <span>20권의 리뷰를 작성해주세요.</span>
+      <span>10권의 리뷰를 작성해주세요.</span>
     </div>
     <div class="collect-form-desc">
       작성한 리뷰 데이터와 {{ info.username }}님의 정보를 종합하여<br>
@@ -176,7 +176,9 @@ export default {
       }
     },
     addReviewCnt(val) {
-      this.writtenReviewCnt += 1
+      if (this.writtenReviewCnt < 9) {
+        this.writtenReviewCnt += 1
+      }
       this.realReviewCnt += val
     },
     storeReview(n, readStatus) {
@@ -193,14 +195,18 @@ export default {
           this.postReview(data)
           this.addReviewCnt(1)
           this.nextStep(n)
-          this.initForm()
+          setTimeout(() => {
+            this.initForm()
+          }, 50)
         } else {
           alert('평점(1점 이상)과 내용을 작성해주세요.')
         }
       } else {
         this.addReviewCnt(0)
         this.nextStep(n)
-        this.initForm()
+        setTimeout(() => {
+          this.initForm()
+        }, 50)
       }
 
       // if (this.score && this.content.length) {
@@ -277,7 +283,7 @@ export default {
       this.writtenReviewCnt = 0
       this.bookData = []
       this.reviewData = []
-      this.el = 1
+      this.e1 = 1
       this.completePage = 0
     }
   }

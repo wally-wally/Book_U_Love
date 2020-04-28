@@ -6,14 +6,14 @@
     <nav class="books-category">
       <ul class="desktop-size-header">
         <li v-for="theme in themes" :key="theme">
-          <div>{{ theme }}</div>
+          <div @click="toggleBookList(theme)" :class="selectTheme === theme ? 'select-theme' : ''">{{ theme }}</div>
         </li>
       </ul>
       <ul class="mobile-size-header">
         <i class="fas fa-bars" @click="showDrawer"></i>
         <div class="mobile-drawer" v-if="clickedDrawerIcon">
           <li v-for="theme in themes" :key="theme">
-            <div>{{ theme }}</div>
+            <div @click="toggleBookList(theme)" :class="selectTheme === theme ? 'select-theme' : ''">{{ theme }}</div>
           </li>
         </div>
       </ul>
@@ -29,11 +29,13 @@ export default {
     return {
       themes: ['All Books', 'Recommend Books'],
       clickedDrawerIcon: false,
+      selectTheme: 'All Books'
     }
   },
   computed: {
     ...mapState({
-      categories: state => state.data.categories
+      categories: state => state.data.categories,
+      isLogin: state => state.user.isLogin
     })
   },
   mounted() {
@@ -49,6 +51,15 @@ export default {
   methods: {
     showDrawer() {
       this.clickedDrawerIcon = !this.clickedDrawerIcon
+    },
+    toggleBookList(type) {
+      if (type === 'Recommend Books' && !this.isLogin) {
+        alert('해당 서비스는 로그인이 필요합니다. 로그인 페이지로 이동합니다.')
+        this.$router.push('/login')
+        return
+      }
+      this.selectTheme = type
+      this.$store.commit('toggleMainBookTheme', type)
     }
   }
 }
@@ -58,6 +69,7 @@ export default {
 header {
   position: relative;
   margin-bottom: 0.6em; 
+  clear: both;
 }
 
 header .books-header-title span {
@@ -99,6 +111,14 @@ header .books-category ul[class='desktop-size-header'] li:last-child {
   margin-right: 0;
 }
 
+header .books-category ul[class='desktop-size-header'] li div.select-theme {
+  font-weight: 600;
+}
+
+header .books-category ul[class='desktop-size-header'] li div:not(.select-theme) {
+  color: darkgray;
+}
+
 header .books-category ul[class='desktop-size-header'] li div:hover {
   cursor: pointer;
   border-bottom: 1.5px solid darkslategrey;
@@ -112,7 +132,7 @@ header .books-category ul[class='mobile-size-header'] {
 header .books-category ul[class='mobile-size-header'] .mobile-drawer {
   position: absolute;
   right: 0;
-  width: 130px;
+  width: 150px;
   z-index: 10;
   background-color: #fff;
   border: 0.5px solid lightgray;

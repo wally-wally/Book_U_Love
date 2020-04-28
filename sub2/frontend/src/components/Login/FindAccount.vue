@@ -24,13 +24,16 @@
             <v-btn color="warning" block :disabled="!(isEmailValid && isUsernameValid)" type="submit" class="mt-5 btn">비밀번호 찾기</v-btn>
           </div>
         </form>
-        <div class="alert-account-message" v-if="issueTempPassword">
+        <div class="alert-account-message" v-if="loadingStatus">
+          잠시만 기다려주세요.
+        </div>
+        <div class="alert-account-message" v-if="issueTempPassword && !loadingStatus">
           {{ email }} 주소로<br>
           임시 비밀번호를 발급했습니다.<br>
           임시 비밀번호로 로그인 후 <span>'MY PAGE'에서</span><br>
           <span>비밀번호 변경을 꼭 해주세요!</span>
         </div>
-        <v-btn v-if="issueTempPassword" color="error" block class="mt-3 btn" @click="goLoginPage()">로그인 페이지로 이동</v-btn>
+        <v-btn v-if="issueTempPassword && !loadingStatus" color="error" block class="mt-3 btn" @click="goLoginPage()">로그인 페이지로 이동</v-btn>
       </div>
     </div>
   </div>
@@ -45,7 +48,8 @@ export default {
     return {
       username: '',
       email: '',
-      issueTempPassword: false
+      issueTempPassword: false,
+      loadingStatus: false
     }
   },
   computed: {
@@ -59,14 +63,16 @@ export default {
   methods: {
     async submitForm() {
       try {
+        this.loadingStatus = true
         await this.$store.dispatch('FIND_PASSWORD', {
           username: this.username,
           email: this.email
         })
         this.issueTempPassword = true
       } catch (error) {
-        console.log(error)
         alert('이름과 이메일을 올바르게 다시 작성해주세요.')
+      } finally {
+        this.loadingStatus = false
       }
     },
     goLoginPage() {

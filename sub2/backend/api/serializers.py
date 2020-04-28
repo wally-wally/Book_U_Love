@@ -12,7 +12,7 @@ class BookSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True,many=True)
     class Meta:
         model = Book
-        fields = ['id','isbn','title','description','priceStandard','coverSmallUrl','coverLargeUrl','publisher','translator','pubDate','contents','avg','review_cnt','categorylist','like_user','author']
+        fields = ['id','isbn','title','description','priceStandard','coverSmallUrl','coverLargeUrl','publisher','translator','pubDate','contents','avg','review_cnt','categorylist','like_user','author', 'publisherReview']
 
 class DetailCategorySerializer(serializers.ModelSerializer):
     class Meta:

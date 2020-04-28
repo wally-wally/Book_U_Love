@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'drf_yasg'
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -155,3 +157,13 @@ JWT_AUTH = {
 #     "django.contrib.auth.hashers.MD5PasswordHasher",
 #     "django.contrib.auth.hashers.CryptPasswordHasher",
 # )
+
+# Gmail로 메일 보내기
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = 'ssafypjt@gmail.com'
+EMAIL_HOST_PASSWORD = 'ssafy123!'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

@@ -110,3 +110,9 @@ class UserDetailSerializer(serializers.ModelSerializer):
         for i in obj.favoriteCategory.all():
             categorys.append(i.name)
         return categorys
+
+
+class UserUpdatePasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = ('password',)

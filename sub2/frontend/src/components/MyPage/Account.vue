@@ -58,7 +58,7 @@
             <div class="logmessage" v-if="showErrorMessage">
               {{ logMessage[1] }}
             </div>
-            <v-btn class="mt-2" color="warning" @click="checkNewPassword()">비밀번호 변경</v-btn>
+            <v-btn class="mt-2" color="warning" @click="checkNewPassword()" :disabled="!isNewPasswordValid">비밀번호 변경</v-btn>
           </div>
         </div>
       </div>
@@ -165,7 +165,6 @@ export default {
         alert('추가정보가 수정되었습니다.')
         this.fetchMyInfo() // 추가정보 수정 후 수정된 추가정보 불러오기
       } catch(error) {
-        console.log(error)
         alert('예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요.')
       }
     },
@@ -193,7 +192,9 @@ export default {
       if (this.isNewPasswordValid) {
         try {
           // 비밀번호 변경 로직 작성
-          // const userData = {}  =>  object 안에 비밀번호 변경시 보내야 하는 데이터 key-value 쌍 형태로 작성
+          const userData = {
+            password: this.newPassword
+          }
           await this.$store.dispatch('CHANGE_PASSWORD', userData)
           alert('비밀번호가 변경되었습니다.')
           this.initPasswordForm() // 비밀번호 변경 성공 후 비밀번호 변경 양식 초기화 
