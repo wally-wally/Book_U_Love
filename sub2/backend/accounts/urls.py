@@ -8,5 +8,6 @@ urlpatterns = [
     path('auth-login/',ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer)),
     path('user/', views.user),
     path('user/recommend/',views.recommend),
-    path('find_password/', views.find_password)
+    path('find_password/', views.find_password),
+    path('password_update/<int:id>/', views.password_update)
 ]
