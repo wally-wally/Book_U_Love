@@ -4,7 +4,13 @@
     <!-- 좋아하는 책 -->
     <div class="add-info">
       <div class="mybooks-sub">💜 내가 읽고 싶은 책</div>
-      <div class="row dot-border" style="padding:15px" v-if="!loadingStatus.likes">
+      <div class="row dot-border no-books" v-if="!loadingStatus.likes && !likes.length">
+        <div class="no-books-text">
+           <i class="fas fa-book"></i>
+           <p>찜한 책이 없습니다.</p>
+        </div>
+      </div>
+      <div class="row dot-border" style="padding:15px" v-else-if="!loadingStatus.likes && likes.length">
         <div v-for="l in likes.slice(10 * (likePageNm - 1), 10 * likePageNm)" :key="l.id" class="col-xl-3 col-lg-4 col-sm-6">
           <BookCard :bookData="l"/>
         </div>
@@ -26,7 +32,13 @@
       <!-- 리뷰 책 BookCard 고치면,  text-center옆에 row추가-->
     <div class="add-info">
       <div class="mybooks-sub">📝 내가 리뷰 남긴 책</div>
-      <div class="text-center dot-border" v-if="!loadingStatus.reviews">
+      <div class="row dot-border no-books" v-if="!loadingStatus.reviews && !userinfo.review_set.length">
+        <div class="no-books-text">
+           <i class="fas fa-book"></i>
+           <p>리뷰를 작성한 책이 없습니다.</p>
+        </div>
+      </div>
+      <div :class="mobileSize ? 'text-center dot-border' : 'row text-center dot-border'" style="padding:15px" v-else-if="!loadingStatus.reviews && userinfo.review_set.length">
         <div class="myreview-table">
           <div class="myreview-trow">
             <div class="table-head myreview-thead myreview-tcell tcell-book">도서</div>
@@ -50,6 +62,7 @@
                 </div>
                 <span>{{r.score}}</span></div>
               <div class="myreview myreview-content">{{r.content}}</div>
+              <div class="more-btn" @click="moreReview(r.content)">더 보기</div>
             </div>
             <!-- <div class="myscore myreview-tcell tcell-score">★{{r.score}}</div>
             <div class="myreview myreview-tcell tcell-review">
@@ -67,6 +80,7 @@
               </div>
               <div class="myreview myreview-content">{{r.content}}</div>
             </div>
+            <div class="more-btn" @click="moreReview(r.content)">더 보기</div>
             <!-- <div class="myscore myreview-tcell tcell-score">★{{r.score}}</div>
             <div class="myreview myreview-tcell tcell-review">
               <div class="myreview-content">{{r.content}}</div>
@@ -87,6 +101,20 @@
         <div class="loading-message">데이터를 불러오는 중 입니다.</div>
       </div>
     </div>
+    <v-dialog v-model="moreReviewDialog" width="600" persistent>
+      <v-card>
+        <v-card-text>
+          <div class="review-dialog">
+            {{ dialogText }}
+          </div>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="warning" @click="moreReviewDialog = false" :style="{ 'fontFamily': 'Stylish', 'fontSize': '14px' }" small>닫기</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -107,14 +135,23 @@ export default {
       loadingStatus: {
         'likes': false,
         'reviews': false
-      }
+      },
+      mobileSize: false,
+      moreReviewDialog: false,
+      dialogText: ''
     }
   },
   created() {
     this.loadingStatus.likes = true
     this.loadingStatus.reviews = true
+    this.mobileSize = window.innerWidth <= 600
     this.myinfo()
     this.mylikes()
+  },
+  mounted() {
+    window.addEventListener('resize', () => {
+      this.mobileSize = window.innerWidth <= 600
+    })
   },
   methods : {
     async myinfo() {
@@ -131,6 +168,10 @@ export default {
     },
     goToBookListTop() {
       window.scrollTo(0, 0)
+    },
+    moreReview(reviewContent) {
+      this.moreReviewDialog = true
+      this.dialogText = reviewContent
     }
   },
   watch: {
@@ -238,8 +279,19 @@ export default {
 
 .myreview-content {
   background-color:#f6e9e6;
-  padding: 30px 0;
+  padding: 10px 0;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 2.2;
+  height: 84px;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .star-rating {
@@ -259,6 +311,7 @@ export default {
   display: block;
   margin-bottom: 0;
   width: 20%;
+  min-width: 65px;
 }
 
 .mobile-myreview-info > .myscore > span {
@@ -273,6 +326,49 @@ export default {
 .mobile-myreview-info > .myreview {
   display: block;
   width: 80%;
+}
+
+.myreview-tcell.tcell-info {
+  position: relative;
+}
+
+.more-btn {
+  position: absolute;
+  right: 10px;
+  margin-top: 8px;
+  padding: 2px 6px;
+  font-size: 14px;
+  font-family: 'Gothic A1';
+  border: 1px solid silver;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.more-btn:hover {
+  cursor: pointer;
+}
+
+.review-dialog {
+  font-size: 0.95rem;
+  font-family: 'Gothic A1';
+}
+
+.no-books-text {
+  text-align: center;
+  margin: 20px auto;
+  font-family: 'Nanum Gothic';
+  font-weight: 600;
+}
+
+.no-books-text i {
+  font-size: 100px;
+  color:rgba(0, 0, 0, 0.7);
+}
+
+.no-books-text p {
+  font-size: 17px;
+  margin: 12px 0 0 0;
 }
 
 @media (max-width: 700px) {
@@ -296,6 +392,10 @@ export default {
 
   .myreview-table-mobile {
     display: block;
+  }
+
+  .more-btn {
+    margin-right: 8px;
   }
 }
 </style>

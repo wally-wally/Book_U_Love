@@ -31,9 +31,8 @@
             <p>SNS 계정으로도 이용이 가능합니다.</p>
           </div>
           <div class="sns-login-buttons">
-            <span id="fb-auth"></span>
-            <span id="google-auth"></span>
             <span id="kakao-auth"></span>
+            <div>카카오 로그인</div>
           </div>
         </div>
       </div>
@@ -166,6 +165,7 @@ export default {
 .sns-login-buttons {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .sns-login-buttons > span {
@@ -173,14 +173,7 @@ export default {
   width: 70px;
   height: 70px;
   margin: 0 0.3em;
-  transform: scale(0.7);
-}
-.sns-login-buttons > span[id="fb-auth"] {
-  background-image: url('../../assets/images/social_icon/facebook.png');
-}
-
-.sns-login-buttons > span[id="google-auth"] {
-  background-image: url('../../assets/images/social_icon/google.png');
+  transform: scale(0.6);
 }
 
 .sns-login-buttons > span[id="kakao-auth"] {
@@ -189,6 +182,21 @@ export default {
 
 .sns-login-buttons > span:hover {
   cursor: pointer;
+}
+
+.sns-login-buttons > div {
+  padding: 10px 20px;
+  background-color: #ffe500;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  transition: all .2s;
+}
+
+.sns-login-buttons > div:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 600px) {

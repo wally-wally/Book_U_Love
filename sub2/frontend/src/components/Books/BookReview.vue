@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-        <div style="border-bottom:1px solid lightgray">{{review.content}}</div>
+        <div style="border-bottom:1px solid lightgray" v-html="review.content.replace('\n', '<br>')"></div>
         <div style="margin:10px;"/>
     </div>
 </div>

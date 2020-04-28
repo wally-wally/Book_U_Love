@@ -176,7 +176,9 @@ export default {
       }
     },
     addReviewCnt(val) {
-      this.writtenReviewCnt += 1
+      if (this.writtenReviewCnt < 9) {
+        this.writtenReviewCnt += 1
+      }
       this.realReviewCnt += val
     },
     storeReview(n, readStatus) {
@@ -191,18 +193,18 @@ export default {
             content: this.content
           }
           this.postReview(data)
+          this.addReviewCnt(1)
           this.nextStep(n)
           setTimeout(() => {
-            this.addReviewCnt(1)
             this.initForm()
           }, 50)
         } else {
           alert('평점(1점 이상)과 내용을 작성해주세요.')
         }
       } else {
+        this.addReviewCnt(0)
         this.nextStep(n)
         setTimeout(() => {
-          this.addReviewCnt(0)
           this.initForm()
         }, 50)
       }
@@ -281,7 +283,7 @@ export default {
       this.writtenReviewCnt = 0
       this.bookData = []
       this.reviewData = []
-      this.el = 1
+      this.e1 = 1
       this.completePage = 0
     }
   }

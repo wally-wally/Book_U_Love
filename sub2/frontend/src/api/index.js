@@ -41,7 +41,7 @@ function deleteUser(userData) {
 }
 
 function findPassword(userData) {
-  return instance.get('accounts/find_password', userData)
+  return instance.post('accounts/find_password/', userData)
 }
 
 // 저장된 모든 책 데이터를 가져오는 API

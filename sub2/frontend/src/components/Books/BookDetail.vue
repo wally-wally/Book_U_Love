@@ -93,15 +93,15 @@
                   <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
               </fieldset>
             </div>
-            <textarea v-model="content" placeholder=" 리뷰를 입력해주세요."/> 
-            <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register"> 리뷰등록</div>
+            <textarea v-model="content" placeholder="리뷰를 입력해주세요."/> 
+            <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register"><span>리뷰등록</span></div>
           </form>
           <div class="my-review-section px-3" v-if="myReview.length">
             <BookReview :review="myReview[0]" :index="0" @deleteSign="deleteSign" />
           </div>
-          <div class="px-3 pb-3" style="width:95%;margin:0 auto" v-if="remainReview.length">
+          <div class="review-section px-3 pb-3" style="width:95%;margin:0 auto" v-if="remainReview.length">
             <div v-for="(review,index) in remainReview" :key="index">
-              <BookReview :review="review" :index="index + myReview.length ? 1 : 0"/>
+              <BookReview :review="review" :index="myReview.length ? index + 1 : index"/>
             </div>
           </div>
         <h2 class="pt-3 review-title">평점 그래프</h2>
@@ -350,6 +350,7 @@ li {
   border-bottom:1px solid lightgray;
 }
 .review-title{
+  clear: both;
   font-size: 1.5em;
   font-weight: bold;
   font-family: 'Noto Sans KR';
@@ -357,11 +358,30 @@ li {
   margin-left:5%;
 }
 .review-register{
-  display:block;
-  text-align:right;
-  margin-right:5%;
-  margin-top:0.4em;
+  float: right;
+  margin:0.8em 5% 0.8em 0;
+  transform: translateY(0);
+  transition: all .2s;
 }
+
+.review-register > span {
+  padding: 4px 6px;
+  border: 1px solid silver;
+  border-radius: 6px;
+  font-family: 'Gothic A1';
+  background-color: rgba(0, 0, 0, 0.03);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.review-register:hover {
+  cursor: pointer;
+  transform: translateY(-5%);
+}
+
+.review-register:hover > span {
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
 .book-sub{
   font-size: 1.5em;
   font-weight: bold;
@@ -419,6 +439,7 @@ li {
 }
 
 .my-review-section {
+  clear: both;
   width: 95%;
   margin: 0 auto;
   /* border-bottom: 1.5px dotted rgba(0, 0, 0, 0.1); */
@@ -426,11 +447,15 @@ li {
 
 textarea {
   background-color: white;
-  border: 1px solid gray;
+  border: 1px solid silver;
   display: block;
   width: 90%;
   margin-left: 5%;
   height: 100px;
+  font-size: 15px;
+  padding: 4px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  font-family: 'Gothic A1';
 }
 
 .loading {
@@ -451,6 +476,10 @@ textarea {
   font-family: 'Noto Sans KR';
   font-size: 18px;
   font-weight: 600;
+}
+
+.review-section {
+  clear: both;
 }
 
 @keyframes likeAnimation {
