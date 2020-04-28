@@ -2,7 +2,7 @@
   <div v-if="!isdelete">
     <div class="align-items-center container">
             <div class="review-username">{{review.username}}</div>
-            <div class="pb-2">
+            <div class="pb-2" style="display:inline;">
                 <div id="stars" style="display:inline">
                     <i class="fa fa-star-o"></i>
                     <i class="fa fa-star-o"></i>
@@ -13,10 +13,10 @@
                 <div class="review-score ml-2">{{review.score}}
                 </div>
             </div>
-            <div @click="deletereview" style="display:inline;">
+            <div @click="deletereview" style="display:inline-block;">
                 <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
             </div>
-        <div style="border-bottom:1px solid lightgray">{{review.content}}</div>
+        <div class="review-content" style="border-bottom:1px solid lightgray">{{review.content}}</div>
         <div style="margin:10px;"/>
     </div>
 </div>
@@ -79,5 +79,12 @@ i:hover {
     line-height: 1.375rem;
     letter-spacing: .0071428571em;
     font-weight: bolder;
+}
+.review-content{
+    padding-bottom: 10px;
+    font-size: 13px;
+    color: #212529;
+    line-height: 1.7em;
+    word-break: break-all;
 }
 </style>

@@ -4,7 +4,7 @@
     <div :class="this.postLoading ? 'loader' : ''"></div>
     <span :class="this.postLoading ? 'loading-alert' : ''"></span>
     <Header />
-      <v-content :style="headerStyle" :class="className">
+      <v-content :style="headerStyle" :class="className" style="width:88%;margin:0 auto">
         <router-view />
         <AlertCollectReview></AlertCollectReview>
       </v-content>
