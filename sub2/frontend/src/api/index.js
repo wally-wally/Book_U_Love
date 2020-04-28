@@ -21,9 +21,9 @@ function loginUser(userData) {
   return instance.post('accounts/auth-login/', userData)
 }
 
-// 비밀번호 변경 API(구현예정)
-function changePassword(userData) {
-  return instance.post('요청주소', userData)
+// 비밀번호 변경 API
+function changePassword(userData, user_id) {
+  return instance.put(`accounts/password_update/${user_id}/`, userData)
 }
 
 // MyPage의 Account 페이지에서 유저 추가정보 가져오는 API
@@ -36,10 +36,12 @@ function updateMyInfo(userData) {
   return instance.put(`accounts/user/`, userData)
 }
 
+// 회원탈퇴
 function deleteUser(userData) {
   return instance.delete('accounts/user/', userData)
 }
 
+// 비밀번호 찾기
 function findPassword(userData) {
   return instance.post('accounts/find_password/', userData)
 }
