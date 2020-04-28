@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             name='Book',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('isbn', models.CharField(max_length=12, null=True)),
+                ('isbn', models.CharField(max_length=15, null=True)),
                 ('title', models.CharField(max_length=140)),
                 ('description', models.TextField()),
                 ('priceStandard', models.CharField(max_length=10)),
