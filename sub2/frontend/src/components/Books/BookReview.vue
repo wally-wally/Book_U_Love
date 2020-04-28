@@ -20,6 +20,10 @@
                     </div>
                 </div>
             </div>
+            <div @click="deletereview" style="display:inline-block;">
+                <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
+            </div>
+        <div class="review-content" style="border-bottom:1px solid lightgray">{{review.content}}</div>
         <div style="border-bottom:1px solid lightgray" v-html="review.content.replace('\n', '<br>')"></div>
         <div style="margin:10px;"/>
     </div>
@@ -85,6 +89,12 @@ i:hover {
     letter-spacing: .0071428571em;
     font-weight: bolder;
 }
+.review-content{
+    padding-bottom: 10px;
+    font-size: 13px;
+    color: #212529;
+    line-height: 1.7em;
+    word-break: break-all;
 
 .review-header {
     display: flex;

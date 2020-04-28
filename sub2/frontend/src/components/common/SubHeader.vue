@@ -4,7 +4,9 @@
       <div class="sub-header-wrapper">
         <div class="sub-header-left">
           <div class="service-logo">
-            <img src="../../assets/images/team_logo/books.png" alt="service-logo">
+            <router-link to="/">
+              <img src="../../assets/images/team_logo/books.png" alt="service-logo">
+            </router-link>
           </div>
           <nav class="book-category-wrapper">
             <ul>

@@ -18,9 +18,10 @@
               <!-- <div class="col-2">Description</div><div class="col-10">{{book.description}} </div> -->
               <div class="col-2">Author</div>
                 <div class="col-10">
-                <router-link  v-for="author in book.author" :key="author.id" :to="`/author/${author.id}`">
+                <router-link  v-for="author in book.author" :key="author.id" :to="`/author/${author.id}`" class="author-link">
                   {{author.name}}
                 </router-link>
+                  <i class="fas fa-mouse"></i> <span style="font-size:12px;letter-spacing: -.03em;margin:0 3px">click!</span>
               </div>
               <div class="col-2">Publisher</div><div class="col-10">{{book.publisher}} </div>
               <div class="col-2">Publish Date</div><div class="col-10">{{book.pubDate.slice(0,4)}}.{{book.pubDate.slice(4,6)}}.{{book.pubDate.slice(6,8)}}</div>
@@ -67,8 +68,12 @@
     <div class="review" v-if="!loadingStatus">
       <div class="py-5 reviewbox">
         <h2 class="pt-3 review-title">도서 리뷰</h2>
+<<<<<<< sub2/frontend/src/components/Books/BookDetail.vue
+          <form v-if="this.$store.state.user.isLogin">
+=======
         <input type="text" v-model="this.time" class="time-section">
           <form v-if="this.$store.state.user.isLogin && !myReview.length">
+>>>>>>> sub2/frontend/src/components/Books/BookDetail.vue
             <div class="row">
               <fieldset class="score" style="margin-left:7%">
                   <input v-model="score" type="radio" id="star10" name="score" value="10"/>
@@ -485,5 +490,11 @@ textarea {
 @keyframes likeAnimation {
   0%   { transform: scale(30); }
   100% { transform: scale(1); }
+}
+.author-link{
+  color:#000;font-style:bold;margin-right:5px;
+}
+.author-link:hover{
+  font-weight:bold;
 }
 </style>

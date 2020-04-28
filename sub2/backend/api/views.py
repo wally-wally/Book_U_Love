@@ -53,6 +53,9 @@ class BookViewSet(viewsets.ModelViewSet):
         query = self.request.query_params.get("query","")
         if query:
             book = book.filter(author__name__contains=query) | book.filter(title__contains=query)
+        author = self.request.query_params.get("author","")
+        if author:
+            book = book.filter(author__id=author)
         sortby = self.request.query_params.get("sortby","")
         if sortby=="count":
             book = sorted(book, key=lambda t: (t.review_cnt,t.avg),reverse=True)

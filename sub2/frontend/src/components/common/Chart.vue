@@ -75,8 +75,15 @@ export default {
                    display: false
                }
             }]
+          },
+          plugins: {
+            datalabels: {
+                formatter: () => {
+                  return null;
+                }
+            }
           }
-        }
+        },
     })
     }
   }
