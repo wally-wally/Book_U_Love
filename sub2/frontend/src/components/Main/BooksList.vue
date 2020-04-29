@@ -43,11 +43,14 @@ export default {
   },
   computed: {
     ...mapState({
+      isLogin: state => state.user.isLogin,
       bookTheme: state => state.data.mainBookTheme
     })
   },
   created() {
-    this.getRecommendBooks()
+    if (this.isLogin) {
+      this.getRecommendBooks()
+    }
     this.$store.commit('toggleMainBookTheme', 'All Books')
     this.getBooksList()
   },

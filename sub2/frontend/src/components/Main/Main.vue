@@ -1,7 +1,16 @@
 <template>
   <div class="main-wrapper">
     <ImageSlider />
-    <div class="my-6 main-contents">
+    <ImageSwiper />
+    <div v-for="theme in themes" :key="theme">
+      <div v-if="(theme === 'age_gender' || theme === 'favoriteCategory') && isLogin">
+        <BookSwiper :theme="theme" />
+      </div>
+      <div v-else-if="theme !== 'age_gender' && theme !== 'favoriteCategory'">
+        <BookSwiper :theme="theme" />
+      </div>
+    </div>
+    <!-- <div class="my-6 main-contents">
       <div class="main-sidebar">
         <WeeklyAuthor />
         <BooksRanking />
@@ -10,37 +19,53 @@
         <BooksHeader />
         <BooksList />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ImageSlider from '@/components/Main/ImageSlider'
-import WeeklyAuthor from '@/components/Main/WeeklyAuthor'
-import BooksRanking from '@/components/Main/BooksRanking'
-import BooksHeader from '@/components/Main/BooksHeader'
-import BooksList from '@/components/Main/BooksList'
+import ImageSwiper from '@/components/Main/ImageSwiper'
+import BookSwiper from '@/components/Main/BookSwiper'
+// import WeeklyAuthor from '@/components/Main/WeeklyAuthor'
+// import BooksRanking from '@/components/Main/BooksRanking'
+// import BooksHeader from '@/components/Main/BooksHeader'
+// import BooksList from '@/components/Main/BooksList'
 
 export default {
   name: 'Main',
   components: {
     ImageSlider,
-    WeeklyAuthor,
-    BooksRanking,
-    BooksHeader,
-    BooksList
+    ImageSwiper,
+    BookSwiper
+    // WeeklyAuthor,
+    // BooksRanking,
+    // BooksHeader,
+    // BooksList
+  },
+  data() {
+    return {
+      themes: ['favoriteCategory', 'sortScore', 'sortReviewCnt']
+      // themes: ['favoriteCategory', 'age_gender', 'sortScore', 'sortReviewCnt']
+    }
+  },
+  computed: {
+    ...mapState({
+      isLogin: state => state.user.isLogin
+    })
   }
 }
 </script>
 
 <style scoped>
 .main-wrapper {
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
   box-sizing: border-box;
 }
 
-.main-contents {
+/* .main-contents {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 4fr;
@@ -55,5 +80,5 @@ export default {
   .main-contents {
     display: block;
   }
-}
+} */
 </style>

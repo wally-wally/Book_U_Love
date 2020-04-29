@@ -1,6 +1,6 @@
 <template>
   <div class="book-search-wrapper">
-    <div class="book-search-name ml-2 my-2 pl-3" v-if="!loadingStatus">
+    <div class="book-search-name my-2" v-if="!loadingStatus">
       <div class="search-message">'{{ this.$route.params.query }}' (으)로 검색한 결과입니다.</div>
       <div class="book-count-message" v-if="totalBookCount">총 {{ totalBookCount }} 권이 있습니다.</div>
     </div>
@@ -91,7 +91,7 @@ export default {
 
 <style scoped>
 .book-search-wrapper {
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
 }
 

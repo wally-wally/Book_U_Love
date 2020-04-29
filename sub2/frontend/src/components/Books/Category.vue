@@ -1,10 +1,10 @@
 <template>
   <div class="category-wrapper">
     <div class="category-header">
-      <div class="category-name my-2 pl-3">
+      <div class="category-name my-2">
         {{ categoryName }}
       </div>
-      <div class="sort-wrapper my-2 pl-3">
+      <div class="sort-wrapper my-2">
         <div class="sort-item" @click="getBookDetail('score')">평점순</div>
         <div class="sort-item" @click="getBookDetail('count')">리뷰순</div>
       </div>
@@ -118,7 +118,7 @@ export default {
 
 <style scoped>
 .category-wrapper {
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
 }
 

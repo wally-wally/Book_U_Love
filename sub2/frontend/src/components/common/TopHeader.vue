@@ -85,7 +85,7 @@ export default {
 .top-header-wrapper {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
   padding: 0.2em 0;
 }
@@ -136,7 +136,7 @@ export default {
   padding-bottom: 3px;
 }
 
-@media (max-width: 405px) {
+@media (max-width: 500px) {
   .login-user-name .greeting {
     display: none;
   }

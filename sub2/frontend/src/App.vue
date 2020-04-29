@@ -54,7 +54,7 @@ export default {
       await this.$store.dispatch('GET_CATEGORIES')
     },
     responsiveHeaderHeight() {
-      let height = window.innerWidth >= 550 ? 113.344 : 141.797
+      let height = window.innerWidth >= 620 ? 113.344 : 141.797
       this.headerStyle = `padding-top: ${height}px;`
     }
   }
