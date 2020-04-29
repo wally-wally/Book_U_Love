@@ -12,14 +12,20 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import ChartPlugin from './plugins/ChartPlugin.js'
+import 'swiper/css/swiper.css'
+
+import Swiper from 'swiper'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 Vue.config.productionTip = false;
 Vue.use(infiniteScroll);
 Vue.use(AOS)
 Vue.use(ChartPlugin)
 AOS.init()
+Vue.use(VueAwesomeSwiper, {})
 
 new Vue({
+  Swiper,
   vuetify,
   router,
   store,

@@ -276,7 +276,7 @@ i:hover{
 .sub-header-wrapper {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
   padding: 0.2em 0;
 }
@@ -563,7 +563,7 @@ aside .region-title {
 } */
 
 /* responsive web */
-@media (min-width: 550px) and (max-width: 970px) {
+@media (min-width: 620px) and (max-width: 970px) {
   .sub-header-wrapper {
     display: block;
   }
@@ -595,7 +595,7 @@ aside .region-title {
   }
 }
 
-@media (max-width: 549px) {
+@media (max-width: 619px) {
   .sub-header-wrapper {
     display: block;
   }

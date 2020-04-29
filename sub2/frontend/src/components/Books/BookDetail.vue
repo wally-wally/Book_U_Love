@@ -1,81 +1,88 @@
 <template>
-  <div class="book-deatil-wrapper row mt-5">
-    <div class="bookdetail" v-if="!loadingStatus">
-      <div class="ctr-80">
-        <div>
-          <span class="booktitle">{{book.title}}</span>
-          <a href="/#" class="pr-5"><img src="//image.aladin.co.kr/img/shop/2018/icon_top_search.png" style="margin-bottom:-4px;"></a>
-          {{book.categoryname}}
+  <div>
+    <div class="book-detail-wrapper" v-if="!loadingStatus">
+      <div class="book-info">
+        <div class="book-header">
+          <div class="book-title">
+            {{ book.title }}
+          </div>
+          <div class="book-score">
+            {{book.avg}} ({{book.r_cnt}}명)
+          </div>
         </div>
-        <div class="rating my-4 py-3">
-          <span style="color:#f9d71c">★</span>{{book.avg}} ({{book.review_cnt}}명)
-        </div>
-          <div class="row detailbody pb-10">
-            <div class="col-4">
-              <img style="width:70%" :src="book.coverLargeUrl" :title="book.title" :alt="book.title">
-            </div>
-            <div class="col-8 row">
-              <!-- <div class="col-2">Description</div><div class="col-10">{{book.description}} </div> -->
-              <div class="col-2">Author</div>
-                <div class="col-10">
+        <div class="book-basic-info">
+          <div class="book-cover-img">
+            <img :src="book.coverLargeUrl" :title="book.title" :alt="book.title">
+          </div>
+          <div class="book-more-info">
+            <div class="more-row">
+              <div class="more-cell">Author</div>
+              <div class="more-cell">
                 <router-link  v-for="author in book.author" :key="author.id" :to="`/author/${author.id}`" class="author-link">
                   {{author.name}}
                 </router-link>
-                  <i class="fas fa-mouse"></i> <span style="font-size:12px;letter-spacing: -.03em;margin:0 3px">click!</span>
               </div>
-              <div class="col-2">Publisher</div><div class="col-10">{{book.publisher}} </div>
-              <div class="col-2">Publish Date</div><div class="col-10">{{book.pubDate.slice(0,4)}}.{{book.pubDate.slice(4,6)}}.{{book.pubDate.slice(6,8)}}</div>
-              <div class="col-2">Price</div><div class="col-10">{{book.priceStandard}}원 </div>
+            </div>
+            <div class="more-row">
+              <div class="more-cell">Publisher</div>
+              <div class="more-cell">{{book.publisher}}</div>
+            </div>
+            <div class="more-row">
+              <div class="more-cell">Publish Date</div>
+              <div class="more-cell">{{book.pubDate.slice(0,4)}}.{{book.pubDate.slice(4,6)}}.{{book.pubDate.slice(6,8)}}</div>
+            </div>
+            <div class="more-row">
+              <div class="more-cell">Price</div>
+              <div class="more-cell">{{book.priceStandard}}원</div>
             </div>
           </div>
-          <div v-if="this.$store.state.user.isLogin" @click="this.jjim" style="margin-bottom:40px">
-              <!-- <i class="fas fa-bookmark mr-5" style="font-size:20px; color:#fff;"></i>
-              <div v-if="book.my" class="jjimtxt">
-                찜에서 제거
-              </div>
-              <div v-else class="jjimtxt">
-                책 추가하기
-              </div> -->
-              <div v-if="book.my" class="like-content">
-                <button class="btn-secondary like-review">
-                  <i class="fa fa-heart" aria-hidden="true"></i> 찜에서 제거
-                </button>
-              </div>
-              <div v-else class="like-content">
-                <button class="btn-secondary like-review">
-                  <i class="fa fa-heart" aria-hidden="true"></i> 책 추가하기
-                </button>
-              </div>
+        </div>
+        <div class="like-btn" v-if="this.$store.state.user.isLogin" @click="this.jjim" style="margin-bottom:40px">
+          <div v-if="book.my" class="like-content">
+            <button class="btn-secondary like-review">
+              <i class="fa fa-heart" aria-hidden="true"></i> 찜에서 제거
+            </button>
           </div>
-          <v-card v-if="book.description" class="ctr-80 mb-5" style="width:100%;">
-            <v-card-title class="pt-10 pb-10 book-sub" style="text-align:center;">
+          <div v-else class="like-content">
+            <button class="btn-secondary like-review">
+              <i class="fa fa-heart" aria-hidden="true"></i> 책 추가하기
+            </button>
+          </div>
+        </div>
+        <div class="book-detail-info">
+          <v-card v-if="book.description" class="mb-5">
+            <v-card-title class="pt-5 pb-10 book-detail-card-title">
             책소개
             </v-card-title>
-            <v-card-text v-html="book.description" style="text-align:center;padding:0 4em 2em 4em;">
+            <v-card-text v-html="book.description" class="book-detail-contents">
             </v-card-text>
           </v-card>
-          <v-card v-if="book.contents" class="ctr-80 mt-5 mb-5" style="width:100%;">
-            <v-card-title class="pt-10 pb-10 book-sub" style="text-align:center;">
+          <v-card v-if="book.contents" class="mb-5">
+            <v-card-title class="pt-5 pb-10 book-detail-card-title">
             목차
             </v-card-title>
-            <v-card-text style="padding:0 3em 2em 3em;">
-            <div v-html="book.contents"></div>
+            <v-card-text class="book-detail-contents">
+              <div v-html="book.contents"></div>
             </v-card-text>
           </v-card>
+          <v-card v-if="book.publisherReview" class="mb-5">
+            <v-card-title class="pt-5 pb-10 book-detail-card-title">
+            출판사 서평
+            </v-card-title>
+            <v-card-text class="book-detail-contents">
+              <div v-html="book.publisherReview"></div>
+            </v-card-text>
+          </v-card>
+        </div>
       </div>
-    </div>
-
-    <div class="review" v-if="!loadingStatus">
-      <div class="py-5 reviewbox">
-        <h2 class="pt-3 review-title">도서 리뷰</h2>
-<<<<<<< sub2/frontend/src/components/Books/BookDetail.vue
-          <form v-if="this.$store.state.user.isLogin">
-=======
-        <input type="text" v-model="this.time" class="time-section">
-          <form v-if="this.$store.state.user.isLogin && !myReview.length">
->>>>>>> sub2/frontend/src/components/Books/BookDetail.vue
-            <div class="row">
-              <fieldset class="score" style="margin-left:7%">
+      <div class="book-review">
+        <div class="review-box">
+          <div class="review-form-title">도서 리뷰</div>
+          <div class="review-form">
+            <input type="text" v-model="this.time" class="d-none">
+            <form v-if="this.$store.state.user.isLogin && !myReview.length">
+              <div class="star-score">
+                <fieldset class="score">
                   <input v-model="score" type="radio" id="star10" name="score" value="10"/>
                   <label class="full" for="star10" title="최고의 책입니다. 10점"></label>
                   <input v-model="score" type="radio" id="star9" name="score" value="9"/>
@@ -96,24 +103,30 @@
                   <label class="full" for="star2" title="다신 안봐요. 2점"></label>
                   <input v-model="score" type="radio" id="star1" name="score" value="1"/>
                   <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
-              </fieldset>
-            </div>
-            <textarea v-model="content" placeholder="리뷰를 입력해주세요."/> 
-            <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register"><span>리뷰등록</span></div>
-          </form>
-          <div class="my-review-section px-3" v-if="myReview.length">
-            <BookReview :review="myReview[0]" :index="0" @deleteSign="deleteSign" />
+                </fieldset>
+              </div>
+              <textarea v-model="content" placeholder="리뷰를 입력해주세요."/> 
+              <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register"><span>리뷰등록</span></div>
+            </form>
           </div>
-          <div class="review-section px-3 pb-3" style="width:95%;margin:0 auto" v-if="remainReview.length">
-            <div v-for="(review,index) in remainReview" :key="index">
-              <BookReview :review="review" :index="myReview.length ? index + 1 : index"/>
+          <div class="review-contents">
+            <div class="my-review-section px-3" v-if="myReview.length">
+              <BookReview :review="myReview[0]" :index="0" @deleteSign="deleteSign" />
+            </div>
+            <div class="review-section px-3 pb-3" style="width:95%;margin:0 auto" v-if="remainReview.length">
+              <div v-for="(review,index) in remainReview" :key="index">
+                <BookReview :review="review" :index="myReview.length ? index + 1 : index"/>
+              </div>
             </div>
           </div>
-        <h2 class="pt-3 review-title">평점 그래프</h2>
-          <Chart :chartData="this.stat" :chartLabels=[1,2,3,4,5,6,7,8,9,10] chartType="bar" style="width:95%;margin:0 auto"></Chart>
+          <div class="review-form-title">평점 그래프</div>
+          <div class="review-chart">
+            <Chart :chartData="this.stat" :chartLabels=[1,2,3,4,5,6,7,8,9,10] chartType="bar" style="width:95%;margin:0 auto"></Chart>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="loading" v-if="loadingStatus">
+    <div class="loading" v-else>
       <div class="service-logo">
         <img src="../../assets/images/team_logo/books.png" alt="team-logo">
       </div>
@@ -164,12 +177,6 @@ export default {
     }
   },
   methods : {
-    // stat() {
-    //   for (review in book.review_set){
-    //     this.stat[review.score] ++
-    //     console.log(review.score)
-    //   } 
-    // },
     async getBookDetail(id) {
       let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', id)
       this.book = bookData.results[0]
@@ -185,24 +192,20 @@ export default {
       this.remainReview = reviewData
       this.loadingStatus = false
     },
-    // async getBookReview(id) {
-    //   const data = await this.$store.dispatch('GET_REVIEWS', id)
-    //   this.reviews = data
-    // },
     async addBookReview() {
       if (this.time == 0){
-        if (this.score){
-        const formData = new FormData()
-        formData.append('user', this.$store.getters.info.user_id)
-        formData.append('content',this.content)
-        formData.append('score',this.score)
-        formData.append('book',this.id)
-        await this.$store.dispatch('ADD_REVIEWS',formData)
-        this.getBookDetail(this.id)
-        this.initForm()
-        this.time = 5
+        if (this.score && this.content){
+          const formData = new FormData()
+          formData.append('user', this.$store.getters.info.user_id)
+          formData.append('content',this.content)
+          formData.append('score',this.score)
+          formData.append('book',this.id)
+          await this.$store.dispatch('ADD_REVIEWS',formData)
+          this.getBookDetail(this.id)
+          this.initForm()
+          this.time = 5
         } else {
-          alert('평점을 입력해주세요')
+          alert('평점과 리뷰 내용을 작성해주세요')
         }
       } else {
         alert(this.time + '초 후에 시도해 주세요')
@@ -236,38 +239,177 @@ export default {
 </script>
 
 <style scoped>
+a {
+  color: black;
+  text-decoration: none;
+}
 .book-detail-wrapper {
+  width: 80%;
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 1100px) {
+  .book-detail-wrapper {
+    display: block;
+  }
+}
+
+.book-header,
+.book-basic-info,
+.jjim-btn {
+  font-family: 'Noto Sans KR';
+}
+
+.book-header {
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+  border-bottom: 9px dashed #eee;
+}
+
+.book-header .book-title {
+  font-size: 21px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.book-header .book-score {
+  font-size: 17px;
+}
+
+.book-score:before {
+  content: '★';
+  color: #f9d71c;
+}
+
+.book-basic-info {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 6px;
+}
+
+.book-cover-img > img {
+  vertical-align: top;
+  width: 90%;
+  margin-right: 10px;
+}
+
+.book-more-info {
+  display: table;
+  height: 100%;
+}
+
+.more-row {
+  display: table-row;
+}
+
+.more-cell {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 17px;
+}
+
+@media (max-width: 600px) {
+  .book-basic-info {
+    display: block;
+  }
+
+  .book-cover-img > img {
+    margin: 0 auto;
+    width: 65%;
+  }
+
+  .more-cell {
+    font-size: 15px;
+    display: table-cell;
+    padding: 6px 0;
+  }
+}
+
+.more-row > .more-cell:first-child {
+  width: 33%;
+  min-width: 110px;
+}
+
+.author-link {
+  font-weight: 600;
+  color: #007aff;
+}
+
+.like-btn {
+  padding-bottom: 40px;
+  margin-bottom: 20px;
+  border-bottom: 9px dashed #eee;
+}
+
+.like-content {
+  display: inline-block;
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+}
+
+.like-content .btn-secondary {
+  display: block;
+  margin: 20px auto 0;
+  text-align: center;
+  background: #ed2553;
+  border-radius: 3px;
+  box-shadow: 0 10px 20px -8px rgb(240, 75, 113);
+  padding: 9px 17px;
+  font-size: 18px;
+  font-family: 'Noto Sans KR';
+  cursor: pointer;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  text-decoration: none;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+
+.like-content .btn-secondary:hover {
+  transform: translateY(-3px);
+}
+
+.like-content .btn-secondary .fa {
+  margin-right: 5px;
+}
+
+.book-detail-card-title {
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
+}
+
+.review-box {
+  position: fixed;
+  z-index: 10000;
+  width: 24%;
+  transform: translateX(8px);
+  border: 1px solid silver;
+  border-radius: 20px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.review-form-title {
+  font-family: 'Noto Sans KR';
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
   width: 90%;
   margin: 0 auto;
 }
-.ctr-80 {
-  margin: 0 auto;
-  width: 85%;
-}
 
-.bookdetail {
-  width : 66%
-}
-.review {
-  width : 33%
-}
-@media (max-width: 1000px) {
-.bookdetail {
-  width : 100%;
-}
-.review {
-  width : 80%;
-  margin : 0 auto;
-  margin-bottom : 10%
-}
-}
-li {
-  list-style: none;
-}
-
-.booktitle{
-  font-size : 2rem;
-  font-family: 'Noto Sans KR';
+@media (max-width: 1100px) {
+  .review-box {
+    position: static;
+    width: 100%;
+    z-index: 1;
+    transform: translateX(0);
+  }
 }
 
 .score {
@@ -285,9 +427,6 @@ li {
   transition: 0.15s;
 }
 
-.review-input-box {
-  border: 1px solid black;
-}
 .score > label:before {
   font-size: 1em;
   margin-bottom: .5rem;
@@ -323,45 +462,19 @@ li {
   color:#f9d71c;
 }
 
-.review-input-box{ border: 1px solid black; }
-
-.jjim{
-  width: 200px;
-  height: 40px;
-  background: #9779e7;
-  border-radius: 6px;
-  cursor: pointer;
-  padding:10px;
-  text-align:center;
-  margin:0 0 20px 0
+textarea {
+  background-color: white;
+  border: 1px solid silver;
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+  height: 100px;
+  font-size: 15px;
+  padding: 4px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  font-family: 'Gothic A1';
 }
 
-.jjimtxt{
-  color:#fff;
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.7px;
-  line-height: 22px;
-  text-align: center;
-  display: inline-block;
-}
-
-.rating{
-  font-size: 17px;
-  font-weight: 400;
-  letter-spacing: -0.7px;
-  line-height: 22px;
-  border-top:1px solid lightgray;
-  border-bottom:1px solid lightgray;
-}
-.review-title{
-  clear: both;
-  font-size: 1.5em;
-  font-weight: bold;
-  font-family: 'Noto Sans KR';
-  margin-bottom: 0.5em;
-  margin-left:5%;
-}
 .review-register{
   float: right;
   margin:0.8em 5% 0.8em 0;
@@ -387,80 +500,20 @@ li {
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
 }
 
-.book-sub{
-  font-size: 1.5em;
-  font-weight: bold;
-  font-family: 'Noto Sans KR';
-  margin-left:1%;
-}
-.reviewbox{
-  margin-right:50px;
-  background-color:white;
-  border-radius: 15px;
-  border: 1px solid lightgray;
-  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.05);
-}
-.like-content {
-    display: inline-block;
-    width: 100%;
-    padding: 0 20px 0 0;
-    font-size: 18px;
-    border-bottom: 9px dashed #eee;
-    text-align: center;
-}
-.like-content .btn-secondary {
-    display: block;
-    margin:0 auto 30px;
-    text-align: center;
-    background: #ed2553;
-    border-radius: 3px;
-    box-shadow: 0 10px 20px -8px rgb(240, 75, 113);
-    padding: 9px 17px;
-    font-size: 18px;
-    font-family: 'Noto Sans KR';
-    cursor: pointer;
-    border: none;
-    outline: none;
-    color: #ffffff;
-    text-decoration: none;
-    -webkit-transition: 0.3s ease;
-    transition: 0.3s ease;
-}
-.like-content .btn-secondary:hover {
-    transform: translateY(-3px);
-}
-.like-content .btn-secondary .fa {
-    margin-right: 5px;
-}
-.animate-like {
-    animation-name: likeAnimation;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-duration: 0.65s;
-}
-
-.time-section {
-  display: none;
-}
-
 .my-review-section {
   clear: both;
   width: 95%;
   margin: 0 auto;
-  /* border-bottom: 1.5px dotted rgba(0, 0, 0, 0.1); */
 }
 
-textarea {
-  background-color: white;
-  border: 1px solid silver;
-  display: block;
+.review-section {
+  clear: both;
+}
+
+.star-score,
+.review-chart {
   width: 90%;
-  margin-left: 5%;
-  height: 100px;
-  font-size: 15px;
-  padding: 4px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-  font-family: 'Gothic A1';
+  margin: 0 auto;
 }
 
 .loading {
@@ -481,20 +534,6 @@ textarea {
   font-family: 'Noto Sans KR';
   font-size: 18px;
   font-weight: 600;
-}
-
-.review-section {
-  clear: both;
-}
-
-@keyframes likeAnimation {
-  0%   { transform: scale(30); }
-  100% { transform: scale(1); }
-}
-.author-link{
-  color:#000;font-style:bold;margin-right:5px;
-}
-.author-link:hover{
-  font-weight:bold;
+  text-align: center;
 }
 </style>

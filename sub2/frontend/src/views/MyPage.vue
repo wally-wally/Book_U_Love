@@ -19,7 +19,7 @@ export default {
 .mypage-wrapper {
   display: flex;
   justify-content: stretch;
-  width: 90%;
+  width: 80%;
   height: 100%;
   margin: 1em auto;
 }

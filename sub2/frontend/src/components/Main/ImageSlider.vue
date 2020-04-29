@@ -40,7 +40,7 @@ export default {
           contents: {
             title: 'Book Recommendation',
             body: 'We recommend you a book considering your age, interests, writers, etc.',
-            moreIcon: true
+            moreIcon: false
           }
         },
         {
@@ -48,7 +48,7 @@ export default {
           contents: {
             title: 'Best Sellers',
             body: 'We introduce you to the bestseller.',
-            moreIcon: true
+            moreIcon: false
           }
         },
       ]

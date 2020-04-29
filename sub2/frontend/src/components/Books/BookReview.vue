@@ -1,30 +1,27 @@
 <template>
   <div v-if="!isdelete">
     <div class="align-items-center container">
-            <div class="review-header">
-                <div class="review-username">
-                    {{review.username}}
-                    <div @click="deletereview" style="display:inline;">
-                        <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
-                    </div>
-                </div>
-                <div class="pb-2">
-                    <div id="stars" style="display:inline">
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <div class="review-score ml-2">{{review.score}}
-                    </div>
+        <div class="review-header">
+            <div class="review-username">
+                {{review.username}}
+                <div @click="deletereview" style="display:inline;">
+                    <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
                 </div>
             </div>
-            <div @click="deletereview" style="display:inline-block;">
-                <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
+            <div class="pb-2">
+                <div id="stars" style="display:inline">
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <div class="review-score ml-2">{{review.score}}
+                </div>
             </div>
-        <div class="review-content" style="border-bottom:1px solid lightgray">{{review.content}}</div>
-        <div style="border-bottom:1px solid lightgray" v-html="review.content.replace('\n', '<br>')"></div>
+        </div>
+        <div class="review-content" style="border-bottom:1px solid lightgray;white-space:pre-line">{{review.content}}</div>
+        
         <div style="margin:10px;"/>
     </div>
 </div>
@@ -95,7 +92,7 @@ i:hover {
     color: #212529;
     line-height: 1.7em;
     word-break: break-all;
-
+}
 .review-header {
     display: flex;
     justify-content: space-between;

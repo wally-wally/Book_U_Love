@@ -76,7 +76,7 @@ export default {
   margin-bottom: 0.5em;
 }
 .author_wrapper{
-  width:45%;
+  width:80%;
   margin:0 auto 30px;
 }
 .author_wrapper .author_area_wrapper {
