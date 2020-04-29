@@ -82,10 +82,13 @@ def review_create(request):
     if request.method == 'GET':
         review = models.Review.objects.all()
         serializer = serializers.ReviewSerializer(review, many=True)
-        print(review)
         return Response(serializer.data)
     else:
         serializer = serializers.ReviewSerializer(data=request.data)
+        book = Book.objects.get(id=request.data.book)
+        book.r_score += request.data.score
+        boor.r_cnt += 1
+        book.save()
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(serializer.data)
@@ -95,12 +98,19 @@ def review_command(request,review_pk):
     if request.method == 'PUT':
         review = get_object_or_404(models.Review, pk=review_pk)
         serializer = serializers.ReviewSerializer(data=request.data, instance=review)
+        book = Book.objects.get(id=review.book_id)
+        book.r_score -=  review.score - request.data.score
+        book.save()
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({'message':'updated competition!!!'})
     else:
         print('delete_review')
         review = get_object_or_404(models.Review, pk=review_pk)
+        book = Book.objects.get(id=review.book_id)
+        book.r_cnt -= 1
+        book.r_score -= review.score
+        book.save()
         review.delete()
         return Response({'message':'deleted!!'})
 
