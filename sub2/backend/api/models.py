@@ -44,16 +44,18 @@ class Book(models.Model):
     subCategory = models.ForeignKey(SubCategory, on_delete =models.CASCADE, null=True)
     detailCategory = models.ForeignKey(DetailCategory, on_delete=models.CASCADE, null=True)
     publisherReview = models.TextField(null=True)
+    r_cnt = models.IntegerField(default=0)
+    r_score = models.IntegerField(default=0)
     @property
     def avg(self):
-        avg = self.review_set.aggregate(Avg('score'))['score__avg'] 
-        return round(avg,1) if avg else 0
+        if self.r_cnt:
+            avg = round(self.r_score/self.r_cnt,1)
+        else:
+            avg = 0
+        return avg
     @property
     def categorylist(self):
         return [self.mainCategory.name, self.subCategory.name, self.detailCategory.name if self.detailCategory != None else '']
-    @property
-    def review_cnt(self):
-        return self.review_set.count()
 
 class Review(models.Model):
     content = models.CharField(max_length=140, blank=True, null=True)

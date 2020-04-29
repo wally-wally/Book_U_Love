@@ -58,9 +58,9 @@ class BookViewSet(viewsets.ModelViewSet):
             book = book.filter(author__id=author)
         sortby = self.request.query_params.get("sortby","")
         if sortby=="count":
-            book = sorted(book, key=lambda t: (t.review_cnt,t.avg),reverse=True)
+            book = sorted(book, key=lambda t: (t.r_cnt,t.avg),reverse=True)
         elif sortby == "score":
-            book= sorted(book, key=lambda t: t.avg,reverse=True)
+            book= sorted(book, key=lambda t: (t.avg,t.r_cnt),reverse=True)
         top = self.request.query_params.get("top","")
         if top:
             book = book[:int(top)]

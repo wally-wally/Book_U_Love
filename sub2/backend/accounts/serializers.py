@@ -18,11 +18,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields =['email', 'password', 'username' ,]
-    
     def create(self, validated_data):
         user = get_user_model().objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
+            age = validated_data['age'] if 'age' in validated_data else None,
+            gender = validated_data['gender'] if 'gender' in validated_data else None,
         )
         user.set_password(validated_data['password'])
         user.save()
