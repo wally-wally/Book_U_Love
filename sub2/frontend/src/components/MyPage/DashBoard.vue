@@ -39,17 +39,10 @@
         <DashChart :chartData="this.detail_chart.data" :chartLabels="this.detail_chart.labels" chartType="pie"/>
       </div>
     </div>
-
-    <div v-for="book in mybook" :key="book.id">
-      <router-link :to="`/book/${book.id}`">
-      {{book.title}}
-      </router-link>
-      
       
     
     <hr>
     <div class="dashboard-sub pt-5">For You</div>
-    {{mybook}}
     <div v-if="'message' in mybook">
       추천책없음
     </div>
@@ -58,7 +51,6 @@
       <div v-for="book in mybook" :key="book.id">
         <BookCard class="col-10" :bookData="book"/>
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -72,7 +64,7 @@ export default {
   data() {
     return {
       mydata : {},
-      mybook : {},
+      mybook : [],
       main : [],
       sub : [],
       detail : [],
@@ -110,6 +102,7 @@ export default {
     },
     async recommendbook() {
       const data = await recommend()
+      console.log(data)
       this.mybook = data.data
     },
     shownext(idx,val){ 

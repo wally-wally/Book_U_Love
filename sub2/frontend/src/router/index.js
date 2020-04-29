@@ -70,6 +70,11 @@ export default new Router({
       component: loadView('AdminPage')
     },
     {
+      path : '/createuser',
+      name : 'createuser',
+      component : loadComponent('common', 'CreateUser')
+    },
+    {
       path: '/collect',
       name: 'CollectData',
       component: loadComponent('Books', 'CollectReview')
