@@ -3,7 +3,7 @@
     "model": "api.subcategory",
     "pk": 1,
     "fields": {
-      "name": "한국소설",
+      "name": "\ud55c\uad6d\uc18c\uc124",
       "main": 1
     }
   },
@@ -11,7 +11,7 @@
     "model": "api.subcategory",
     "pk": 2,
     "fields": {
-      "name": "외국소설",
+      "name": "\uc678\uad6d\uc18c\uc124",
       "main": 1
     }
   },
@@ -19,7 +19,7 @@
     "model": "api.subcategory",
     "pk": 3,
     "fields": {
-      "name": "장르소설",
+      "name": "\uc7a5\ub974\uc18c\uc124",
       "main": 1
     }
   },
@@ -27,7 +27,7 @@
     "model": "api.subcategory",
     "pk": 4,
     "fields": {
-      "name": "주제가 있는 문학",
+      "name": "\uc8fc\uc81c\uac00 \uc788\ub294 \ubb38\ud559",
       "main": 1
     }
   },
@@ -35,8 +35,1440 @@
     "model": "api.subcategory",
     "pk": 5,
     "fields": {
-      "name": "문학상 수상작",
+      "name": "\ubb38\ud559\uc0c1 \uc218\uc0c1\uc791",
       "main": 1
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 6,
+    "fields": {
+      "name": "\uc11c\uc591\ucca0\ud559",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 7,
+    "fields": {
+      "name": "\uad50\uacfc\uc11c\uc218\ub85d\ub3c4\uc11c",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 8,
+    "fields": {
+      "name": "\uc778\ubb3c/\ud3c9\uc804",
+      "main": 4
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 9,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uc678\uad6d\uc18c\uc124",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 10,
+    "fields": {
+      "name": "\uc5d0\uc138\uc774/\uc0b0\ubb38",
+      "main": 4
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 11,
+    "fields": {
+      "name": "\uc2dc",
+      "main": 4
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 12,
+    "fields": {
+      "name": "\ud76c\uace1",
+      "main": 4
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 13,
+    "fields": {
+      "name": "\ubb38\ud559\uc758 \uc774\ud574",
+      "main": 4
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 14,
+    "fields": {
+      "name": "\ub2e4\uc774\uc5b4\ud2b8",
+      "main": 6
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 15,
+    "fields": {
+      "name": "\uc11c\uc591\uc0ac",
+      "main": 7
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 16,
+    "fields": {
+      "name": "\uc5ed\ud559",
+      "main": 8
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 17,
+    "fields": {
+      "name": "\uac74\uac15\uad00\ub9ac\uc640 \uc720\uc9c0",
+      "main": 6
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 18,
+    "fields": {
+      "name": "\ubbf8\uc220",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 19,
+    "fields": {
+      "name": "\uc815\uce58/\uc678\uad50",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 20,
+    "fields": {
+      "name": "\uc0dd\uba85\uacfc\ud559",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 21,
+    "fields": {
+      "name": "\uc0ac\ud68c\ud559 \uc77c\ubc18",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 22,
+    "fields": {
+      "name": "\ubc95",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 23,
+    "fields": {
+      "name": "\uc5ec\uc131\ud559/\ub0a8\uc131\ud559",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 24,
+    "fields": {
+      "name": "\uc0dd\ud0dc/\ud658\uacbd/\uc9c0\ub9ac",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 25,
+    "fields": {
+      "name": "\uad50\uc721",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 26,
+    "fields": {
+      "name": "\uc5b8\ub860/\ubbf8\ub514\uc5b4",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 27,
+    "fields": {
+      "name": "\ubd81\ud55c\ud559",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 28,
+    "fields": {
+      "name": "\uc0ac\ud68c\ubb38\uc81c",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 29,
+    "fields": {
+      "name": "\uc0ac\ud68c\ud559 \uc774\ub860/\uc0ac\uc0c1",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 30,
+    "fields": {
+      "name": "\uc2ec\ub9ac\ud559",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 31,
+    "fields": {
+      "name": "\uc778\ubb38\uad50\uc591",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 32,
+    "fields": {
+      "name": "\ub300\uc911\ubb38\ud654",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 33,
+    "fields": {
+      "name": "\uc0ac\ud68c\ube44\ud3c9",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 34,
+    "fields": {
+      "name": "\uae30\ud638\ud559/\uc5b8\uc5b4\ud559",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 35,
+    "fields": {
+      "name": "\uad6d\ubc29/\uad70\uc0ac",
+      "main": 10
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 36,
+    "fields": {
+      "name": "\uc790\ub140\uad50\uc721/\uc721\uc544",
+      "main": 12
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 37,
+    "fields": {
+      "name": "\uae30\uc220\uacf5\ud559",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 38,
+    "fields": {
+      "name": "CEO/\ub9ac\ub354\uc2ed",
+      "main": 13
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 39,
+    "fields": {
+      "name": "\ud14c\ub9c8\ub85c \uc77d\ub294 \uc5ed\uc0ac",
+      "main": 7
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 40,
+    "fields": {
+      "name": "\ud55c\uad6d\uc0ac",
+      "main": 7
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 41,
+    "fields": {
+      "name": "\uc0ac\ud68c\uacfc\ud559\uacc4\uc5f4",
+      "main": 14
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 42,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uc9c4\ud559/\uc9c4\ub85c/\uc720\ud559",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 43,
+    "fields": {
+      "name": "\uc11c\uc591\ucca0\ud559\uc0ac\uc870",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 44,
+    "fields": {
+      "name": "\ub3d9\uc591\uc0ac",
+      "main": 7
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 45,
+    "fields": {
+      "name": "\ub3c5\uc11c/\ucd9c\ud310/\uae00\uc4f0\uae30",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 46,
+    "fields": {
+      "name": "\ucca0\ud559\uc758 \uc774\ud574",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 47,
+    "fields": {
+      "name": "\ub1cc\uacfc\ud559",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 48,
+    "fields": {
+      "name": "\uc815\uc2e0\ubd84\uc11d\ud559",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 49,
+    "fields": {
+      "name": "\uc778\ub958\ud559",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 50,
+    "fields": {
+      "name": "\ub3d9\uc591\ucca0\ud559",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 51,
+    "fields": {
+      "name": "\ub3d9\uc591\uc0ac\uc0c1",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 52,
+    "fields": {
+      "name": "\uacfc\ud559\uc77c\ubc18",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 53,
+    "fields": {
+      "name": "\ubb38\ud654",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 54,
+    "fields": {
+      "name": "\uc138\uacc4\uc0ac",
+      "main": 7
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 55,
+    "fields": {
+      "name": "\uc2e0\ud654",
+      "main": 2
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 56,
+    "fields": {
+      "name": "\uacbd\uc81c",
+      "main": 13
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 57,
+    "fields": {
+      "name": "\uace0\uace0\ud559",
+      "main": 7
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 58,
+    "fields": {
+      "name": "\ubd88\uad50",
+      "main": 8
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 59,
+    "fields": {
+      "name": "\uacb0\ud63c/\uac00\uc871",
+      "main": 12
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 60,
+    "fields": {
+      "name": "\uc790\uc5f0\uacfc\ud559\uacc4\uc5f4",
+      "main": 14
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 61,
+    "fields": {
+      "name": "\uc778\ubb38\uacc4\uc5f4",
+      "main": 14
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 62,
+    "fields": {
+      "name": "\uc0b6\uc758\uc790\uc138",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 63,
+    "fields": {
+      "name": "\uc218\ud559",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 64,
+    "fields": {
+      "name": "\ud14c\ub9c8\ub85c \uc77d\ub294 \ubb38\ud654",
+      "main": 7
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 65,
+    "fields": {
+      "name": "\uc5ed\uc0ac\ud559",
+      "main": 7
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 66,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uc5ed\uc0ac/\uc778\ubb3c",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 67,
+    "fields": {
+      "name": "\uae30\ub3c5\uad50(\uac1c\uc2e0\uad50)",
+      "main": 8
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 68,
+    "fields": {
+      "name": "\uc138\uacc4\uc885\uad50",
+      "main": 8
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 69,
+    "fields": {
+      "name": "\uc131\uacbd/\ucc2c\uc1a1\uac00",
+      "main": 8
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 70,
+    "fields": {
+      "name": "\uac00\ud1a8\ub9ad",
+      "main": 8
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 71,
+    "fields": {
+      "name": "4~7\uc138",
+      "main": 16
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 72,
+    "fields": {
+      "name": "\uba85\uc0c1\uacfc \uc218\ud589",
+      "main": 8
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 73,
+    "fields": {
+      "name": "\ucd08\ub4f15~6\ud559\ub144",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 74,
+    "fields": {
+      "name": "\uc885\uad50\uc77c\ubc18",
+      "main": 8
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 75,
+    "fields": {
+      "name": "\uc7ac\ud14c\ud06c/\ud22c\uc790",
+      "main": 13
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 76,
+    "fields": {
+      "name": "\ud2b8\ub80c\ub4dc/\ubbf8\ub798\uc608\uce21",
+      "main": 13
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 77,
+    "fields": {
+      "name": "\uacbd\uc601 \uc804\ubc18",
+      "main": 13
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 78,
+    "fields": {
+      "name": "\uacbd\uc601 \uc2e4\ubb34",
+      "main": 13
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 79,
+    "fields": {
+      "name": "\ub9c8\ucf00\ud305/\uc138\uc77c\uc988",
+      "main": 13
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 80,
+    "fields": {
+      "name": "\ucc3d\uc5c5",
+      "main": 13
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 81,
+    "fields": {
+      "name": "\ucef4\ud4e8\ud130 \ud65c\uc6a9/WEB",
+      "main": 17
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 82,
+    "fields": {
+      "name": "\ub300\ud654/\uc2ec\ub9ac/\ud611\uc0c1",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 83,
+    "fields": {
+      "name": "\ucc98\uc138/\uc131\uacf5\uc804\ub7b5",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 84,
+    "fields": {
+      "name": "\uc778\uac04\uad00\uacc4 \uc77c\ubc18",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 85,
+    "fields": {
+      "name": "\ucde8\uc5c5/\uc9c4\ub85c\uc124\uacc4",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 86,
+    "fields": {
+      "name": "\ub450\ub1cc\uacc4\ubc1c/\ucc3d\uc758\ub825",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 87,
+    "fields": {
+      "name": "\uc5ec\uc131\uc744 \uc704\ud55c \uc790\uae30\uacc4\ubc1c",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 88,
+    "fields": {
+      "name": "\uc911.\ub178\ub144\uc744 \uc704\ud55c \uc790\uae30\uacc4\ubc1c",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 89,
+    "fields": {
+      "name": "\uc131\uacf5\uc2a4\ud1a0\ub9ac",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 90,
+    "fields": {
+      "name": "\ubb38\uc11c\uc791\uc131/ \uc2dc\uac04\uad00\ub9ac",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 91,
+    "fields": {
+      "name": "\uae30\ud68d/\ud504\ub808\uc820\ud14c\uc774\uc158",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 92,
+    "fields": {
+      "name": "\uc9c1\uc7a5\uc778\uc744 \uc704\ud55c \uc790\uae30\uacc4\ubc1c",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 93,
+    "fields": {
+      "name": "\ub0a8\ub140\uad00\uacc4/\uc5f0\uc560",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 94,
+    "fields": {
+      "name": "\uc9c1\uc7a5/\uc870\uc9c1\uc0dd\ud65c",
+      "main": 15
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 95,
+    "fields": {
+      "name": "\ucc9c\ubb38\ud559",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 96,
+    "fields": {
+      "name": "\uc758\ud559/\uc0dd\uba85\uc758 \uc774\ud574",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 97,
+    "fields": {
+      "name": "\ud654\ud559",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 98,
+    "fields": {
+      "name": "\ubb3c\ub9ac",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 99,
+    "fields": {
+      "name": "\ub3d9\uc2dd\ubb3c\ud559",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 100,
+    "fields": {
+      "name": "\uc9c0\uad6c\uacfc\ud559/\ud574\uc591\ud559",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 101,
+    "fields": {
+      "name": "\ub3c4\uac10",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 102,
+    "fields": {
+      "name": "\ub18d\uc5c5/\uc218\uc0b0/\ucd95\uc0b0\uc5c5",
+      "main": 11
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 103,
+    "fields": {
+      "name": "\uc0ac\uc804",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 104,
+    "fields": {
+      "name": "IT \uc804\ubb38\uc11c",
+      "main": 17
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 105,
+    "fields": {
+      "name": "OA \uc0ac\ubb34\ub2a5\ub825",
+      "main": 17
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 106,
+    "fields": {
+      "name": "\uadf8\ub798\ud53d/\uba40\ud2f0\ubbf8\ub514\uc5b4",
+      "main": 17
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 107,
+    "fields": {
+      "name": "\uacf5\ud559\uacc4\uc5f4",
+      "main": 14
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 108,
+    "fields": {
+      "name": "\uc0ac\uc9c4/\uc601\uc0c1",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 109,
+    "fields": {
+      "name": "\ucd08\ub4f13~4\ud559\ub144",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 110,
+    "fields": {
+      "name": "\uac8c\uc784",
+      "main": 17
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 111,
+    "fields": {
+      "name": "\ub9cc\ud654\ub860/\ub9cc\ud654\uadf8\ub9ac\uae30",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 112,
+    "fields": {
+      "name": "\ucd08\ub4f1\uc804\ud559\ub144",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 113,
+    "fields": {
+      "name": "\ucd08\uc911\uace0SW/\ucf54\ub529",
+      "main": 17
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 114,
+    "fields": {
+      "name": "\uc5b4\ud559\uc2dc\ud5d8",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 115,
+    "fields": {
+      "name": "\uc601\uc5b4\ud68c\ud654",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 116,
+    "fields": {
+      "name": "\uc911\uad6d\uc5b4",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 117,
+    "fields": {
+      "name": "\uc601\uc5b4\uc77c\ubc18",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 118,
+    "fields": {
+      "name": "\uc9c4\ud559/\ud3b8\uc785/\ucde8\uc5c5",
+      "main": 20
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 119,
+    "fields": {
+      "name": "\uc11c\uc591\uc5b4",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 120,
+    "fields": {
+      "name": "\ud55c\uad6d\uc5b4",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 121,
+    "fields": {
+      "name": "\uc8fc\ub2c8\uc5b4\uc5b4\ud559\uad50\uc7ac",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 122,
+    "fields": {
+      "name": "\uc77c\ubcf8\uc5b4",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 123,
+    "fields": {
+      "name": "\ud55c\ubb38/\ud55c\uc790",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 124,
+    "fields": {
+      "name": "\ub3d9\uc591\uc5b4",
+      "main": 18
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 125,
+    "fields": {
+      "name": "\uc774\ub7ec\ub2dd/\ud559\uc6d0\uad50\uc7ac",
+      "main": 21
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 126,
+    "fields": {
+      "name": "0~3\uc138",
+      "main": 16
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 127,
+    "fields": {
+      "name": "\uc720\uc544\ub180\uc774",
+      "main": 16
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 128,
+    "fields": {
+      "name": "\ucd08\ub4f11~2\ud559\ub144",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 129,
+    "fields": {
+      "name": "\uc815\uac00\uc81c FREE",
+      "main": 16
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 130,
+    "fields": {
+      "name": "\ucf54\ub529/4\ucc28\uc0b0\uc5c5\ud601\uba85",
+      "main": 3
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 131,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uacfc\ud559/\uc218\ud559",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 132,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\ud55c\uad6d\uc18c\uc124",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 133,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uc778\ubb38\uc0ac\ud68c",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 134,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uc2dc/\ud76c\uace1",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 135,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uacbd\uc81c/\uc790\uae30\uacc4\ubc1c",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 136,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\ucca0\ud559/\ub17c\ub9ac",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 137,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uacf5\ubd80\ubc95/\ud559\uc2b5\ubc95",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 138,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uace0\uc804",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 139,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uc608\uc220/\ubb38\ud654",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 140,
+    "fields": {
+      "name": "\uccad\uc18c\ub144-\uc5d0\uc138\uc774",
+      "main": 5
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 141,
+    "fields": {
+      "name": "\uc74c\uc545",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 142,
+    "fields": {
+      "name": "\uc608\uc220",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 143,
+    "fields": {
+      "name": "\ub514\uc790\uc778",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 144,
+    "fields": {
+      "name": "\uc601\ud654",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 145,
+    "fields": {
+      "name": "\uc545\ubcf4[\uc6d0\uc11c] ",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 146,
+    "fields": {
+      "name": "\uc5f0\uadf9",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 147,
+    "fields": {
+      "name": "\uac74\ucd95",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 148,
+    "fields": {
+      "name": "\uc608\uccb4\ub2a5\uacc4\uc5f4",
+      "main": 14
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 149,
+    "fields": {
+      "name": "\ud328\uc158/\uc758\ub958",
+      "main": 9
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 150,
+    "fields": {
+      "name": "\uc694\ub9ac",
+      "main": 12
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 151,
+    "fields": {
+      "name": "\uc784\uc2e0/\ucd9c\uc0b0",
+      "main": 12
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 152,
+    "fields": {
+      "name": "\uc0b4\ub9bc/\uc9d1\uafb8\ubbf8\uae30",
+      "main": 12
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 153,
+    "fields": {
+      "name": "\ud574\uc678\uc5ec\ud589",
+      "main": 22
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 154,
+    "fields": {
+      "name": "\ud14c\ub9c8\uc5ec\ud589",
+      "main": 22
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 155,
+    "fields": {
+      "name": "\uad6d\ub0b4\uc5ec\ud589",
+      "main": 22
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 156,
+    "fields": {
+      "name": "\uc5ec\ud589\uc5d0\uc138\uc774",
+      "main": 22
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 157,
+    "fields": {
+      "name": "\uc720\ud559/\uc774\ubbfc",
+      "main": 22
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 158,
+    "fields": {
+      "name": "\uacf5\uc608/\ub9cc\ub4e4\uae30",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 159,
+    "fields": {
+      "name": "\uc2a4\ud3ec\uce20",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 160,
+    "fields": {
+      "name": "\ucde8\ubbf8\uc77c\ubc18",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 161,
+    "fields": {
+      "name": "\uc0c1\uc2dd/\ud034\uc988/\ud37c\uc990/\ub9c8\uc220",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 162,
+    "fields": {
+      "name": "\ubc18\ub824\ub3d9\ubb3c",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 163,
+    "fields": {
+      "name": "\uaf43\uaf42\uc774/\uc6d0\uc608",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 164,
+    "fields": {
+      "name": "\uc778\ud14c\ub9ac\uc5b4/\uc9d1\uafb8\ubbf8\uae30",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 165,
+    "fields": {
+      "name": "\ubc14\ub451/\uc7a5\uae30",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 166,
+    "fields": {
+      "name": "\ub4f1\uc0b0/\ub09a\uc2dc",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 167,
+    "fields": {
+      "name": "\uc0ac\uc9c4/\ube44\ub514\uc624\ucd2c\uc601",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 168,
+    "fields": {
+      "name": "\ub808\uc800",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 169,
+    "fields": {
+      "name": "\ucd94\ucc9c\uc0c1\ud488",
+      "main": 23
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 170,
+    "fields": {
+      "name": "\uc7a1\uc9c0\uc815\uae30\uad6c\ub3c5",
+      "main": 24
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 171,
+    "fields": {
+      "name": "\uc6f9\ud230/\uce74\ud230",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 172,
+    "fields": {
+      "name": "\uba85\ub791/\ucf54\ubbf9\ub9cc\ud654",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 173,
+    "fields": {
+      "name": "\uc778\uac04/\ub4dc\ub77c\ub9c8",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 174,
+    "fields": {
+      "name": "\ud14c\ub9c8\uac00 \uc788\ub294 \ub9cc\ud654",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 175,
+    "fields": {
+      "name": "\uadf8\ub798\ud53d \ub178\ube14",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 176,
+    "fields": {
+      "name": "SF/\ud310\ud0c0\uc9c0\ub9cc\ud654",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 177,
+    "fields": {
+      "name": "\uc21c\uc815\ub9cc\ud654",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 178,
+    "fields": {
+      "name": "\uad50\uc591/\ud559\uc2b5/\uc5ed\uc0ac",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 179,
+    "fields": {
+      "name": "\uc2a4\ud3ec\uce20\ub9cc\ud654",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 180,
+    "fields": {
+      "name": "\uc561\uc158/\ubb34\ud611\ub9cc\ud654",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 181,
+    "fields": {
+      "name": "\ub2e8\ud3b8/\uc644\uacb0/\uc560\uc7a5\ud310",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 182,
+    "fields": {
+      "name": "\uc2dc\uc0ac/\ud48d\uc790",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 183,
+    "fields": {
+      "name": "\uacf5\ud3ec/\ud1f4\ub9c8/\ucd94\ub9ac",
+      "main": 19
+    }
+  },
+  {
+    "model": "api.subcategory",
+    "pk": 184,
+    "fields": {
+      "name": "BOY'S LOVE(BL)",
+      "main": 19
     }
   }
 ]

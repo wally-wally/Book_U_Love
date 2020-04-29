@@ -13,6 +13,20 @@ from backend import settings
 # 활용 기술 : BeautifulSoup을 이용한 크롤링 + 인터파크 도서 API를 이용해 REST 통신으로 데이터 수집
 # 최종적으로 동일선상의 디렉토리 레벨에 도서 데이터, 작가 데이터, 대분류 데이터, 중분류 데이터, 소분류 데이터를 담은 json 파일이 각각 생성
 
+# 승  '6DC249C8376B02DF365161A34E02EBC568955779AAE9AD461B4AE7AC609353EE',
+# 병1 '96F9DC97C95E0C958A266736010BD4356245A1D145542E687868193C06DD4290',
+# 병2 'A8D7B5A2D74E86AF74E30CBB266716E7259EDE23E41333E051C26F1F31F67310',
+# 병3 '9CECAA2D79C3E3DB79FD0BFA254D16DC210F2D1EA1ECFBF5D3AFAB358FC164DA',
+# 규  'D7E098C1C327E9ACFED718638C1BC436B925BDE77E7F6FF5CFE7ACD05D9B9511',
+
+keys = [
+    '6DC249C8376B02DF365161A34E02EBC568955779AAE9AD461B4AE7AC609353EE',
+    '96F9DC97C95E0C958A266736010BD4356245A1D145542E687868193C06DD4290',
+    'A8D7B5A2D74E86AF74E30CBB266716E7259EDE23E41333E051C26F1F31F67310',
+    '9CECAA2D79C3E3DB79FD0BFA254D16DC210F2D1EA1ECFBF5D3AFAB358FC164DA',
+    'D7E098C1C327E9ACFED718638C1BC436B925BDE77E7F6FF5CFE7ACD05D9B9511'
+]
+
 author_nums, main_cats, sub_cats, detail_cats = [], [], [], [] # 새로 탐색된 항목을 구별하기 위한 리스트
 author_list, main_cats_list, sub_cats_list, detail_cats_list = [], [], [], [] # 실제로 json 파일로 만들 데이터
 main_cat_id, sub_cat_id, detail_cat_id = 1, 1, 1 # 대분류, 중분류, 소분류의 카테고리 ID를 부여하기 위한 변수
@@ -75,15 +89,15 @@ class Command(BaseCommand):
             res = requests.get(f'http://book.interpark.com/product/BookDisplay.do?_method=detail&sc.prdNo={bookID}').text
             soup = BeautifulSoup(res, 'html.parser')
             outer_blocks = soup.find_all('p')
-            more_list = ['', ''] # 책소개(description)(index=0), 목차(contents)(index=1)
+            more_list = ['', '', ''] # 책소개(description)(index=0), 목차(contents)(index=1), 출판사 서평(publisherReview)(index=2)
             for j in range(len(outer_blocks)):
                 if outer_blocks[j].get_text() == '책소개':
-                    more_list[0] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
+                    more_list[0] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'').replace(u'\udbc0', u'').replace(u'\udc00', u'').replace(u'\udc53', u'').replace(u'\udb80', u'').replace(u'\udeb1', u'').replace(u'\udeb2', u'').replace(u'\udeb3', u'').replace(u'\udeb4', u'').replace(u'\udeb5', u'').replace(u'\udd24', u'')
                 elif outer_blocks[j].get_text() == '목차':
-                    more_list[1] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
+                    more_list[1] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'').replace(u'\udbc0', u'').replace(u'\udc00', u'').replace(u'\udc53', u'').replace(u'\udb80', u'').replace(u'\udeb1', u'').replace(u'\udeb2', u'').replace(u'\udeb3', u'').replace(u'\udeb4', u'').replace(u'\udeb5', u'').replace(u'\udd24', u'')
                 elif outer_blocks[j].get_text() == '출판사 서평':
-                    more_list[2] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'')
-                if more_list[0] != '' and more_list[1] != '':
+                    more_list[2] = str(outer_blocks[j + 1]).replace('  ', '').replace('<p>', '').replace('</p>', '').replace(u'\udb82', u'').replace(u'\udc54', u'').replace(u'\udc55', u'').replace(u'\udbc0', u'').replace(u'\udc00', u'').replace(u'\udc53', u'').replace(u'\udb80', u'').replace(u'\udeb1', u'').replace(u'\udeb2', u'').replace(u'\udeb3', u'').replace(u'\udeb4', u'').replace(u'\udeb5', u'').replace(u'\udd24', u'')
+                if more_list[0] != '' and more_list[1] != '' and more_list[2] != '':
                     break
 
             # 대분류(index=0), 중분류(index=1), 소분류(index=2)
@@ -170,46 +184,38 @@ class Command(BaseCommand):
             try:
                 author_links = soup.select('div.writerInfo > div.infoTitle > a.bt_writerDB')
                 for i in range(len(author_links)):
-                    if '역' not in soup.select('div.writerInfo > div.infoTitle > .writerName')[i].text:
-                        # print('not 역')
-                        # print(soup.select('div.writerInfo > div.infoTitle > span')[i].text)
+                    if '[역]' not in soup.select('div.writerInfo > div.infoTitle > span')[i].text:
                         author_ids.append(int(author_links[i].get('onclick').split('prsnNo=')[1].split('"')[0])) # 책 상세 페이지에서 추출한 작가 고유 ID
-                    # else:
-                    #     print('역 들어감')
-                    #     print(soup.select('div.writerInfo > div.infoTitle > span')[i].text)
             except IndexError:
                 author_ids = []
             
-            # print('위', author_ids)
             if len(author_ids):
                 for author_id in author_ids:
                     if author_id not in author_nums: # 처음으로 해당 작가를 가져오는 경우 작가 데이터 저장
                         get_author_data(str(author_id))
                         author_nums.append(author_id)
-            # print('')
-            # print('아래', author_ids)
+
             return [more_list, category_set, author_ids]
 
 
         def get_book_data(bookID):
+            KEY = keys[(pk-1)//5000]
             params_data = {
-                'key': '6DC249C8376B02DF365161A34E02EBC568955779AAE9AD461B4AE7AC609353EE', # 인터파크 도서 API KEY 입력
+                'key': KEY, # 인터파크 도서 API KEY 입력
                 'output': 'json',
                 'query': bookID,
                 'queryType': 'productNumber'
             }
-            url = f'http://book.interpark.com/api/search.api?key={params_data["key"]}'
+            url = f'http://book.interpark.com/api/search.api?key={KEY}'
             response_data = requests.get(url, params = params_data).json()['item'][0]
 
             # 다수의 작가인 경우도 있기 때문에 리스트 형태로 저장
             authors = response_data['author'].split(',')
             response_data['author'] = authors
-
-            # pprint(response_data)
             
             # 목차 정보, description의 전체 내용과 카테고리, 작가 ID 가져오기
             more_Info = get_more_info(bookID)
-            response_data["description"], response_data["contents"] = more_Info[0]
+            response_data["description"], response_data["contents"], response_data["publisherReview"] = more_Info[0]
             response_data["mainCategory"] = more_Info[1][0]
             response_data["subCategory"] = more_Info[1][1]
             response_data["detailCategory"] = more_Info[1][2]
@@ -229,47 +235,45 @@ class Command(BaseCommand):
             dumpdata_fields["translator"] = response_data["translator"]
             dumpdata_fields["pubDate"] = response_data["pubDate"]
             dumpdata_fields["contents"] = response_data["contents"]
-            dumpdata_fields["publisherReview"] = response_data["publisherReview"] if "publisherReview" in response_data else None
+            dumpdata_fields["publisherReview"] = response_data["publisherReview"]
             dumpdata_fields["author"] = response_data["authorID"]
             dumpdata_fields["like_user"] = []
             
             return dumpdata_fields
 
 
-        # cat_nums은 추후 아래 리스트로 교체
-        # cat_nums = ['0101', '0102', '0201', '0203', '0202', '0204', '0301', '0304', '0305', '0307', '0302', '0306', '0405', '0401', '0402', '0403', '0505', '0501', '0504', '0502', '0509', '0508', '0503', '0507']
-        # cat_nums = ['0101', '0102', '0201', '0203']
-        cat_nums = ['0101']
-        # 또는 cat_nums에 숫자를 임의로 지정하여(ex. ['0101', '0102']) 각 카테고리별로 가져오는 책 권수를 다르게 할 수도 있음
+        cat_nums = ['0101', '0102', '0201', '0203', '0202', '0204', '0301', '0304', '0305', '0307', '0302', '0405', '0401', '0402', '0505', '0501', '0504', '0509', '0503']
         books_list = []
         pk = 1
         for cat_num in cat_nums:
             crawling_book_count = {
-                # '0101': 420, '0102': 420,
-                # '0201': 420, '0203': 420, '0202': 420, '0204': 420,
-                # '0301': 420, '0304': 420, '0305': 210, '0307': 105, '0302': 105, '0306': 105,
-                # '0405': 105, '0401': 105, '0402': 105, '0403': 84,
-                # '0505': 210, '0501': 210, '0504': 105, '0502': 84, '0509': 84, '0508': 20, '0503': 84, '0507': 63
-
-                # '0101': 210, '0102': 210,
-                # '0201': 210, '0203': 210, '0202': 210, '0204': 210,
-                # '0301': 210, '0304': 210, '0305': 105, '0307': 105, '0302': 84, '0306': 84,
-                # '0405': 63, '0401': 63, '0402': 63, '0403': 42,
-                # '0505': 105, '0501': 105, '0504': 84, '0502': 63, '0509': 63, '0508': 20, '0503': 63, '0507': 42
-
-                '0101': 42, '0102': 42,
-                '0201': 42, '0203': 42, '0202': 42, '0204': 42,
-                '0301': 21, '0304': 21, '0305': 21, '0307': 21, '0302': 21, '0306': 21,
-                '0405': 21, '0401': 21, '0402': 21, '0403': 21,
-                '0505': 21, '0501': 21, '0504': 21, '0502': 21, '0509': 21, '0508': 20, '0503': 21, '0507': 21
+                '0101': 840, '0102': 840,
+                '0201': 840, '0203': 840, '0202': 840, '0204': 840,
+                '0301': 420, '0304': 420, '0305': 420, '0307': 420, '0302': 420,
+                '0405': 210, '0401': 210, '0402': 210,
+                '0505': 420, '0501': 420, '0504': 420, '0509': 420, '0503': 420
             }
             book_cnt = crawling_book_count[cat_num]
-            for i in range(1, book_cnt, 21): # 120 부분이 각 카테고리별로 가져오는 책 권수인데 가져오고 싶은 책 권수의 숫자를 입력하되 반드시 21의 배수로 입력할 것!!
+            for i in range(1, book_cnt, 21): # 두 번째 인자가 각 카테고리별로 가져오는 책 권수인데 가져오고 싶은 책 권수의 숫자를 입력하되 반드시 21의 배수로 입력할 것!!
                 html = requests.get(f'http://bookdb.co.kr/bdb/ElibMain.do?_method=initial&sc.catNo=0&sc.highCatNo={cat_num}&sc.page=1&sc.row=21&sc.sort=bestseller&sc.prdNo=&sc.query=&pageSn={i}&pageSz=21').text
                 soup = BeautifulSoup(html, 'html.parser')
                 books = soup.select('#eLibTab_ly1 > ul > li')
                 for book in books:
                     bookID = book.select('.pic > a')[0].get('href').split('(')[1].split(', ')[0]
+                    if cat_num == '0101' and bookID == '254987909': continue
+                    if cat_num == '0101' and bookID == '210905960': continue
+                    if cat_num == '0101' and bookID == '210905970': continue
+                    if cat_num == '0307' and bookID == '298788430': continue
+                    if cat_num == '0503' and bookID == '283580020': continue
+                    if cat_num == '0503' and bookID == '212522331': continue
+                    if cat_num == '0503' and bookID == '241623009': continue
+                    if cat_num == '0503' and bookID == '295663957': continue
+                    if cat_num == '0503' and bookID == '219528540': continue
+                    if cat_num == '0503' and bookID == '219528486': continue
+                    if cat_num == '0503' and bookID == '219528592': continue
+                    if cat_num == '0503' and bookID == '219528622': continue
+                    if cat_num == '0503' and bookID == '219528652': continue
+                    if cat_num == '0502' and bookID == '274357955': continue
                     book_dumpdata = dict()
                     book_dumpdata["model"] = "api.book"
                     book_dumpdata["pk"] = pk
@@ -281,23 +285,39 @@ class Command(BaseCommand):
 
             print(f'*******{cat_num}번 카테고리 도서 정보 크롤링 완료*******')
 
-        # (1) 개별 파일로 저장하는 방법
+            # (1) 카테고리마다 저장
+            with open (f'./api/fixtures/api/author/author_{cat_num}.json', 'w', encoding='UTF-8') as f: # 작가 데이터
+                f.write(json.dumps(author_list, indent=2))
+
+            with open (f'./api/fixtures/api/main_cats/main_cats_{cat_num}.json', 'w', encoding='UTF-8') as f: # 대분류 카테고리 데이터
+                f.write(json.dumps(main_cats_list, indent=2))
+
+            with open (f'./api/fixtures/api/sub_cats/sub_cats_{cat_num}.json', 'w', encoding='UTF-8') as f: # 중분류 카테고리 데이터
+                f.write(json.dumps(sub_cats_list, indent=2))
+
+            with open (f'./api/fixtures/api/detail_cats/detail_cats_{cat_num}.json', 'w', encoding='UTF-8') as f: #소분류 카테고리 데이터
+                f.write(json.dumps(detail_cats_list, indent=2))
+
+            with open (f'./api/fixtures/api/book/book_{cat_num}.json', 'w', encoding='UTF-8') as f: # 책 데이터
+                f.write(json.dumps(books_list, indent=2))
+
+        # (2) 개별 파일로 저장하는 방법
         with open (f'./api/fixtures/api/author.json', 'w', encoding='UTF-8') as f: # 작가 데이터
-            json.dump(author_list, f, indent=2, ensure_ascii=False)
+            f.write(json.dumps(author_list, indent=2))
 
         with open (f'./api/fixtures/api/main_cats.json', 'w', encoding='UTF-8') as f: # 대분류 카테고리 데이터
-            json.dump(main_cats_list, f, indent=2, ensure_ascii=False)
+            f.write(json.dumps(main_cats_list, indent=2))
 
         with open (f'./api/fixtures/api/sub_cats.json', 'w', encoding='UTF-8') as f: # 중분류 카테고리 데이터
-            json.dump(sub_cats_list, f, indent=2, ensure_ascii=False)
+            f.write(json.dumps(sub_cats_list, indent=2))
 
         with open (f'./api/fixtures/api/detail_cats.json', 'w', encoding='UTF-8') as f: #소분류 카테고리 데이터
-            json.dump(detail_cats_list, f, indent=2, ensure_ascii=False)
+            f.write(json.dumps(detail_cats_list, indent=2))
 
         with open (f'./api/fixtures/api/book.json', 'w', encoding='UTF-8') as f: # 책 데이터
-            json.dump(books_list, f, indent=2, ensure_ascii=False)
+            f.write(json.dumps(books_list, indent=2))
         
-        # (2) 하나의 dummy.json 파일에 저장하는 방법
+        # (3) 하나의 dummy.json 파일에 저장하는 방법
         dummy_data = []
 
         for data in author_list:
@@ -316,7 +336,7 @@ class Command(BaseCommand):
             dummy_data.append(data)
 
         with open (f'./api/fixtures/api/dummy.json', 'w', encoding='UTF-8') as f: # 모든 데이터를 dummy.json에 압축
-            json.dump(dummy_data, f, indent=2, ensure_ascii=False)
+            f.write(json.dumps(dummy_data, indent=2))
 
 
     def _initialize(self):
