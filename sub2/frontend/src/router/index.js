@@ -48,9 +48,9 @@ export default new Router({
     },
     {
       path : "/author",
-      component: loadView('BookPage'),
+      component: loadView('AuthorPage'),
       children : [
-        {path : ':id',name:'authordeteil',component:loadComponent('Books','author'),props:true}
+        {path : ':id',name:'authordeteil', component:loadComponent('Books','Author'), props:true}
       ]
     },
     {

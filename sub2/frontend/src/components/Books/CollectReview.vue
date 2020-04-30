@@ -66,13 +66,6 @@
               <div class="d-flex justify-space-between">
                 <v-btn color="yellow" @click="toggleDialog" small><span class="more-info-text">Information</span></v-btn>
                 <v-btn color="warning" @click="storeReview(n, 1)" small>리뷰 등록</v-btn>
-                <!-- <v-btn v-if="n !== steps" color="warning" @click="storeReview(n, 1)" small>다음 도서</v-btn>
-                <v-btn v-else-if="completePage < 3" color="error" @click="storeReview(n, 1)" small>
-                  {{ n + 5 * completePage + 1 }}~{{ n + 5 * completePage + 5 }}번 도서로
-                </v-btn>
-                <v-btn v-else color="error" @click="storeReview(n, 1)" small>
-                  리뷰 등록
-                </v-btn> -->
               </div>
               <div class="no-read-btn">
                 <v-btn color="error" @click="storeReview(n, 0)" small>
@@ -193,9 +186,9 @@ export default {
             content: this.content
           }
           this.postReview(data)
-          this.addReviewCnt(1)
-          this.nextStep(n)
           setTimeout(() => {
+            this.addReviewCnt(1)
+            this.nextStep(n)
             this.initForm()
           }, 50)
         } else {
@@ -208,41 +201,14 @@ export default {
           this.initForm()
         }, 50)
       }
-
-      // if (this.score && this.content.length) {
-      //   this.user = this.info.user_id
-      //   this.book = this.bookData[this.writtenReviewCnt].id
-      //   let data = {
-      //     user: this.user,
-      //     book : this.book,
-      //     score: this.score * 2,
-      //     content: this.content
-      //   }
-      //   this.reviewData.push(data)
-      //   if (n === this.steps && this.completePage === 1) {
-      //     this.$store.commit('togglePostReviewLoading', true)
-      //     this.postReviews()
-      //   } else {
-      //     this.addReviewCnt()
-      //     this.nextStep(n)
-      //     this.initForm()
-      //   }
-      // } else {
-      //   alert('평점(1점 이상)과 내용을 작성해주세요.')
-      // }
     },
     async postReview(data) {
-      // for (const review of this.reviewData) {
-        const formData = new FormData()
-        formData.append('user', data.user)
-        formData.append('content', data.content)
-        formData.append('score', data.score)
-        formData.append('book', data.book)
-        await this.$store.dispatch('ADD_REVIEWS', formData)
-      // }
-      // this.$store.commit('togglePostReviewLoading', false)
-      // alert('작성한 리뷰가 등록되었습니다. 메인 페이지로 이동합니다.')
-      // this.$router.push('/')
+      const formData = new FormData()
+      formData.append('user', data.user)
+      formData.append('content', data.content)
+      formData.append('score', data.score)
+      formData.append('book', data.book)
+      await this.$store.dispatch('ADD_REVIEWS', formData)
     },
     nextStep(n) {
       if (n === this.steps) {

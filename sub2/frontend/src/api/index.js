@@ -62,10 +62,17 @@ function fetchBookReview(id) {
   return instance.get('api/review/'+id);
 }
 
+// 리뷰 작성 API
 function addBookReview(params) {
   return instance.post('api/review/', params);
 }
 
+// 리뷰 수정 API
+function updateBookReview(data) {
+  return instance.put(`api/review/${data[0]}/`, data[1])
+}
+
+// 리뷰 삭제 API
 function deleteBookReview(review_id) {
   return instance.delete('api/review/'+ review_id + '/');
 }
@@ -94,6 +101,15 @@ function recommend() {
 function fetchauthor(id){
   return instance.get(`api/author/`+id)
 }
+
+function fetchAllUsers(paramsData) {
+  return instance.get('accounts/allusers/', { params: paramsData })
+}
+
+function postReviewLike(params) {
+  return instance.post('api/review/like/', params)
+}
+
 export {
   registerUser,
   loginUser,
@@ -107,10 +123,13 @@ export {
   fetchCategories,
   fetchBookReview,
   addBookReview,
+  updateBookReview,
   fetchjjim,
   deleteBookReview,
   mylike,
   myBookdata,
   recommend,
-  fetchauthor
+  fetchauthor,
+  fetchAllUsers,
+  postReviewLike
 }

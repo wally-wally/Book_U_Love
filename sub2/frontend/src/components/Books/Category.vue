@@ -4,15 +4,19 @@
       <div class="category-name my-2">
         {{ categoryName }}
       </div>
-      총 {{count}} 권의 책이 있습니다
       <div class="sort-wrapper my-2">
         <div class="sort-item" @click="getBookDetail('score')">평점순</div>
         <div class="sort-item" @click="getBookDetail('count')">리뷰순</div>
       </div>
     </div>
-    <div class="row" v-if="books.length && !loadingStatus">
-      <div v-for="book in books" :key="book.id" class="books-list col-lg-3 col-md-4 col-sm-6">
-        <BookCard :bookData="book"/>
+    <div class="category-book-cnt">
+      총 {{ count }} 권의 책이 있습니다
+    </div>
+    <div v-if="books.length && !loadingStatus">
+      <div class="books-list">
+        <div v-for="book in books" :key="book.id">
+          <BookCard :bookData="book"/>
+        </div>
       </div>
       <v-pagination
         v-model="pageNm"
@@ -20,7 +24,7 @@
         :total-visible="9"
         circle
         color="grey"
-        class="mb-4"></v-pagination>
+        class="my-4"></v-pagination>
     </div>
     <div v-else-if="loadingStatus">
       <div class="service-logo">
@@ -151,6 +155,11 @@ export default {
   font-weight: 600;
 }
 
+.category-book-cnt {
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
+}
+
 .no-category-books {
   font-family: 'Gothic A1';
   color: crimson;
@@ -182,5 +191,26 @@ export default {
   font-size: 18px;
   font-weight: 600;
   font-family: 'Noto Sans KR';
+}
+
+.books-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+}
+
+@media (max-width: 1264px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(33.33333%, auto));
+  }
+}
+@media (max-width: 960px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  }
+}
+@media (max-width: 600px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(100%, auto));
+  }
 }
 </style>

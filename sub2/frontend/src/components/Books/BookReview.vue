@@ -4,30 +4,28 @@
         <div class="review-header">
             <div class="review-username">
                 {{review.username}}
+                <i class="fas fa-edit px-2" v-if="review.user === this.info.user_id" @click="toggleEditMode"></i>
                 <div @click="deletereview" style="display:inline;">
                     <i v-if="this.$store.getters.info.user_id==review.user" class="fas fa-trash-alt"></i>
                 </div>
             </div>
-            <div class="pb-2">
-                <div id="stars" style="display:inline">
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <div class="review-score ml-2">{{review.score}}
+            <div class="pb-2 review-info-right">
+                <i class="fas fa-heart" v-if="review.user !== this.info.user_id && ifliked" @click="likeReview"></i>
+                <i class="far fa-heart" v-else-if="review.user !== this.info.user_id && !ifliked" @click="likeReview"></i>
+                <span class="review-cnt">({{ likecount }}명) | </span>
+                <div class="review-score">{{review.score}}점
                 </div>
             </div>
         </div>
-        <div v-if="review.spoiler" >스포일러가 있는 리뷰입니다 <br> <small @click="nospoiler()">그래도 볼래요!</small><br> </div>
+        <div v-if="review.spoiler && this.info.user_id !== review.user" class="spoiler-contents"><span>스포일러가 있는 리뷰입니다</span> <br> <small @click="nospoiler()" class="open-spoiler-btn">그래도 볼래요!</small><br> </div>
         <div v-else class="review-content" style="border-bottom:1px solid lightgray;white-space:pre-line">{{review.content}}</div>
-        
+    
         <div style="margin:10px;"/>
     </div>
 </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import { deleteBookReview } from '@/api/index.js'
 
 export default {
@@ -38,44 +36,50 @@ export default {
     },
     data() {
         return {
-            isdelete : false
+            ifliked : this.review.like_user.includes(this.$store.getters.info.user_id),
+            isdelete : false,
+            reviewScore: 0,
+            likecount : this.review.like_user.length
         }
     },
+    computed: {
+        ...mapGetters(['info']),
+    },
     mounted(){
-        this.starrating(this.review.score)
+        this.reviewScore = this.review.score / 2
     },
     methods :{
-        starrating(score){
-            var point = 0
-            const stars = document.querySelectorAll("#stars")[this.index]
-            while (score > point) {
-                stars.children[(point/2)].classList.replace('fa-star-o','fa-star')
-                point += 2
-            }
-            if (point != score) {
-                stars.children[(parseInt(score)-1)/2].classList.replace('fa-star','fa-star-half-alt')
-            }   
-        },
         async deletereview(id) {
             const a = confirm("삭제하시겠습니까")
             if (a) {
                 const data = await deleteBookReview(this.review.id)
-                console.log(data)
                 this.isdelete = true
                 this.$emit('deleteSign')
             }
         },
         nospoiler() {
             this.review.spoiler = !this.review.spoiler
+        },
+        async likeReview() {
+            const formData = new FormData()
+            formData.append('user', this.$store.getters.info.user_id)
+            formData.append('review', this.review.id)
+            const data = await this.$store.dispatch('POST_REVIEW_LIKE', formData)
+            this.ifliked = !this.ifliked
+            if (this.ifliked){
+                this.likecount += 1
+            } else {
+                this.likecount -= 1
+            }
+        },
+        toggleEditMode() {
+            this.$emit('toggleEditMode', this.review)
         }
-    }
+    },
 }
 </script>
 
 <style scoped>
-.fa{
-    color:#f9d71c;
-}
 i:hover {
     cursor: pointer;
 }
@@ -83,12 +87,23 @@ i:hover {
     display:inline;
     font-weight:bold;
     font-size:0.9em;
+    color: orangered;
 }
 .review-username{
     font-size: .875rem;
     line-height: 1.375rem;
     letter-spacing: .0071428571em;
     font-weight: bolder;
+}
+.review-info-right > i.fa-heart {
+    font-size: .875rem;
+    color: crimson;
+    padding-right: 3px;
+}
+.review-info-right > .review-cnt {
+    font-weight: 600;
+    font-size: .875rem;
+    color: rgba(0, 0, 0, 0.8);
 }
 .review-content{
     padding-bottom: 10px;
@@ -101,5 +116,28 @@ i:hover {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+.spoiler-contents {
+    color: crimson;
+    padding-bottom: 10px;
+    border-bottom: 1px solid silver;
+}
+
+.spoiler-contents span {
+    font-weight: 600;
+}
+
+.spoiler-contents small {
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: rgb(250, 237, 231);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.spoiler-contents small:hover {
+    cursor: pointer;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
 }
 </style>

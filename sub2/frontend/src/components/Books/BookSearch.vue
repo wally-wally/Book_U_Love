@@ -4,9 +4,11 @@
       <div class="search-message">'{{ this.$route.params.query }}' (으)로 검색한 결과입니다.</div>
       <div class="book-count-message" v-if="totalBookCount">총 {{ totalBookCount }} 권이 있습니다.</div>
     </div>
-    <div class="row" v-if="books.length && !loadingStatus">
-      <div v-for="i in books.length" :key="i" class="books-list col-lg-3 col-md-4 col-sm-6">
-        <BookCard :bookData="books[i - 1]"/>
+    <div v-if="books.length && !loadingStatus">
+      <div class="books-list">
+        <div v-for="i in books.length" :key="i">
+          <BookCard :bookData="books[i - 1]"/>
+        </div>
       </div>
       <v-pagination
         v-model="pageNm"
@@ -14,7 +16,7 @@
         :total-visible="9"
         circle
         color="grey"
-        class="mb-4"></v-pagination>
+        class="my-4"></v-pagination>
     </div>
     <div v-else-if="loadingStatus">
       <div class="service-logo">
@@ -142,5 +144,26 @@ export default {
   font-size: 18px;
   font-weight: 600;
   font-family: 'Noto Sans KR';
+}
+
+.books-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+}
+
+@media (max-width: 1264px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(33.33333%, auto));
+  }
+}
+@media (max-width: 960px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  }
+}
+@media (max-width: 600px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(100%, auto));
+  }
 }
 </style>

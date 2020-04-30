@@ -1,4 +1,12 @@
-import { fetchBooks, fetchBookDetail, fetchCategories, addBookReview, fetchBookReview, recommend } from '@/api/index.js'
+import {
+  fetchBooks,
+  fetchBookDetail,
+  fetchCategories,
+  addBookReview,
+  updateBookReview,
+  fetchBookReview,
+  recommend,
+  postReviewLike } from '@/api/index.js'
 
 const state = {
   categories: [],
@@ -63,8 +71,16 @@ const actions = {
     const { data } = await addBookReview(params)
     return data
   },
+  async EDIT_REVIEWS({ commit }, requestData) {
+    const { data } = await updateBookReview(requestData)
+    return data
+  },
   async GET_RECOMMEND_BOOKS({ commit }) {
     const { data } = await recommend()
+    return data
+  },
+  async POST_REVIEW_LIKE({ commit }, params) {
+    const { data } = await postReviewLike(params)
     return data
   }
 };

@@ -179,6 +179,18 @@ class LikeCategoryViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+@api_view(['POST'])
+def review_like(request):
+    data = request.data
+    review = get_object_or_404(models.Review, pk=data['review'])
+    user = get_object_or_404(get_user_model(),pk=data["user"])
+    if user not in review.like_user.all():
+        review.like_user.add(user)
+        is_liked = True
+    else:
+        review.like_user.remove(user)
+        is_liked = False
+    return JsonResponse({'is_liked':is_liked,'like_count':review.like_user.count()})
 # 책을 가져오는데 최근(일주일)에 리뷰가 많이 달린 순으로
 # 책마다 r_cnt로 비교
 # 리뷰를 가져와서 datetime(today)-created_at
