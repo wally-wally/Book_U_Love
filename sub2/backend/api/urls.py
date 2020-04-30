@@ -10,9 +10,11 @@ router.register(r"book/(?P<id>.+)",views.BookDetailViewSet,basename="book")
 router.register(r"category",views.CategoryViewSet,basename="categorys")
 router.register(r"likecategory",views.LikeCategoryViewSet,basename="likecategory")
 router.register(r"author",views.AuthorViewSet,basename="author")
+
 urlpatterns = [
     path('review/', views.review_create),
     path('review/<int:review_pk>/',views.review_command),
     path('like',views.like_book),
     path('mylike',views.mylike),
+    path('review_orderby_date',views.review_orderby_date)
 ] + router.urls
