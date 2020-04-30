@@ -98,6 +98,21 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             categorys.append(i.name)
         return categorys
 
+class UserSimpleSerializer(serializers.ModelSerializer):
+    categorys = serializers.SerializerMethodField()
+    r_cnt = serializers.SerializerMethodField()
+    class Meta:
+        model = models.User
+        fields = ('username', 'email', 'gender', 'age', 'categorys', 'r_cnt')
+
+    def get_categorys(self,obj):
+        categorys = []
+        for i in obj.favoriteCategory.all():
+            categorys.append(i.name)
+        return categorys
+
+    def get_r_cnt(self,obj):
+        return len(obj.review_set.all())
 
 class UserDetailSerializer(serializers.ModelSerializer):
     categorys = serializers.SerializerMethodField()

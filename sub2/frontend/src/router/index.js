@@ -69,6 +69,8 @@ export default new Router({
       name: 'AdminPage',
       component: loadView('AdminPage')
     },
+    { path:'/category/review', name : 'reviewcategory',component : loadComponent('Admin','ReviewCategory')},
+    { path : '/category/filter',name : 'filtercategory',component : loadComponent('Admin','FilterCategory')},
     {
       path : '/createuser',
       name : 'createuser',
