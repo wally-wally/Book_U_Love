@@ -20,7 +20,8 @@
                 </div>
             </div>
         </div>
-        <div class="review-content" style="border-bottom:1px solid lightgray;white-space:pre-line">{{review.content}}</div>
+        <div v-if="review.spoiler" >스포일러가 있는 리뷰입니다 <br> <small @click="nospoiler()">그래도 볼래요!</small><br> </div>
+        <div v-else class="review-content" style="border-bottom:1px solid lightgray;white-space:pre-line">{{review.content}}</div>
         
         <div style="margin:10px;"/>
     </div>
@@ -63,6 +64,9 @@ export default {
                 this.isdelete = true
                 this.$emit('deleteSign')
             }
+        },
+        nospoiler() {
+            this.review.spoiler = !this.review.spoiler
         }
     }
 }

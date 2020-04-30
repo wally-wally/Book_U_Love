@@ -32,6 +32,9 @@ def signup(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         user = UserSerializer.create(get_user_model(), request.data)
+        for c in request.data['categorys']:
+            detail = DetailCategory.objects.get(id=c)
+            user.favoriteCategory.add(detail)
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
@@ -49,6 +52,7 @@ def createuser(request):
         2: ['이게뭐야','완전 재미없어요','우엑','나도 작가하겠다','한 10장보고 접었네요'],
         1: ['이 책은 뗄감으로 쓰세요','개노잼','11점 주고 싶은 마음으로 1점드립니다','내맘속의 1등이라 1점드립니다']
     }
+    spoiler = [True,False,False,False]
     fake = Faker('ko_KR')
     email = fake.email()
     userdata = {
@@ -64,7 +68,7 @@ def createuser(request):
         for c in request.data['categorys']:
             detail = DetailCategory.objects.get(id=c)
             user.favoriteCategory.add(detail)
-        books = Book.objects.filter(detailCategory=detail)
+            books = Book.objects.filter(detailCategory=detail)
         recommend = set()
         l = len(books)
         for _ in range(int(l ** (1/3)*2 + l//10 -1)):
@@ -83,15 +87,23 @@ def createuser(request):
             else:
                 score = np.random.normal(7.8,1.5)
             score = int(round(max(min(score,10),1)))
-            Review.objects.create(
-                score = score,
-                book = books[r],
-                user = user,
-                content = contents[score][np.random.randint(0,len(contents[score]))]
-            )
-            books[r].r_cnt += 1
-            books[r].r_score += score
-            books[r].save()
+            try:
+                review = Review.objects.create(
+                    score = score,
+                    book = books[r],
+                    user = user,
+                    content = contents[score][np.random.randint(0,len(contents[score]))],
+                    spoiler = spoiler[np.random.randint(0,4)]
+                )
+                c_month = str(np.random.randint(3,5))
+                c_date = str(np.random.randint(1,31))
+                review.created_at = '2020-0' + c_month + '-' + c_date + 'T13:30:41.927745+09:00'
+                review.save()
+                books[r].r_cnt += 1
+                books[r].r_score += score
+                books[r].save()
+            except:
+                pass
         other = Book.objects.all()
         ll = len(other)
         other_recommend = set()
@@ -103,16 +115,24 @@ def createuser(request):
             other_recommend.add(int(ss))
         other_recommend -= recommend
         for r in other_recommend:
-            score = int(round(max(min(np.random.normal(7.0,1.5),10),0))-0.3)
-            Review.objects.create(
-                score = score,
-                book = other[r],
-                user = user,
-                content = contents[score][np.random.randint(0,len(contents[score]))]
-            )
-            other[r].r_cnt += 1
-            other[r].r_score += score
-            other[r].save()
+            try:
+                score = int(round(max(min(np.random.normal(7.0,1.5),10),0))-0.3)
+                review = Review.objects.create(
+                    score = score,
+                    book = other[r],
+                    user = user,
+                    content = contents[score][np.random.randint(0,len(contents[score]))],
+                    spoiler = spoiler[np.random.randint(0,4)]
+                )
+                c_month = str(np.random.randint(3,5))
+                c_date = str(np.random.randint(1,31))
+                review.created_at = '2020-0' + c_month + '-' + c_date + 'T13:30:41.927745+09:00'
+                review.save()
+                other[r].r_cnt += 1
+                other[r].r_score += score
+                other[r].save()
+            except:
+                pass
     return Response(serializer.data)
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -124,6 +144,9 @@ def user(request):
     elif request.method == 'PUT':
         data = request.data
         serializer = UserUpdateSerializer(data=data, instance=user)
+        for c in request.data['categorys']:
+            detail = DetailCategory.objects.get(id=c)
+            user.favoriteCategory.add(detail)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)

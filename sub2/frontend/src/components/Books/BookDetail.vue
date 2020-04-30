@@ -106,6 +106,7 @@
                 </fieldset>
               </div>
               <textarea v-model="content" placeholder="리뷰를 입력해주세요."/> 
+              <v-checkbox v-model="spoiler" label="스포일러 있음" />
               <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register"><span>리뷰등록</span></div>
             </form>
           </div>
@@ -148,6 +149,7 @@ export default {
   },
   data() {
     return {
+      spoiler : false,
       book: {},
       content : '',
       score : 0,
@@ -200,6 +202,7 @@ export default {
           formData.append('content',this.content)
           formData.append('score',this.score)
           formData.append('book',this.id)
+          formData.append('spoiler',this.spoiler)
           await this.$store.dispatch('ADD_REVIEWS',formData)
           this.getBookDetail(this.id)
           this.initForm()
