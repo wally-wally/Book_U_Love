@@ -152,7 +152,7 @@ export default {
       this.selectedCategories = this.categories.filter(category => favoriteCategory.includes(category.name)).map(item => `${item.id}-${item.mainCatsName}-${item.subCatsName}-${item.name}`)
     },
     async updateMyAddInfo() {
-      let convertCategoryIDs = this.selectedCategories.map(category => category.split('-')[3])
+      let convertCategoryIDs = this.selectedCategories.map(category => category.split('-')[0])
       const userAddData = {
         username: this.info.username,
         email: this.info.email,

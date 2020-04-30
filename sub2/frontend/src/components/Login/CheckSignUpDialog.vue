@@ -43,6 +43,7 @@ export default {
 .v-card__title,
 .v-card__actions {
   font-family: 'Noto Sans KR';
+  font-size: 21px;
   padding: 16px;
 }
 

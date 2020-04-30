@@ -8,7 +8,7 @@
         <span v-if="Object.keys(info).length" class="login-user-name ml-2">({{ info.username }}<span class="greeting">님 환영합니다</span>)</span>
       </div>
       <div class="team-intro">
-        <span class="link-text" @click.stop="toggleDialog">Introduction</span>
+        <span class="link-text" @click.stop="toggleDialog">Intro</span>
       </div>
     </div>
     <v-dialog v-model="showDialog" width="900">

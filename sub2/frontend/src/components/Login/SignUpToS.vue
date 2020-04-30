@@ -127,14 +127,19 @@ export default {
   margin: 2em 0;
 }
 
+
 @media (max-width: 600px) {
   .signup-title .service-logo img {
-    width: 150px;
-    height: 150px;
+    width: 170px;
+    height: 170px;
   }
 
-  .signup-title .service-title {
-    font-size: 1.2em;
+  .signup-title .service-title > div:first-child {
+    font-size: 1.3em;
+  }
+
+  .signup-title .service-title > div:last-child {
+    font-size: 1.1em;
   }
 
   .tos-title {
