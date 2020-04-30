@@ -58,8 +58,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 0 15px;
+  margin: 10px 15px;
 }
+
 .book-img {
   padding-bottom: 1.4em;
 }
@@ -137,9 +138,6 @@ export default {
 .main-book-info .book-author {
   display: inline-block;
   width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .main-book-info .book-title {

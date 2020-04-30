@@ -15,6 +15,7 @@ router.register(r"reviews",views.ReviewViewSet,basename="review")
 urlpatterns = [
     path('review/', views.review_create),
     path('review/<int:review_pk>/',views.review_command),
+    path('review/like/',views.review_like),
     path('like',views.like_book),
     path('mylike',views.mylike),
 ] + router.urls
