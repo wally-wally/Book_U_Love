@@ -12,7 +12,7 @@ import string
 import numpy as np
 from faker import Faker
 from api.models import DetailCategory, Book, Review
-
+import random
 # Create your views here.
 from api.models import Book, MainCategory
 from django.http import JsonResponse

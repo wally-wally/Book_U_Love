@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-carousel :height="sliderHeight" show-arrows-on-hover>
+  <div class="mb-6" style="border: 1px solid transparent;">
+    <v-carousel :height="400" show-arrows-on-hover>
       <v-carousel-item
         v-for="(image,i) in images"
         :key="i"
@@ -11,9 +11,6 @@
           <div class="carousel-title">{{ image.contents.title }}</div>
           <div class="seperate-line"></div>
           <div class="carousel-body">{{ image.contents.body }}</div>
-          <div class="carousel-btn">
-            <v-btn v-if="image.contents.moreIcon" color="error" large>READ MORE</v-btn>
-          </div>
         </div>
       </v-carousel-item>
     </v-carousel>
@@ -25,46 +22,29 @@ export default {
   name: 'ImageSlider',
   data() {
     return {
-      sliderHeight: 400,
       images: [
         {
           src: 'https://www.incimages.com/uploaded_files/image/970x450/getty_496612468_2000138820009280460_336567.jpg',
           contents: {
             title: 'Book_U_Love',
-            body: 'We recommend you a book that you might like.',
-            moreIcon: false
+            body: 'We recommend you a book that you might like.'
           }
         },
         {
           src: 'https://cdn.lagerbox.com/thumb/media/758/how-books-age-and-what-harms-them_e928f0b8_11fcba1d_1_s1150-l85--s2300-l85.jpg',
           contents: {
             title: 'Book Recommendation',
-            body: 'We recommend you a book considering your age, interests, writers, etc.',
-            moreIcon: false
+            body: 'We recommend you a book considering your age, interests, writers, etc.'
           }
         },
         {
           src: 'http://www.p-lib.es/wp-content/uploads/2017/05/Libros-Parque-alargada-1024x512.jpg',
           contents: {
             title: 'Best Sellers',
-            body: 'We introduce you to the bestseller.',
-            moreIcon: false
+            body: 'We introduce you to the bestseller.'
           }
         },
       ]
-    }
-  },
-   created() {
-    this.responsiveHeight()
-  },
-  mounted() {
-    window.addEventListener('resize', () => {
-      this.responsiveHeight()
-    })
-  },
-  methods: {
-    responsiveHeight() {
-      this.sliderHeight = window.innerWidth < 550 ? 300 : 400
     }
   }
 }

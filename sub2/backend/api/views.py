@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.db.models import Count,Avg
 from django.http import JsonResponse
+from datetime import datetime, timedelta
 
 class SmallPagination(PageNumberPagination):
     page_size = 10
@@ -209,3 +210,32 @@ def review_age(request):
     review = review.filter(user__gender="M")
     # print(review)
     return Response(list(review))
+
+
+@api_view(['POST'])
+def review_like(request):
+    data = request.data
+    review = get_object_or_404(models.Review, pk=data['review'])
+    user = get_object_or_404(get_user_model(),pk=data["user"])
+    if user not in review.like_user.all():
+        review.like_user.add(user)
+        is_liked = True
+    else:
+        review.like_user.remove(user)
+        is_liked = False
+    return JsonResponse({'is_liked':is_liked,'like_count':review.like_user.count()})
+# 책을 가져오는데 최근(일주일)에 리뷰가 많이 달린 순으로
+# 책마다 r_cnt로 비교
+# 리뷰를 가져와서 datetime(today)-created_at
+
+# datetime.strptime('2020-04-30T20:41:36.086052+09:00'[:10], '%Y-%m-%d')-datetime.now()
+@api_view(['GET'])
+def review_orderby_date(request):
+    reviews = models.Review.objects.all().filter(created_at__gte=datetime.now()-timedelta(days=7))
+    review = reviews.values('book_id').annotate(Count('id')).order_by('-id__count').order_by('-book__r_score')
+    print(review)
+    books = []
+    for a in review[:10]:
+        serializer = serializers.BookDetailSerializer(models.Book.objects.get(id=a['book_id']))
+        books.append((serializer.data,a['id__count']))
+    return Response(books)

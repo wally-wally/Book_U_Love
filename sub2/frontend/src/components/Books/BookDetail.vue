@@ -77,10 +77,10 @@
       </div>
       <div class="book-review">
         <div class="review-box">
-          <div class="review-form-title">도서 리뷰</div>
+          <div class="review-form-title main-title">📚 도서 리뷰</div>
           <div class="review-form">
             <input type="text" v-model="this.time" class="d-none">
-            <form v-if="this.$store.state.user.isLogin && !myReview.length">
+            <form v-if="this.$store.state.user.isLogin && (!myReview.length || editMode)">
               <div class="star-score">
                 <fieldset class="score">
                   <input v-model="score" type="radio" id="star10" name="score" value="10"/>
@@ -105,9 +105,14 @@
                   <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
                 </fieldset>
               </div>
-              <textarea v-model="content" placeholder="리뷰를 입력해주세요."/> 
-              <v-checkbox v-model="spoiler" label="스포일러 있음" />
-              <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register"><span>리뷰등록</span></div>
+              <textarea v-model="content" placeholder="리뷰를 입력해주세요."/>
+              <div class="review-btn-group">
+                <v-checkbox v-model="spoiler" label="스포일러 있음" class="ma-0 pa-0" color="warning" />
+                <div @click="this.addBookReview" v-if="this.$store.state.user.isLogin" class="review-register">
+                  <span v-if="!editMode">리뷰등록</span>
+                  <span v-else>리뷰수정</span>
+                </div>
+              </div>
             </form>
           </div>
           <div class="review-contents">
@@ -115,16 +120,31 @@
               <i class="fas fa-pencil-alt"></i>
               <p>작성된 리뷰가 없습니다.</p>
             </div>
-            <div class="my-review-section px-3" v-if="myReview.length">
-              <BookReview :review="myReview[0]" :index="0" @deleteSign="deleteSign" />
+            <div class="my-review-section px-3 mt-2" v-if="myReview.length">
+              <div class="review-section-title">✏️ <span>내가 쓴 리뷰</span></div>
+              <BookReview :review="myReview[0]" :index="0" @deleteSign="deleteSign" @toggleEditMode="toggleEditMode" />
             </div>
             <div class="review-section px-3 pb-3" style="width:95%;margin:0 auto" v-if="remainReview.length">
-              <div v-for="(review,index) in remainReview" :key="index">
-                <BookReview :review="review" :index="myReview.length ? index + 1 : index"/>
+              <div class="review-section-title other-review mt-2">
+                <div>✏️ <span>다른 유저의 리뷰</span></div>
+                <div class="sort-group">
+                  <span @click="sortReview(0)">평점순</span>
+                  <span @click="sortReview(1)">최신순</span>
+                </div>
+              </div>
+              <div v-for="(review,index) in remainReview.slice((reviewPageNm - 1) * 5, reviewPageNm * 5)" :key="index">
+                <BookReview :review="review" /> <!-- :index="(myReview.length ? index + 1 : index) + ((reviewPageNm - 1) * 5)" -->
               </div>
             </div>
+            <div class="review-pagination" v-if="remainReview.length">
+              <i :class="reviewPageNm === 1 ? 'fas fa-chevron-left limit-page-nm' : 'fas fa-chevron-left'" @click="changeReviewPageNm(-1)"></i>
+              <span>{{ reviewPageNm }}</span>
+              <span>/</span>
+              <span>{{ parseInt(remainReview.length / 5) + (!(remainReview.length % 5) ? 0 : 1) }}</span>
+              <i :class="reviewPageNm === parseInt(remainReview.length / 5) + (!(remainReview.length % 5) ? 0 : 1) ? 'fas fa-chevron-right limit-page-nm' : 'fas fa-chevron-right'" @click="changeReviewPageNm(1)"></i>
+            </div>
           </div>
-          <div class="review-form-title" v-if="myReview.length || remainReview.length">평점 그래프</div>
+          <div class="review-form-title chart-title" v-if="myReview.length || remainReview.length">📊 평점 그래프</div>
           <div class="review-chart" v-if="myReview.length || remainReview.length">
             <Chart :chartData="this.stat" :chartLabels=[1,2,3,4,5,6,7,8,9,10] chartType="bar" style="width:95%;margin:0 auto"></Chart>
           </div>
@@ -163,7 +183,10 @@ export default {
       time : 0,
       loadingStatus: false,
       myReview: [],
-      remainReview: []
+      remainReview: [],
+      reviewPageNm: 1,
+      editMode: 0,
+      editReviewPK: 0
     }
   },
   computed: {
@@ -207,8 +230,14 @@ export default {
           formData.append('score',this.score)
           formData.append('book',this.id)
           formData.append('spoiler',this.spoiler)
-          await this.$store.dispatch('ADD_REVIEWS',formData)
-          this.getBookDetail(this.id)
+          if (!this.editMode) {
+            await this.$store.dispatch('ADD_REVIEWS', formData)
+            this.getBookDetail(this.id)
+          } else {
+            await this.$store.dispatch('EDIT_REVIEWS', [this.editReviewPK, formData])
+            this.getBookDetail(this.id)
+          }
+          this.editMode = 0
           this.initForm()
           this.time = 5
         } else {
@@ -240,6 +269,27 @@ export default {
       formData.append('book',this.id)
       const data = await fetchjjim(formData)
       this.book.my = !this.book.my
+    },
+    changeReviewPageNm(val) {
+      let condition = (this.reviewPageNm < parseInt(this.remainReview.length / 5) + (!(this.remainReview.length % 5) ? 0 : 1) && val === 1)
+                      || (this.reviewPageNm > 1 && val === -1)
+      if (condition) {
+        this.reviewPageNm += val
+      }
+    },
+    toggleEditMode(reviewData) {
+      this.editMode = 1
+      this.score = reviewData.score
+      this.content = reviewData.content
+      this.editReviewPK = reviewData.id
+      this.spoiler = reviewData.spoiler
+    },
+    sortReview(val) {
+      if (!val) { // 평점순
+        this.remainReview = this.remainReview.sort((a, b) => b.score - a.score)
+      } else { // 최신순
+        this.remainReview = this.remainReview.sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
+      }
     }
   }
 }
@@ -254,8 +304,8 @@ a {
   width: 80%;
   margin: 10px auto;
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 12px;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 16px;
 }
 
 @media (max-width: 1100px) {
@@ -277,9 +327,15 @@ a {
 }
 
 .book-header .book-title {
-  font-size: 21px;
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 6px;
+}
+
+@media (max-width: 600px) {
+  .book-header .book-title {
+    font-size: 20px;
+  }
 }
 
 .book-header .book-score {
@@ -399,12 +455,20 @@ a {
 
 .review-form-title {
   font-family: 'Noto Sans KR';
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   width: 90%;
   margin: 0 auto;
   clear: both;
+}
+
+.review-form-title.main-title {
+  margin-bottom: 18px;
+}
+
+.review-form-title.chart-title {
+  padding-bottom: 18px;
 }
 
 .score {
@@ -470,9 +534,15 @@ textarea {
   font-family: 'Gothic A1';
 }
 
+.review-btn-group {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 90%;
+  margin: 20px auto 0;
+}
+
 .review-register{
-  float: right;
-  margin:0.8em 5% 0.8em 0;
   transform: translateY(0);
   transition: all .2s;
 }
@@ -493,6 +563,38 @@ textarea {
 
 .review-register:hover > span {
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.review-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Gothic A1';
+  display: inline-block;
+}
+
+.review-section-title > span {
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.review-section-title.other-review {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-section-title.other-review .sort-group {
+  font-size: 14px;
+}
+
+.review-section-title.other-review .sort-group > span {
+  padding-left: 8px;
+  font-weight: 500;
+}
+
+.review-section-title.other-review .sort-group > span:hover {
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .no-review-data {
@@ -521,6 +623,26 @@ textarea {
   clear: both;
 }
 
+.review-pagination {
+  text-align: center;
+  letter-spacing: 0.3em;
+  font-weight: 600;
+  font-family: 'Gothic A1';
+  margin-bottom: 8px;
+}
+
+.review-pagination > i {
+  padding: 0 8px;
+}
+
+.review-pagination > i:not(.limit-page-nm) {
+  cursor: pointer;
+}
+
+.fas.limit-page-nm {
+  color: lightgray;
+}
+
 .star-score,
 .review-chart {
   width: 90%;
@@ -546,5 +668,9 @@ textarea {
   font-size: 18px;
   font-weight: 600;
   text-align: center;
+}
+.book-detail-contents{
+  color:rgb(65, 65, 65) !important;
+  line-height: 1.8em;
 }
 </style>

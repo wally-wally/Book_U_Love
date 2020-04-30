@@ -21,7 +21,7 @@
       </div>
       <div class="loading-message">
         <span v-if="loadingStatus">데이터를 불러오는 중 입니다.</span>
-        <span v-else>해당 데이터가 없습니다.</span>
+        <span v-else>해당 데이터가 없습니다.<br>관심 카테고리 설정과 리뷰를 작성해주세요!</span>
       </div>
     </div>
   </div>
@@ -122,6 +122,17 @@ export default {
         this.books = bookdata
         this.loadingStatus = false
         return
+      }
+    }
+  },
+  filters: {
+    filteredAuthor(author) {
+      if (!author.length) {
+        return '작가 미등록'
+      } else {
+        let authorCnt = author.length
+        let firstAuthorName = author[0].name
+        return firstAuthorName + (authorCnt >= 2 ? ` 외 ${authorCnt - 1}명` : '')
       }
     }
   }

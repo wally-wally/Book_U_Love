@@ -93,7 +93,7 @@ export default {
         '비밀번호 양식을 지켜서 작성해주세요.',
         '비밀번호가 일치하지 않거나 비밀번호 양식에 어긋납니다.',
         '성별을 선택해주세요.',
-        '1 이상의 나이를 입력해주세요.'
+        '10세 이상 99세 이하의 나이를 입력해주세요.'
       ],
       clickedSignupBtn: false,
       showDialog: false,
@@ -118,7 +118,7 @@ export default {
       return validatePassword(this.rePassword) && this.password === this.rePassword
     },
     isNumberValid() {
-      return validateNumber(this.age) && this.age.length
+      return validateNumber(this.age) && this.age.length === 2
     }
   },
   methods: {
@@ -169,6 +169,12 @@ export default {
     },
     username() {
       this.errormessage.username = []
+    },
+    age() {
+      if (this.age.length >= 3) {
+        alert('10세 이상 99세 이하의 나이로 입력해주세요.')
+        this.age = this.age.slice(0, 2)
+      }
     }
   }
 }

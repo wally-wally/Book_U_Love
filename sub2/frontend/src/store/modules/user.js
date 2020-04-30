@@ -1,4 +1,11 @@
-import { loginUser, fetchMyInfo, updateMyInfo, deleteUser, changePassword, findPassword } from '@/api/index.js'
+import {
+  loginUser,
+  fetchMyInfo,
+  updateMyInfo,
+  deleteUser,
+  changePassword,
+  findPassword,
+  fetchAllUsers } from '@/api/index.js'
 import jwtDecode from 'jwt-decode'
 
 const state = {
@@ -79,6 +86,10 @@ const actions = {
   },
   async FIND_PASSWORD({ commit }, userData) {
     const data = await findPassword(userData)
+    return data
+  },
+  async GET_ALL_USERS({ commit }, paramsData) {
+    const { data } = await fetchAllUsers(paramsData)
     return data
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="main-wrapper">
-    <ImageSlider />
-    <ImageSwiper />
+    <ImageSlider v-if="!isLogin" />
+    <ImageSwiper v-else />
     <div v-for="theme in themes" :key="theme">
       <div v-if="(theme === 'age_gender' || theme === 'favoriteCategory') && isLogin">
         <BookSwiper :theme="theme" />
@@ -52,7 +52,7 @@ export default {
   },
   data() {
     return {
-      themes: ['favoriteCategory', 'sortScore', 'sortReviewCnt']
+      themes: ['sortScore', 'sortReviewCnt']
       // themes: ['favoriteCategory', 'age_gender', 'sortScore', 'sortReviewCnt']
     }
   },
@@ -60,6 +60,21 @@ export default {
     ...mapState({
       isLogin: state => state.user.isLogin
     })
+  },
+  created() {
+    if (this.isLogin) {
+      this.checkRecommendBooksExist()
+    }
+  },
+  methods: {
+    async checkRecommendBooksExist() {
+      let bookdata = await this.$store.dispatch('GET_RECOMMEND_BOOKS')
+      if (!bookdata.length) {
+        this.themes.push('favoriteCategory')
+      } else {
+        this.themes.unshift('favoriteCategory')
+      }
+    }
   }
 }
 </script>

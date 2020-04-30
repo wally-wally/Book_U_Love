@@ -20,7 +20,12 @@ export default {
 
 <style scoped>
 .admin-page-wrapper {
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
+}
+
+.admin-page-wrapper h2 {
+  font-family: 'Quicksand';
+  padding-bottom: 8px;
 }
 </style>
