@@ -141,6 +141,7 @@ export default {
   .mobile-sidebar-wrapper {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     padding-bottom: 1em;
     margin-bottom: 1em;
     border-bottom: 1px solid silver;
@@ -151,19 +152,9 @@ export default {
   }
 }
 
-@media (max-width: 490px) {
+@media (max-width: 550px) {
   .mobile-sidebar-wrapper {
     padding-bottom: 0;
-  }
-
-  .mobile-mypage-title .user-name {
-    display: none;
-  }
-}
-
-@media (max-width: 370px) {
-  .mobile-mypage-title span:last-child {
-    font-size: 1.1rem;
   }
 }
 </style>

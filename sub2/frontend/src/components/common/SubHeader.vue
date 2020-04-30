@@ -31,42 +31,7 @@
                     </ul>
                   </li>
                 </ul>
-                <!-- <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
-                  <ul class="category-list">
-                    <div v-for="(main,idx) in this.categorylist" :key="main.id">
-                      <div :class="{select : c_setting[0]==idx}" class="categoryname" @click="goCategoryPage('main',main.id)">
-                      {{ main.name }}
-                      </div>
-                      <i @click="maincategory(idx)" class="fas fa-arrow-right"/>
-                    </div>
-                  </ul>
-                </div> -->
               </li>
-              <!-- <li class="foreign-category-tab">
-                <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
-                  <ul v-if="c_setting[0]!=null" class="category-list">
-                    <div v-for="(sub,idx) in this.categorylist[this.c_setting[0]]['subcategory_set']" :key="sub.id">
-                      <div :class="{select : c_setting[1]==idx}" class="categoryname" @click="goCategoryPage('sub',sub.id)">
-                      {{ sub.name }}
-                      </div>
-                      <i @click="subcategory(idx)" class="fas fa-arrow-right"/>
-                    </div>
-                  </ul>
-                </div>
-              </li>
-              <li>
-                <span class="ml-2">
-                </span>
-                <div class="category-list-wrapper" :id="!this.showCategory ? 'list-hide' : ''">
-                  <ul v-if="c_setting[1]!=null" class="category-list">
-                    <div v-for="(detail,idx) in this.categorylist[this.c_setting[0]]['subcategory_set'][this.c_setting[1]]['detailcategory_set']" :key="detail.id">
-                      <div :class="{select : c_setting[2]==idx}" class="categoryname" @click="goCategoryPage('detail',detail.id);detailcategory(idx)">
-                      {{ detail.name }}
-                      </div>
-                    </div>
-                  </ul>
-                </div>
-              </li> -->
             </ul>
           </nav>
         </div>
@@ -85,7 +50,7 @@
               <router-link v-if="!isLogin" to="/login" class="mr-3">
                 <span>Login</span>
               </router-link>
-              <span v-else class="mr-3 logout-btn" @click="logout">Logout</span>
+              <span v-else class="logout-btn" @click="logout">Logout</span>
               <i class="fas fa-bars" @click.stop="showDrawer()"></i>
             </div>
           </nav>
@@ -405,7 +370,6 @@ i:hover{
 
 .fa-chevron-right {
   padding-left: 3px;
-  /* color: rgba(0, 0, 0, 0.6); */
 }
 
 .main-category-item:hover .main-category-name,
@@ -424,45 +388,6 @@ i:hover{
 .book-category-wrapper ul li:first-child span::before {
   content: 'ALL CATEGORY'
 }
-
-/* 예전 카테고리 css */
-/* .book-category-wrapper > ul > li > .category-list-wrapper {
-  position: absolute;
-  top: 70px;
-  font-size: 0.9em;
-}
-
-.book-category-wrapper > ul > li[class="category-tab"] > .category-list-wrapper:last-child {
-  display: inline;
-  margin-left: 50px;
-}
-
-.book-category-wrapper > ul > li > .category-list-wrapper > ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.book-category-wrapper > ul > li .category-list-wrapper > ul > li {
-  padding: 0.15em 0.6em 0.15em 0;
-  font-family: 'Noto Sans KR';
-  border-bottom: 0.8px solid #ccc;
-}
-
-.book-category-wrapper > ul > li .category-list-wrapper > ul > li:first-child {
-  border-top: 0.8px solid #ccc;
-}
-
-.book-category-wrapper > ul > li .category-list-wrapper > ul > li:hover {
-  cursor: pointer;
-  background: rgba(0, 0, 0, .05);
-}
-
-.korea-category-tab ul[class="category-list"] {
-  display: inline;
-} */
-
-/* 여기까지 */
 
 .sub-header-right-wrapper {
   font-size: 1.01em;
@@ -535,34 +460,14 @@ i:hover{
 .mobile-category-link {
   font-size: 13px;
 }
-/* 예전꺼 */
-/* aside {
-  z-index: 50000;
-}
-
-aside ul {
-  list-style: none;
-}
-
-aside ul > li {
-  padding: 0.35em 0;
-  font-size: 0.9em;
-  border-bottom: 0.8px solid rgba(0, 0, 0, .1);
-  width: 90%;
-  font-family: 'Nanum Gothic';
-}
-
-aside ul > li:first-child {
-  border-top: 0.8px solid rgba(0, 0, 0, .1);
-}
-
-aside .region-title {
-  font-size: 1rem;
-  font-weight: bold;
-  font-family: 'Gothic A1';
-} */
 
 /* responsive web */
+@media (max-width: 970px) {
+  .icon-groups .logout-btn {
+    margin-right: 12px;
+  }
+}
+
 @media (min-width: 620px) and (max-width: 970px) {
   .sub-header-wrapper {
     display: block;

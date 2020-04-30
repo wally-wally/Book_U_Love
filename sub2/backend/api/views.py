@@ -16,6 +16,17 @@ class SmallPagination(PageNumberPagination):
     page_size_query_param = "page_size"
     max_page_size = 50
 
+class ReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.ReviewSerializer
+    permission_class = [IsAuthenticated]
+
+    def get_queryset(self):
+        review = models.Review.objects.all()
+        id = self.request.query_params.get("id","")
+        if id:
+            review = review.filter(user=id)
+        queryset = (review)
+        return queryset
 
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CategorySerializer
@@ -53,7 +64,7 @@ class BookViewSet(viewsets.ModelViewSet):
             book = book.filter(detailCategory_id=detailcategory)
         query = self.request.query_params.get("query","")
         if query:
-            book = book.filter(author__name__contains=query) | book.filter(title__contains=query)
+            book = book.filter(author__name__contains=query).union(book.filter(title__contains=query))
         author = self.request.query_params.get("author","")
         if author:
             book = book.filter(author__id=author)
@@ -86,9 +97,10 @@ def review_create(request):
         return Response(serializer.data)
     else:
         serializer = serializers.ReviewSerializer(data=request.data)
-        book = Book.objects.get(id=request.data.book)
-        book.r_score += request.data.score
-        boor.r_cnt += 1
+        book = models.Book.objects.get(id=request.data['book'])
+        print(book)
+        book.r_score += int(request.data['score'])
+        book.r_cnt += 1
         book.save()
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -99,8 +111,8 @@ def review_command(request,review_pk):
     if request.method == 'PUT':
         review = get_object_or_404(models.Review, pk=review_pk)
         serializer = serializers.ReviewSerializer(data=request.data, instance=review)
-        book = Book.objects.get(id=review.book_id)
-        book.r_score -=  review.score - request.data.score
+        book = models.Book.objects.get(id=review.book_id)
+        book.r_score -=  review.score - int(request.data['score'])
         book.save()
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -108,7 +120,7 @@ def review_command(request,review_pk):
     else:
         print('delete_review')
         review = get_object_or_404(models.Review, pk=review_pk)
-        book = Book.objects.get(id=review.book_id)
+        book = models.Book.objects.get(id=review.book_id)
         book.r_cnt -= 1
         book.r_score -= review.score
         book.save()

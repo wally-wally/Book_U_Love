@@ -83,9 +83,9 @@ export default {
             // position: 'bottom'
             display: false
           },
-          tooltips: {
-            enabled: false
-          },
+          // tooltips: {
+          //   enabled: false
+          // },
           // scales: {
           //   xAxes: [{
           //     gridLines: {
@@ -109,7 +109,12 @@ export default {
                     lineHeight: 1.6
                 },
                 formatter: (value,ctx) => {
-                  return  ctx.chart.data.labels[ctx.dataIndex]+ "\n" + Math.floor((value/this.total)*100) +'%';
+                  if ((value/this.total)>=0.11) {
+                  return ctx.chart.data.labels[ctx.dataIndex]+ "\n" + Math.floor((value/this.total)*100) +'%';
+                  }
+                  else {
+                    return null
+                  }
                 }
             }
         }
