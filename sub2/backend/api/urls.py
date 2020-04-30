@@ -17,4 +17,5 @@ urlpatterns = [
     path('review/<int:review_pk>/',views.review_command),
     path('like',views.like_book),
     path('mylike',views.mylike),
+    path('review_orderby_date',views.review_orderby_date)
 ] + router.urls
