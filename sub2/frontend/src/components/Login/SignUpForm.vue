@@ -39,6 +39,23 @@
                 {{ logMessage[3] }}
               </div>
             </div>
+            <div class="gender-form">
+              <label for="gender" class="d-block">성별</label>
+              <v-radio-group v-model="gender" row id="gender" class="pa-0">
+                <v-radio label="남성" value="M" color="primary"></v-radio>
+                <v-radio label="여성" value="F" color="primary"></v-radio>
+              </v-radio-group>
+              <div class="logmessage" v-if="!gender && clickedSignupBtn">
+                {{ logMessage[4] }}
+              </div>
+            </div>
+            <div class="age-form">
+              <label for="age" class="d-block">나이</label>
+              <input id="age" v-model="age" type="number" min="1">
+              <div class="logmessage" v-if="!isNumberValid && clickedSignupBtn">
+                {{ logMessage[5] }}
+              </div>
+            </div>
             <div class="signup-btn">
               <v-btn color="warning" block @click="signupWithValid()"><span>회원가입</span></v-btn>
             </div>
@@ -54,6 +71,7 @@
 import { validateUserName } from '@/utils/validation/userNameValidation.js'
 import { validateEmail } from '@/utils/validation/emailValidation.js'
 import { validatePassword } from '@/utils/validation/passwordValidation.js'
+import { validateNumber } from '@/utils/validation/numberValidation.js'
 import { registerUser } from '@/api/index.js'
 import CheckSignUpDialog from '@/components/Login/CheckSignUpDialog'
 
@@ -67,11 +85,15 @@ export default {
       email: '',
       password: '',
       rePassword: '',
+      gender: '',
+      age: '',
       logMessage: [
         '한글로만 작성해주세요.',
         '이메일 양식으로 작성해주세요.',
         '비밀번호 양식을 지켜서 작성해주세요.',
-        '비밀번호가 일치하지 않거나 비밀번호 양식에 어긋납니다.'
+        '비밀번호가 일치하지 않거나 비밀번호 양식에 어긋납니다.',
+        '성별을 선택해주세요.',
+        '1 이상의 나이를 입력해주세요.'
       ],
       clickedSignupBtn: false,
       showDialog: false,
@@ -94,15 +116,20 @@ export default {
     },
     isRePasswordValid() {
       return validatePassword(this.rePassword) && this.password === this.rePassword
+    },
+    isNumberValid() {
+      return validateNumber(this.age) && this.age.length
     }
   },
   methods: {
     signupWithValid() {
       this.clickedSignupBtn = true
-      if (this.isUserNameValid && this.isEmailValid && this.isPasswordValid && this.isRePasswordValid) {
+      if (this.isUserNameValid && this.isEmailValid && this.isPasswordValid && this.isRePasswordValid && this.gender && this.isNumberValid) {
         this.userData = {
           username: this.username,
-          email: this.email
+          email: this.email,
+          gender: this.gender,
+          age: this.age
         }
         this.showDialog = true
       }
@@ -114,7 +141,9 @@ export default {
           const data = await registerUser({
             username: this.username,
             email: this.email,
-            password: this.password
+            password: this.password,
+            gender: this.gender,
+            age: this.age
           })
           // Automatic Login after signup success
           await this.$store.dispatch('LOGIN', {
@@ -193,7 +222,7 @@ export default {
 }
 
 .signup-btn {
-  margin-top: 2.5em;
+  margin: 2.5em 0 5em;
 }
 
 .signup-btn span {

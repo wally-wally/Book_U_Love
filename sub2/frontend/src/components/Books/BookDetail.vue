@@ -110,6 +110,10 @@
             </form>
           </div>
           <div class="review-contents">
+            <div class="no-review-data" v-if="!myReview.length && !remainReview.length">
+              <i class="fas fa-pencil-alt"></i>
+              <p>작성된 리뷰가 없습니다.</p>
+            </div>
             <div class="my-review-section px-3" v-if="myReview.length">
               <BookReview :review="myReview[0]" :index="0" @deleteSign="deleteSign" />
             </div>
@@ -119,8 +123,8 @@
               </div>
             </div>
           </div>
-          <div class="review-form-title">평점 그래프</div>
-          <div class="review-chart">
+          <div class="review-form-title" v-if="myReview.length || remainReview.length">평점 그래프</div>
+          <div class="review-chart" v-if="myReview.length || remainReview.length">
             <Chart :chartData="this.stat" :chartLabels=[1,2,3,4,5,6,7,8,9,10] chartType="bar" style="width:95%;margin:0 auto"></Chart>
           </div>
         </div>
@@ -384,10 +388,6 @@ a {
 }
 
 .review-box {
-  position: fixed;
-  z-index: 10000;
-  width: 24%;
-  transform: translateX(8px);
   border: 1px solid silver;
   border-radius: 20px;
   padding: 10px;
@@ -401,15 +401,7 @@ a {
   margin-bottom: 6px;
   width: 90%;
   margin: 0 auto;
-}
-
-@media (max-width: 1100px) {
-  .review-box {
-    position: static;
-    width: 100%;
-    z-index: 1;
-    transform: translateX(0);
-  }
+  clear: both;
 }
 
 .score {
@@ -498,6 +490,22 @@ textarea {
 
 .review-register:hover > span {
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.no-review-data {
+  clear: both;
+  text-align: center;
+}
+
+.no-review-data > i {
+  font-size: 100px;
+  color:rgba(0, 0, 0, 0.7);
+}
+
+.no-review-data > p {
+  font-family: 'Gothic A1';
+  font-weight: 600;
+  margin: 16px 0 8px;
 }
 
 .my-review-section {
