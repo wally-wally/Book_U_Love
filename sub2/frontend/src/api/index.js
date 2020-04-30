@@ -94,6 +94,14 @@ function recommend() {
 function fetchauthor(id){
   return instance.get(`api/author/`+id)
 }
+function fetchcategoryfilter(params) {
+  console.log(params)
+  return instance.get('api/category/filter', {params:params} )
+}
+
+function fetchreviewcategory() {
+  return instance.get(`api/category/review/`)
+}
 export {
   registerUser,
   loginUser,
@@ -112,5 +120,7 @@ export {
   mylike,
   myBookdata,
   recommend,
-  fetchauthor
+  fetchauthor,
+  fetchreviewcategory,
+  fetchcategoryfilter
 }

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from rest_framework import viewsets
-from .serializers import UserSerializer, UserUpdateSerializer, UserDetailSerializer, UserUpdatePasswordSerializer
+from .serializers import UserSerializer, UserUpdateSerializer, UserDetailSerializer, UserUpdatePasswordSerializer, UserSimpleSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from .models import User
@@ -19,7 +19,7 @@ from django.http import JsonResponse
 from api.serializers import BookSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserDetailSerializer
+    serializer_class = UserSimpleSerializer
     def get_queryset(self):
         queryset = (User.objects.all())
         return queryset
@@ -32,9 +32,6 @@ def signup(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         user = UserSerializer.create(get_user_model(), request.data)
-        for c in request.data['categorys']:
-            detail = DetailCategory.objects.get(id=c)
-            user.favoriteCategory.add(detail)
         serializer = UserSerializer(user)
         return Response(serializer.data)
 

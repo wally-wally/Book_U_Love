@@ -87,7 +87,25 @@ class BookDetailViewSet(viewsets.ModelViewSet):
         queryset = (book)
         return queryset
 
-        
+class AllCategoryReview(viewsets.ModelViewSet):
+    serializer_class = serializers.TotalmainCategorySerializer
+    def get_queryset(self):
+        review = models.MainCategory.objects.all()
+        return review
+
+@api_view(['GET'])
+def categoryfilter(request):
+    review = models.Review.objects.all()
+    age = request.query_params.get('age','')
+    if age:
+        review = review.filter(user__age__startswith=int(age)//10)
+    qgender = request.query_params.get('gender','')
+    if qgender:
+        gender = 'M' if qgender == '남자' else 'W'
+        review = review.filter(user__gender=gender)
+    review = review.values('book__detailCategory__name','book__detailCategory').annotate(Count('id')).order_by('-id__count')
+    return Response(review)
+
 @api_view(['GET','POST'])
 def review_create(request):
     if request.method == 'GET':
@@ -176,3 +194,18 @@ class LikeCategoryViewSet(viewsets.ModelViewSet):
         mycategory = models.MainCategory.objects.filter(id__in=mainlist)
         queryset = (mycategory)
         return queryset
+
+
+## 나이, 성별 분류별 카테고리
+@api_view(['GET'])
+def review_age(request):
+    ## 중복되는 isbn 책이 있음
+    # book = models.Book.objects.values('isbn').annotate(Count('id')).filter(id__count__gt=1)
+    # print(len(book))
+    # for i in book:
+        # print(models.Book.objects.filter(isbn=i['isbn'])[0].title)
+
+    review = models.Review.objects.filter(user__age__startswith="2")
+    review = review.filter(user__gender="M")
+    # print(review)
+    return Response(list(review))

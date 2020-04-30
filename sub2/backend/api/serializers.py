@@ -113,3 +113,35 @@ class MyMainCategorySerializer(serializers.ModelSerializer):
     def get_avg(self,obj):
         review = Review.objects.filter(book__mainCategory=obj).filter(user=self.context['request'].user).aggregate(Avg('score'))["score__avg"]
         return review
+
+class TotaldetailCategorySerializer(serializers.ModelSerializer):
+    count = serializers.SerializerMethodField()
+    class Meta:
+        model = DetailCategory
+        fields = ['name','count']
+
+    def get_count(self,obj):
+        review = Review.objects.filter(book__detailCategory=obj).all()
+        return len(review)
+
+class TotalsubCategorySerializer(serializers.ModelSerializer):
+    count = serializers.SerializerMethodField()
+    detailcategory_set = TotaldetailCategorySerializer(many=True)
+    class Meta:
+        model = MainCategory
+        fields = ['name','count','detailcategory_set']
+
+    def get_count(self,obj):
+        review = Review.objects.filter(book__subCategory=obj).all()
+        return len(review)
+
+class TotalmainCategorySerializer(serializers.ModelSerializer):
+    count = serializers.SerializerMethodField()
+    subcategory_set = TotalsubCategorySerializer(many=True)
+    class Meta:
+        model = MainCategory
+        fields = ['name','count','subcategory_set']
+
+    def get_count(self,obj):
+        review = Review.objects.filter(book__mainCategory=obj).all()
+        return len(review)

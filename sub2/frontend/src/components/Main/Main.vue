@@ -10,6 +10,9 @@
         <BookSwiper :theme="theme" />
       </div>
     </div>
+   <div>
+    <!-- <YoutubeSwiper /> -->
+    </div>
     <!-- <div class="my-6 main-contents">
       <div class="main-sidebar">
         <WeeklyAuthor />
@@ -28,6 +31,8 @@ import { mapState } from 'vuex'
 import ImageSlider from '@/components/Main/ImageSlider'
 import ImageSwiper from '@/components/Main/ImageSwiper'
 import BookSwiper from '@/components/Main/BookSwiper'
+// import YoutubeSwiper from '@/components/Main/YoutubeSwiper'
+
 // import WeeklyAuthor from '@/components/Main/WeeklyAuthor'
 // import BooksRanking from '@/components/Main/BooksRanking'
 // import BooksHeader from '@/components/Main/BooksHeader'
@@ -38,7 +43,8 @@ export default {
   components: {
     ImageSlider,
     ImageSwiper,
-    BookSwiper
+    BookSwiper,
+    // YoutubeSwiper
     // WeeklyAuthor,
     // BooksRanking,
     // BooksHeader,
