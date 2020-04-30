@@ -547,4 +547,8 @@ textarea {
   font-weight: 600;
   text-align: center;
 }
+.book-detail-contents{
+  color:rgb(65, 65, 65) !important;
+  line-height: 1.8em;
+}
 </style>
