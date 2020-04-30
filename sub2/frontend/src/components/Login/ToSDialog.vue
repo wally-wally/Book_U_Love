@@ -5,7 +5,7 @@
       <v-divider></v-divider>
       <v-card-text>
         <div class="tos-body" v-for="(item, i) in this.tosData.body" :key="i">
-          <div class="tos-subtitle">✔️{{ item.subtitle }}</div>
+          <div class="tos-subtitle">✔ {{ item.subtitle }}</div>
           <p class="tos-contents">{{ item.contents }}</p>
         </div>
       </v-card-text>
@@ -56,9 +56,9 @@ export default {
 }
 
 .tos-body .tos-subtitle {
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: 600;
-  color: black;
+  color:#5a5a5a;
   margin-bottom: 0.3em;
 }
 
