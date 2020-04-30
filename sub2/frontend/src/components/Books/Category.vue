@@ -4,6 +4,7 @@
       <div class="category-name my-2">
         {{ categoryName }}
       </div>
+      총 {{count}} 권의 책이 있습니다
       <div class="sort-wrapper my-2">
         <div class="sort-item" @click="getBookDetail('score')">평점순</div>
         <div class="sort-item" @click="getBookDetail('count')">리뷰순</div>
@@ -50,7 +51,8 @@ export default {
       pageCount: 0,
       books : [],
       loadingStatus: false,
-      categoryName: ''
+      categoryName: '',
+      count : 0
     }
   },
   computed: {
@@ -72,6 +74,7 @@ export default {
       paramsData[this.$route.name] = this.id
       let bookData = await this.$store.dispatch('GET_BOOKS', paramsData)
       this.books = bookData.results
+      this.count = bookData.count
       this.pageCount = parseInt(bookData.count / 10) + (bookData.count % 10 === 0 ? 0 : 1)
       let pathUrl = this.$route.path
       const pageCategoryID = Number(pathUrl.split('/').reverse()[0])

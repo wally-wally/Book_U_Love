@@ -61,6 +61,8 @@ class Review(models.Model):
     content = models.CharField(max_length=140, blank=True, null=True)
     score = models.IntegerField(blank=True, null=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    spoiler = models.BooleanField(default=False)
+    like_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews', blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
