@@ -1,31 +1,34 @@
 <template>
-    <div>
-        <div class="row">
-            <div class="col-4">
-                <div v-for="(m,idx) in mydata" :key="m.id"  @click="shownext(1,idx)">
-                    {{m.name}}
+    <div class="page-wrapper">
+        <div class="chart-wrapper">
+            <div>
+                <div class="cats-title">대분류</div>
+                <div v-for="(m,idx) in mydata" :key="m.id"  @click="shownext(1,idx)" class="cats-item-wrapper">
+                    <span class="cats-name">{{m.name}}</span>
                 </div>
             </div>
-            <div class="col-4">
+            <div>
+                <div class="cats-title">중분류</div>
                 <div v-for="(s,idx) in sub" :key="s.id" @click="shownext(2,idx)">
-                    {{s.name}}
+                    <span class="cats-name">{{s.name}}</span>
                 </div>
             </div>
-            <div class="col-4">
-                <div v-for="(d,idx) in detail" :key="d.id">
-                    {{d.name}}
+            <div>
+                <div class="cats-title">소분류</div>
+                <div v-for="(d,idx) in detail" :key="idx">
+                    <span class="cats-name">{{d.name}}</span>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-4">
+        <div class="chart-wrapper">
+            <div>
                 <DashChart :chartData="this.main_chart.data" :chartLabels="this.main_chart.labels" chartType="pie"/>
             </div>
-            <div class="col-4">
+            <div>
                 <DashChart :chartData="this.sub_chart.data" :chartLabels="this.sub_chart.labels" chartType="pie"/>
 
             </div>
-            <div class="col-4">
+            <div>
                 <DashChart :chartData="this.detail_chart.data" :chartLabels="this.detail_chart.labels" chartType="pie"/>
             </div>
         </div>
@@ -80,8 +83,9 @@ export default {
         this.getreviewcategory(params)
       }
   },
-  mounted() {
-      this.getreviewcategory()
+  created() {
+    this.$store.commit('togglePostReviewLoading', true)
+    this.getreviewcategory()
   },
   methods : {
       async getreviewcategory(params) {
@@ -92,9 +96,10 @@ export default {
         const data = await fetchreviewcategory(params)
         this.mydata = data.data.results
         for (const m in this.mydata) {
-        this.main_chart.labels.push(this.mydata[m].name)
-        this.main_chart.data.push(this.mydata[m].count)
-      }
+          this.main_chart.labels.push(this.mydata[m].name)
+          this.main_chart.data.push(this.mydata[m].count)
+        }
+        this.$store.commit('togglePostReviewLoading', false)
       },
       shownext(idx,val){ 
       if (idx == 0) {
@@ -128,6 +133,51 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.page-wrapper {
+  margin: 10px 0;
+}
 
+.cats-item-wrapper {
+  margin-bottom: 4px;
+}
+
+.cats-title {
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
+  font-size: 18px;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: rgb(252, 243, 230);
+  padding: 5px 0;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.cats-name {
+  font-family: 'Noto Sans KR';
+  font-size: 17px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.cats-name:hover {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.chart-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(33.333333%, auto));
+}
+
+@media (max-width: 700px) {
+  .cats-title {
+    font-size: 16px;
+  }
+
+  .cats-name {
+    font-size: 14px;
+  }
+}
 </style>

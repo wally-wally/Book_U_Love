@@ -82,6 +82,16 @@ export default new Router({
       component: loadComponent('Books', 'CollectReview')
     },
     {
+      path: '/tmi',
+      component: loadView('DataPage'),
+      children: [
+        { path: '', component: loadComponent('Admin', 'TMIMain')},
+        { path: 'filtercategory', name: 'TMI1', component: loadComponent('Admin', 'FilterCategory')},
+        { path: 'reviewcategory', name: 'TMI2', component: loadComponent('Admin', 'ReviewCategory')},
+        { path: 'weeklydata', name: 'TMI3', component: loadComponent('Admin', 'WeeklyData')},
+      ]
+    },
+    {
       path: '*',
       name: 'NotFound',
       component: loadView('NotFoundPage'),  // 등록된 URL 주소가 아닌 곳으로 접근할 때 Not Found Page

@@ -5,8 +5,8 @@ import { _ } from "core-js"
 // axios 초기화 함수
 function createInstance() {
   const instance = axios.create({
-    baseURL: "http://localhost:8000/" // [필수!!] 추후 배포된 주소로 변경
-    // baseURL: 'http://i02b205.p.ssafy.io:8000/' // [필수!!] 추후 배포된 주소로 변경
+    // baseURL: "http://localhost:8000/" // [필수!!] 추후 배포된 주소로 변경
+    baseURL: 'http://i02b205.p.ssafy.io:8000/' // [필수!!] 추후 배포된 주소로 변경
   })
   return setInterceptors(instance)
 }
@@ -118,6 +118,14 @@ function postReviewLike(params) {
   return instance.post('api/review/like/', params)
 }
 
+function fetchweekly(){
+  return instance.get('api/review_orderby_date')
+}
+
+function fetchReviewFilter() {
+  return instance.get('api/review_filter')
+}
+
 export {
   registerUser,
   loginUser,
@@ -141,5 +149,7 @@ export {
   fetchreviewcategory,
   fetchcategoryfilter,
   fetchAllUsers,
-  postReviewLike
+  postReviewLike,
+  fetchweekly,
+  fetchReviewFilter
 }

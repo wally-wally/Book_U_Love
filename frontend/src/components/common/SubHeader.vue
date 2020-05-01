@@ -32,6 +32,9 @@
                   </li>
                 </ul>
               </li>
+              <li class="category-sub">
+                <span class="tmi-center" @click="goTMI">TMI CENTER</span>
+              </li>
             </ul>
           </nav>
         </div>
@@ -58,6 +61,12 @@
       </div>
     </div>
     <v-navigation-drawer v-model="onDrawer" absolute temporary class="v-navigation-drawer--fixed">
+      <v-list>
+        <v-list-item @click="goTMI">
+          <v-list-item-title style="font-family: 'M PLUS Rounded 1c'; font-weight: bold;">📈 TMI Center</v-list-item-title>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
       <v-list>
         <v-list-item>
           <v-list-item-title style="font-family: 'M PLUS Rounded 1c'; font-weight: bold;">Category</v-list-item-title>
@@ -168,6 +177,9 @@ export default {
         this.$store.commit('logout')
         this.$router.push('/')
       }
+    },
+    goTMI() {
+      this.$router.push('/tmi')
     }
   },
   watch: {
@@ -274,13 +286,18 @@ i:hover{
 
 .book-category-wrapper > ul > li:not(:last-child) {
   float: left;
-  margin-right: 12rem;
+  margin-right: 1rem;
 }
 
-.book-category-wrapper > ul > li > span {
+.book-category-wrapper > ul > li > span,
+.tmi-center {
   font-size: 1.02em;
   font-family: 'Gothic A1';
   font-weight: 600;
+}
+
+.tmi-center:hover {
+  cursor: pointer;
 }
 
 .main-category {
@@ -298,7 +315,7 @@ i:hover{
   transition: all .2s;
 }
 
-.book-category-wrapper:hover .main-category{
+.category-tab:not(.tmi-center):hover .main-category{
   opacity: 1;
   pointer-events: auto;
 }
