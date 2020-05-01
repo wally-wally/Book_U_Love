@@ -16,7 +16,7 @@
           <router-link to="/myinfo/account">
             <li><i class="fas fa-user"></i>Account</li>
           </router-link>
-          <router-link to="/admin">
+          <router-link to="/admin" v-if="this.info.user_id <= 4">
             <li><i class="fas fa-tools"></i>Admin Page</li>
           </router-link>
         </ul>
@@ -46,12 +46,17 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      menus: ['Dashboard', 'My Books', 'Account', 'Admin Page'],
+      menus: ['Dashboard', 'My Books', 'Account'],
       selectMenu: ''
     }
   },
   computed: {
     ...mapGetters(['info'])
+  },
+  created() {
+    if (this.info.user_id <= 4) {
+      this.menus.push('Admin Page')
+    }
   },
   methods: {
     goMyPageMain() {

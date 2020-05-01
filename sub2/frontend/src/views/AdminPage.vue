@@ -2,7 +2,7 @@
   <div class="admin-page-wrapper">
     <h2>Admin Page</h2>
     <UserList />
-    <BookDataList />
+    <!-- <BookDataList /> -->
   </div>
 </template>
 

@@ -56,7 +56,7 @@
           </tr>
         </table>
       </div>
-      <div class="mypage-menu">
+      <div class="mypage-menu" v-if="this.info.user_id <= 4">
         <table>
           <tr>
             <td rowspan="2">

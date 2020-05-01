@@ -8,47 +8,8 @@
         <span v-if="Object.keys(info).length" class="login-user-name ml-2">({{ info.username }}<span class="greeting">님 환영합니다</span>)</span>
       </div>
       <div class="team-intro">
-        <span class="link-text" @click.stop="toggleDialog">Intro</span>
       </div>
     </div>
-    <v-dialog v-model="showDialog" width="900">
-      <v-card>
-        <v-card-title>
-          <strong class="team-name">Introduction</strong>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text>
-          <div class="intro-contents">
-            <div class="service-intro pb-4">
-              <div class="intro-title">✔️서비스 소개</div>
-              <div class="service-contents">
-                <ul>
-                  <li>도서 추천 서비스</li>
-                  <li>유저의 정보를 바탕으로 맞춤 도서를 추천해드립니다.</li>
-                </ul>
-              </div>
-            </div>
-            <div class="team-intro">
-              <div class="intro-title">✔️'다뭉비싸' 팀 소개</div>
-              <div class="team-contents">
-                <ul>
-                  <li>이승열 : Merge</li>
-                  <li>심규현 : Frontend 한땀한땀 장인</li>
-                  <li>김아현 : Frontend 디자이너</li>
-                  <li>박태수 : Backend 정보 수집가</li>
-                  <li>이병주 : Backend 분석가</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="warning" @click.stop="toggleDialog" :style="{ fontFamily: 'Noto Sans KR', fontSize: '12px' }" small>닫기</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 

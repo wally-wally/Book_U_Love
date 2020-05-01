@@ -25,16 +25,6 @@
           <span @click="goSignupPage">회원가입</span>
           <span @click="goFindAccount">비밀번호 찾기</span>
         </div>
-        <hr class="my-6">
-        <div class="sns-login-box">
-          <div class="sns-login-title">
-            <p>SNS 계정으로도 이용이 가능합니다.</p>
-          </div>
-          <div class="sns-login-buttons">
-            <span id="kakao-auth"></span>
-            <div>카카오 로그인</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

@@ -102,7 +102,7 @@ def categoryfilter(request):
         review = review.filter(user__age__startswith=int(age)//10)
     qgender = request.query_params.get('gender','')
     if qgender:
-        gender = 'M' if qgender == '남자' else 'W'
+        gender = 'M' if qgender == '남자' else 'F'
         review = review.filter(user__gender=gender)
     review = review.values('book__detailCategory__name','book__detailCategory').annotate(Count('id')).order_by('-id__count')
     return Response(review)
@@ -232,10 +232,25 @@ def review_like(request):
 @api_view(['GET'])
 def review_orderby_date(request):
     reviews = models.Review.objects.all().filter(created_at__gte=datetime.now()-timedelta(days=7))
-    review = reviews.values('book_id').annotate(Count('id')).order_by('-id__count').order_by('-book__r_score')
+    review = reviews.values('book_id').annotate(Count('id')).order_by('-id__count')
     print(review)
     books = []
     for a in review[:10]:
         serializer = serializers.BookDetailSerializer(models.Book.objects.get(id=a['book_id']))
         books.append((serializer.data,a['id__count']))
     return Response(books)
+
+
+@api_view(['GET'])
+def bookfilter(request):
+    review = models.Review.objects.all()
+    review = models.Review.objects.all()
+    age = request.query_params.get('age','')
+    if age:
+        review = review.filter(user__age__startswith=int(age)//10)
+    qgender = request.query_params.get('gender','')
+    if qgender:
+        gender = 'M' if qgender == '남자' else 'F'
+        review = review.filter(user__gender=gender)
+    review = review.values('book__id','book__title').annotate(Count('id')).order_by('-id__count')
+    return Response(review[:10])
