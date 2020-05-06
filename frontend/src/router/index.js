@@ -102,8 +102,7 @@ export default new Router({
     {
       path: '/collect',
       name: 'CollectData',
-      component: loadComponent('Books', 'CollectReview'),
-      beforeEnter: checkAdmin
+      component: loadComponent('Books', 'CollectReview')
     },
     {
       path: '*',

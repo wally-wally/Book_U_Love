@@ -36,7 +36,7 @@ export default {
     },
     data() {
         return {
-            ifliked : this.review.like_user.includes(this.$store.getters.info.user_id),
+            ifliked : false,
             isdelete : false,
             reviewScore: 0,
             likecount : this.review.like_user.length
@@ -47,6 +47,9 @@ export default {
             isLogin: state => state.user.isLogin
         }),
         ...mapGetters(['info']),
+    },
+    created() {
+        this.ifliked = this.review.like_user.includes(this.$store.getters.info.user_id)
     },
     mounted(){
         this.reviewScore = this.review.score / 2
@@ -79,6 +82,11 @@ export default {
             this.$emit('toggleEditMode', this.review)
         }
     },
+    watch: {
+        index() {
+            this.ifliked = this.review.like_user.includes(this.$store.getters.info.user_id)
+        }
+    }
 }
 </script>
 

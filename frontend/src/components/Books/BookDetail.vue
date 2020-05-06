@@ -133,7 +133,7 @@
                 </div>
               </div>
               <div v-for="(review,index) in remainReview.slice((reviewPageNm - 1) * 5, reviewPageNm * 5)" :key="index">
-                <BookReview :review="review" /> <!-- :index="(myReview.length ? index + 1 : index) + ((reviewPageNm - 1) * 5)" -->
+                <BookReview :review="review" :index="(reviewPageNm - 1) * 5 + index" /> <!-- :index="(myReview.length ? index + 1 : index) + ((reviewPageNm - 1) * 5)" -->
               </div>
             </div>
             <div class="review-pagination" v-if="remainReview.length">

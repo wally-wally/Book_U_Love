@@ -5,7 +5,8 @@
     </div>
     <div class="collect-form-desc">
       작성한 리뷰 데이터와 {{ info.username }}님의 정보를 종합하여<br>
-      Book_U_Love에서 도서를 추천해드릴께요
+      Book_U_Love에서 도서를 추천해드릴께요<br>
+      <div class="my-3">최소 10권 이상의 리뷰 작성을 권장합니다.</div>
     </div>
     <v-alert
       class="alert-box"
@@ -121,8 +122,8 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      selectType: '리뷰 개수 기준 TOP20',
-      types: ['리뷰 개수 기준 TOP20', '평점 기준 TOP20'],
+      selectType: '평점 기준 TOP20',
+      types: ['평점 기준 TOP20', '리뷰 개수 기준 TOP20'],
       writtenReviewCnt: 0,
       realReviewCnt: 0,
       bookData: [],
@@ -152,7 +153,7 @@ export default {
     async fetchBooks(type) {
       const myReviewData = await this.$store.dispatch('GET_MYINFO')
       const myReviewIDs = myReviewData.review_set.map(data => data.book.id)
-      let sortTag = type === '리뷰 개수 기준 TOP10' ? 'count' : 'score'
+      let sortTag = type === '리뷰 개수 기준 TOP20' ? 'count' : 'score'
       let pageIdx = 1
       while(true) {
         const pageData = await this.$store.dispatch('GET_BOOKS', {page: pageIdx, sortby: sortTag})
@@ -213,7 +214,7 @@ export default {
     nextStep(n) {
       if (n === this.steps) {
         if (this.completePage === 3) {
-          alert(`10권 중 ${this.realReviewCnt}권의 리뷰 등록이 끝났습니다. 메인 페이지로 이동합니다.`)
+          alert(`20권 중 ${this.realReviewCnt}권의 리뷰 등록이 끝났습니다. 메인 페이지로 이동합니다.`)
           this.$router.push('/')
           return
         }
