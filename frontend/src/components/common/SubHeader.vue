@@ -15,12 +15,14 @@
                 <ul class="main-category">
                   <li class="main-category-item" v-for="category in this.categoryList" :key="category.name">
                     <div class="main-category-name" @click="goCategoryPage('main', category.id)">
-                      {{ category.name }}<i class="fas fa-chevron-right" v-if="category.subcategory_set.length"/>
+                      {{ category.name }}
+                      <i class="fas fa-chevron-right" v-if="category.subcategory_set.length" />
                     </div>
                     <ul class="sub-category" v-if="category.subcategory_set.length">
                       <li class="sub-category-item" v-for="subcategory in category.subcategory_set" :key="subcategory.name">
                         <div class="sub-category-name" @click="goCategoryPage('sub', subcategory.id)">
-                          {{ subcategory.name }}<i class="fas fa-chevron-right pl-1" v-if="subcategory.detailcategory_set.length"/>
+                          {{ subcategory.name }}
+                          <i class="fas fa-chevron-right pl-1" v-if="subcategory.detailcategory_set.length"/>
                         </div>
                         <ul class="detail-category" v-if="subcategory.detailcategory_set.length">
                           <li class="detail-category-item" v-for="detailcategory in subcategory.detailcategory_set" :key="detailcategory.name">
@@ -242,12 +244,10 @@ li {
   font-weight: 600;
 }
 
-.categoryname:hover {
-  cursor : pointer
-}
-
-i:hover{
-  cursor: pointer;
+.categoryname:hover,
+i:hover,
+.tmi-center:hover {
+  cursor: pointer
 }
 
 .sub-header-wrapper {
@@ -292,12 +292,8 @@ i:hover{
 .book-category-wrapper > ul > li > span,
 .tmi-center {
   font-size: 1.02em;
-  font-family: 'Gothic A1';
+  font-family: 'Noto Sans KR';
   font-weight: 600;
-}
-
-.tmi-center:hover {
-  cursor: pointer;
 }
 
 .main-category {
@@ -305,11 +301,10 @@ i:hover{
   top: 100%;
   width: 140px;
   background-color: #fafafa;
-  padding: 4px 0 4px 4px;
+  padding: 6px 0 6px 3px;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   font-family: 'Gothic A1';
-  font-weight: 600;
   opacity: 0;
   pointer-events: none;
   transition: all .2s;
@@ -346,13 +341,12 @@ i:hover{
   top: 0;
   left: 100%;
   width: 140%;
-  height: 722.5px;
+  height: 671.5px;
   background-color: #fafafa;
-  padding: 4px 0;
+  padding: 6px 0;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   font-family: 'Gothic A1';
-  font-weight: 600;
   opacity: 0;
   pointer-events: none;
   transition: all .2s;
@@ -363,18 +357,29 @@ i:hover{
   pointer-events: auto;
 }
 
+.fa-chevron-right {
+  visibility: hidden;
+}
+
+.main-category-item:hover .main-category-name > .fa-chevron-right {
+  visibility: visible;
+}
+
+.sub-category-item:hover .sub-category-name > .fa-chevron-right {
+  visibility: visible;
+}
+
 .detail-category {
   position: absolute;
   top: 0;
   left: 100%;
   width: 100%;
-  height: 722.5px;
+  height: 671.5px;
   background-color: #fafafa;
-  padding: 4px 0;
+  padding: 6px 0;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   font-family: 'Gothic A1';
-  font-weight: 600;
   opacity: 0;
   pointer-events: none;
   transition: all .2s;
@@ -402,7 +407,7 @@ i:hover{
   color: #F1AF4D;
 }
 
-.book-category-wrapper ul li:first-child span::before {
+.book-category-wrapper ul li:first-child span:before {
   content: 'ALL CATEGORY'
 }
 

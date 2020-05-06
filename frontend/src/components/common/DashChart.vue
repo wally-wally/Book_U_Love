@@ -27,11 +27,6 @@ export default {
   mounted() {
     this.makechart()
   },
-  data() {
-    return {
-      total : 0
-    }
-  },
   methods : {
     sum(){
       this.total = 0

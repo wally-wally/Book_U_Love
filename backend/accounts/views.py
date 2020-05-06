@@ -141,6 +141,7 @@ def user(request):
     elif request.method == 'PUT':
         data = request.data
         serializer = UserUpdateSerializer(data=data, instance=user)
+        user.favoriteCategory = []
         for c in request.data['categorys']:
             sub = SubCategory.objects.get(id=c)
             user.favoriteCategory.add(sub)

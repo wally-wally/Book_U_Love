@@ -30,7 +30,7 @@
 
 :round_pushpin: <b>Database</b> : `MySQL` 
 
-:round_pushpin: <b>Development Enviornment</b> : Windows 10, Node.js higher than 10.16x, Vue CLI higher than 4.2.x
+:round_pushpin: <b>Development Enviornment</b> : Python 3.7.4,  Django 2.2.7, Node.js higher than 10.16x, Vue CLI higher than 4.2.x
 
 :round_pushpin: <b>Using Editor</b> : Visual Studio Code
 
@@ -68,7 +68,7 @@ npm run serve
 
 ## :four: ERD Diagram
 
-<img src="">
+![Image Pasted at 2020-5-1 07-37](https://user-images.githubusercontent.com/52685250/80773944-6f7c6500-8b96-11ea-9deb-a76182b692fc.png)
 
 <br>
 

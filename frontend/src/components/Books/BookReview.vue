@@ -10,22 +10,22 @@
                 </div>
             </div>
             <div class="pb-2 review-info-right">
-                <i class="fas fa-heart" v-if="review.user !== this.info.user_id && ifliked" @click="likeReview"></i>
-                <i class="far fa-heart" v-else-if="review.user !== this.info.user_id && !ifliked" @click="likeReview"></i>
+                <i class="fas fa-heart" v-if="review.user !== this.info.user_id && ifliked && this.isLogin" @click="likeReview"></i>
+                <i class="far fa-heart" v-else-if="review.user !== this.info.user_id && !ifliked && this.isLogin" @click="likeReview"></i>
                 <span class="review-cnt">({{ likecount }}명) | </span>
                 <div class="review-score">{{review.score}}점
                 </div>
             </div>
         </div>
         <div v-if="review.spoiler && this.info.user_id !== review.user" class="spoiler-contents"><span>스포일러가 있는 리뷰입니다</span> <br> <small @click="nospoiler()" class="open-spoiler-btn">그래도 볼래요!</small><br> </div>
-        <div v-else class="review-content" style="border-bottom:1px solid lightgray;white-space:pre-line">{{review.content}}</div>
-    
+        <div v-else class="review-content">{{review.content}}</div>
+        <div class="review-date" style="border-bottom:1px solid lightgray;white-space:pre-line">{{ review.created_at | dateFilter }}</div>
         <div style="margin:10px;"/>
     </div>
 </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { deleteBookReview } from '@/api/index.js'
 
 export default {
@@ -43,6 +43,9 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            isLogin: state => state.user.isLogin
+        }),
         ...mapGetters(['info']),
     },
     mounted(){
@@ -121,7 +124,6 @@ i:hover {
 .spoiler-contents {
     color: crimson;
     padding-bottom: 10px;
-    border-bottom: 1px solid silver;
 }
 
 .spoiler-contents span {
@@ -139,5 +141,12 @@ i:hover {
 .spoiler-contents small:hover {
     cursor: pointer;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.review-date {
+    text-align: right;
+    color: gray;
+    font-size: 14px;
+    padding-bottom: 5px;
 }
 </style>

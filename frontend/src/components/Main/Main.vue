@@ -10,19 +10,7 @@
         <BookSwiper :theme="theme" />
       </div>
     </div>
-   <div>
     <!-- <YoutubeSwiper /> -->
-    </div>
-    <!-- <div class="my-6 main-contents">
-      <div class="main-sidebar">
-        <WeeklyAuthor />
-        <BooksRanking />
-      </div>
-      <div class="main-book-section">
-        <BooksHeader />
-        <BooksList />
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -31,12 +19,7 @@ import { mapState } from 'vuex'
 import ImageSlider from '@/components/Main/ImageSlider'
 import ImageSwiper from '@/components/Main/ImageSwiper'
 import BookSwiper from '@/components/Main/BookSwiper'
-// import YoutubeSwiper from '@/components/Main/YoutubeSwiper'
-
-// import WeeklyAuthor from '@/components/Main/WeeklyAuthor'
-// import BooksRanking from '@/components/Main/BooksRanking'
-// import BooksHeader from '@/components/Main/BooksHeader'
-// import BooksList from '@/components/Main/BooksList'
+import YoutubeSwiper from '@/components/Main/YoutubeSwiper'
 
 export default {
   name: 'Main',
@@ -44,16 +27,11 @@ export default {
     ImageSlider,
     ImageSwiper,
     BookSwiper,
-    // YoutubeSwiper
-    // WeeklyAuthor,
-    // BooksRanking,
-    // BooksHeader,
-    // BooksList
+    YoutubeSwiper
   },
   data() {
     return {
       themes: ['sortScore', 'sortReviewCnt']
-      // themes: ['favoriteCategory', 'age_gender', 'sortScore', 'sortReviewCnt']
     }
   },
   computed: {
@@ -85,21 +63,4 @@ export default {
   margin: 0 auto;
   box-sizing: border-box;
 }
-
-/* .main-contents {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  gap: 0.75em;
-}
-
-.main-contents .main-sidebar {
-  min-width: 250px;
-}
-
-@media (max-width: 800px) {
-  .main-contents {
-    display: block;
-  }
-} */
 </style>

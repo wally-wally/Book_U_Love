@@ -66,30 +66,44 @@ export default new Router({
     },
     {
       path: '/admin',
-      name: 'AdminPage',
-      component: loadView('AdminPage')
+      component: loadView('AdminPage'),
+      beforeEnter: checkAdmin,
+      children: [
+        { path: 'users', name: 'AdminPageUsers', component: loadComponent('Admin', 'UserList')},
+        { path: 'books', name: 'AdminPageBooks', component: loadComponent('Admin', 'BookDataList')}
+      ]
     },
-    { path:'/category/review', name : 'reviewcategory',component : loadComponent('Admin','ReviewCategory')},
-    { path : '/category/filter',name : 'filtercategory',component : loadComponent('Admin','FilterCategory')},
     {
-      path : '/createuser',
-      name : 'createuser',
-      component : loadComponent('common', 'CreateUser')
+      path: '/category/review',
+      name: 'reviewcategory',
+      component: loadComponent('Admin','ReviewCategory')
+    },
+    {
+      path: '/category/filter',
+      name: 'filtercategory',
+      component: loadComponent('Admin','FilterCategory')
+    },
+    {
+      path: '/tmi',
+      component: loadView('TMIPage'),
+      children: [
+        { path: '', component: loadComponent('TMICenter', 'TMIMain')},
+        { path: 'filtercategory', name: 'TMI1', component: loadComponent('TMICenter', 'FilterCategory')},
+        { path: 'reviewcategory', name: 'TMI2', component: loadComponent('TMICenter', 'ReviewCategory')},
+        { path: 'weeklydata', name: 'TMI3', component: loadComponent('TMICenter', 'WeeklyData')},
+      ]
+    },
+    {
+      path: '/createuser',
+      name: 'createuser',
+      component: loadComponent('common', 'CreateUser'),
+      beforeEnter: checkAdmin
     },
     {
       path: '/collect',
       name: 'CollectData',
-      component: loadComponent('Books', 'CollectReview')
-    },
-    {
-      path: '/tmi',
-      component: loadView('DataPage'),
-      children: [
-        { path: '', component: loadComponent('Admin', 'TMIMain')},
-        { path: 'filtercategory', name: 'TMI1', component: loadComponent('Admin', 'FilterCategory')},
-        { path: 'reviewcategory', name: 'TMI2', component: loadComponent('Admin', 'ReviewCategory')},
-        { path: 'weeklydata', name: 'TMI3', component: loadComponent('Admin', 'WeeklyData')},
-      ]
+      component: loadComponent('Books', 'CollectReview'),
+      beforeEnter: checkAdmin
     },
     {
       path: '*',
@@ -122,4 +136,8 @@ function checkSignUpUser(to, from, next) {
 
 function checkAgreeToS(to, from, next) {
   store.state.user.agreeToS && from.name === 'SignupForm' && to.name === 'SuccessSignup' ? next() : next('/')
+}
+
+function checkAdmin(to, from, next) {
+  store.getters.info.user_id <= 4 ? next() : next('/')
 }

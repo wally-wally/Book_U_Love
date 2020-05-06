@@ -17,8 +17,9 @@ export default {
 
 <style scoped>
 .mypage-wrapper {
-  display: flex;
-  justify-content: stretch;
+  display: grid;
+  grid-template-columns: 200px auto;
+  gap: 20px;
   width: 80%;
   height: 100%;
   margin: 1em auto;

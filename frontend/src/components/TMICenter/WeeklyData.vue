@@ -1,6 +1,8 @@
 <template>
   <div class="page-wrapper">
-        <h2>이번주 최다 리뷰</h2>
+    <div class="page-description">
+        🔖 이번주 가장 많은 리뷰가 작성된 책 TOP 10을 볼 수 있습니다.
+      </div>
         <div class="books-list">
             <div v-for="book in books" :key="book.id">
                 <div class="book-box">
@@ -26,8 +28,8 @@ export default {
     },
     methods : {
         async getweekly(){
-            const data = await fetchweekly()
-            this.books = data.data
+            const { data } = await fetchweekly()
+            this.books = data.sort((a, b) => b[1] - a[1])
         }
     },
     mounted() {
@@ -38,10 +40,18 @@ export default {
 
 
 <style scoped>
-h2 {
-  font-size: 20px;
-  font-family: 'Noto Sans KR';
-  margin: 10px 0;
+.page-description {
+  font-size: 17px;
+  font-family: 'Nanum Gothic';
+  font-weight: 600;
+  margin: 30px 0;
+}
+
+@media (max-width: 900px) {
+  .page-description {
+    font-size: 15px;
+    margin-top: 10px;
+  }
 }
 
 .books-list {

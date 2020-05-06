@@ -1,6 +1,6 @@
 <template>
   <div class="mybooks-wrapper">
-    <div class="mybooks">My Books</div>
+    <div class="mybooks">📚 My Books</div>
     <!-- 좋아하는 책 -->
     <div class="add-info">
       <div class="mybooks-sub">💜 내가 읽고 싶은 책</div>
@@ -10,9 +10,11 @@
            <p>찜한 책이 없습니다.</p>
         </div>
       </div>
-      <div class="row dot-border" style="padding:15px" v-else-if="!loadingStatus.likes && likes.length">
-        <div v-for="l in likes.slice(10 * (likePageNm - 1), 10 * likePageNm)" :key="l.id" class="col-xl-3 col-lg-4 col-sm-6">
-          <BookCard :bookData="l"/>
+      <div class="dot-border" style="padding: 15px" v-else-if="!loadingStatus.likes && likes.length">
+        <div class="want-books-list">
+          <div v-for="l in likes.slice(10 * (likePageNm - 1), 10 * likePageNm)" :key="l.id">
+            <BookCard :bookData="l"/>
+          </div>
         </div>
         <v-pagination
           v-model="likePageNm"
@@ -38,7 +40,7 @@
            <p>리뷰를 작성한 책이 없습니다.</p>
         </div>
       </div>
-      <div :class="mobileSize ? 'text-center dot-border' : 'row text-center dot-border'" style="padding:15px" v-else-if="!loadingStatus.reviews && userinfo.review_set.length">
+      <div class="text-center dot-border" style="padding:15px" v-else-if="!loadingStatus.reviews && userinfo.review_set.length">
         <div class="myreview-table">
           <div class="myreview-trow">
             <div class="table-head myreview-thead myreview-tcell tcell-book">도서</div>
@@ -64,10 +66,6 @@
               <div class="myreview myreview-content">{{r.content}}</div>
               <div class="more-btn" @click="moreReview(r.content)">더 보기</div>
             </div>
-            <!-- <div class="myscore myreview-tcell tcell-score">★{{r.score}}</div>
-            <div class="myreview myreview-tcell tcell-review">
-              <div class="myreview-content">{{r.content}}</div>
-            </div> -->
           </div>
         </div>
         <div class="myreview-table-mobile">
@@ -78,13 +76,9 @@
                 <div class="mobile-myscore-title">내 평점</div>
                 <span>{{r.score}}</span>
               </div>
-              <div class="myreview myreview-content">{{r.content}}</div>
+              <div class="myreview myreview-content">{{r.content}}<span class="mini-score">(★{{r.score}})</span></div>
             </div>
             <div class="more-btn" @click="moreReview(r.content)">더 보기</div>
-            <!-- <div class="myscore myreview-tcell tcell-score">★{{r.score}}</div>
-            <div class="myreview myreview-tcell tcell-review">
-              <div class="myreview-content">{{r.content}}</div>
-            </div> -->
           </div>
         </div>
         <v-pagination
@@ -188,7 +182,7 @@ export default {
 }
 .mybooks-wrapper {
   margin: 0 auto;
-  width: 70%;
+  width: 85%;
 }
 .mybooks{
   font-size: 1.5em;
@@ -207,12 +201,35 @@ export default {
   border-radius: 20px;
   box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.05);
 }
+.want-books-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+}
+
+@media (max-width: 1670px) {
+  .want-books-list {
+    grid-template-columns: repeat(auto-fill, minmax(33.33333%, auto));
+  }
+}
+@media (max-width: 1300px) {
+  .want-books-list {
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  }
+}
+@media (max-width: 640px) {
+  .want-books-list {
+    grid-template-columns: repeat(auto-fill, minmax(100%, auto));
+  }
+
+  .mybooks-wrapper {
+    width: 80%;
+  }
+}
 .myreview{
   border-radius:5px;
   text-overflow: ellipsis;
   font-family: 'Nanum Gothic';
   font-weight: 600;
-  /* padding:50px; */
 }
 .table-head{
   font-family: 'Nanum Gothic';
@@ -245,7 +262,7 @@ export default {
   padding-bottom: 30px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1070px) {
   .mybooks-wrapper {
     width: 95%;
     transform: translateX(0%);
@@ -292,6 +309,12 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+@media (max-width: 580px) {
+  .myreview-content {
+    font-size: 13.5px;
+  }
 }
 
 .star-rating {
@@ -371,6 +394,10 @@ export default {
   margin: 12px 0 0 0;
 }
 
+.mini-score {
+  display: none;
+}
+
 @media (max-width: 700px) {
   .star-rating {
     display: none;
@@ -396,6 +423,25 @@ export default {
 
   .more-btn {
     margin-right: 8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .myreview-table-mobile .myscore {
+    display: none;
+  }
+
+  .myreview-table-mobile .myreview-content {
+    width: 100%;
+    line-height: 1.4;
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .mini-score {
+    display: inline;
+    color: rgb(243, 154, 36);
+    font-weight: 600;
   }
 }
 </style>
