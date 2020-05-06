@@ -281,6 +281,7 @@ export default {
       this.otherBooks = []
       let otherBooks = []
       let data = await this.$store.dispatch('GET_RECOMMEND_OTHER_BOOKS', {other_books: this.id, page: 1})
+      console.log(data)
       let pageMax = parseInt(data.count / 10) === 0 ? 1 : parseInt(data.count / 10) + (data.count % 10 === 0 ? 0 : 1)
       for (let i = 1; i < pageMax; ++i) {
         let data = await this.$store.dispatch('GET_RECOMMEND_OTHER_BOOKS', {other_books: this.id, page: i})
@@ -749,22 +750,6 @@ textarea {
   font-family: 'Noto Sans KR';
 }
 
-@media (max-width: 1264px) {
-  .other-books {
-    grid-template-columns: repeat(auto-fill, minmax(33.33333%, auto));
-  }
-}
-@media (max-width: 960px) {
-  .other-books {
-    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
-  }
-}
-@media (max-width: 600px) {
-  .other-books {
-    grid-template-columns: repeat(auto-fill, minmax(100%, auto));
-  }
-}
-
 .fa-undo {
   padding: 8px;
   font-size: 15px;
@@ -781,5 +766,30 @@ textarea {
 .fa-undo:after {
   content: ' 새로고침';
   font-family: 'Gothic A1';
+}
+
+@media (max-width: 1264px) {
+  .other-books {
+    grid-template-columns: repeat(auto-fill, minmax(33.33333%, auto));
+  }
+}
+@media (max-width: 960px) {
+  .other-books {
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  }
+}
+@media (max-width: 600px) {
+  .other-books {
+    grid-template-columns: repeat(auto-fill, minmax(100%, auto));
+  }
+
+  .other-alert {
+    font-size: 19px;
+  }
+
+  .fa-undo {
+    font-size: 14px;
+    padding: 6px;
+  }
 }
 </style>

@@ -6,6 +6,7 @@ import { _ } from "core-js"
 function createInstance() {
   const instance = axios.create({
     baseURL: 'http://i02b205.p.ssafy.io:8000/'
+    // baseURL: 'http://localhost:8000/'
   })
   return setInterceptors(instance)
 }
