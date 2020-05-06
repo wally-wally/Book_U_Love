@@ -108,6 +108,10 @@ export default {
   text-align: center;
 }
 
+.author-img img {
+  max-width: 200px;
+}
+
 .author-section .author-info .author-info-title {
   display: inline-block;
   font-size: 20px;

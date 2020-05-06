@@ -1,5 +1,8 @@
 <template>
     <div class="page-wrapper">
+      <div class="page-description">
+        🔖 각 카테고리별 리뷰 분포를 확인할 수 있습니다.
+      </div>
         <div class="chart-wrapper">
             <div>
                 <div class="cats-title">대분류</div>
@@ -134,6 +137,20 @@ export default {
 </script>
 
 <style scoped>
+.page-description {
+  font-size: 17px;
+  font-family: 'Nanum Gothic';
+  font-weight: 600;
+  margin: 30px 0;
+}
+
+@media (max-width: 900px) {
+  .page-description {
+    font-size: 15px;
+    margin-top: 10px;
+  }
+}
+
 .page-wrapper {
   margin: 10px 0;
 }

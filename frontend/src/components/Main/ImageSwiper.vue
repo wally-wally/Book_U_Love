@@ -78,16 +78,40 @@ export default {
     this.getTotalRecommend()
   },
   methods: {
+    getRandomIntInclusive(min, max) {
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    },
     async getTotalRecommend() {
+      let tempBooks = []
       let dataOne = await this.$store.dispatch('GET_BOOKS', {sortby: "score",top:10})
-      this.books.push(dataOne['results'][0])
+      dataOne['results'].slice(0, 4).forEach(bookData => {
+        tempBooks.push(bookData)
+      })
       let dataTwo = await this.$store.dispatch('GET_BOOKS', {sortby: "count",top:10})
-      this.books.push(dataTwo['results'][0])
+      dataTwo['results'].slice(0, 2).forEach(bookData => {
+        tempBooks.push(bookData)
+      })
       let recommendBooks = await this.$store.dispatch('GET_RECOMMEND_BOOKS')
       if (recommendBooks.length) {
-        this.books.unshift(recommendBooks.sort((a, b) => b.avg - a.avg)[0])
+        recommendBooks.sort((a, b) => b.avg - a.avg).slice(0, 8).forEach(bookData => {
+          tempBooks.unshift(bookData)
+        })
       }
-      await this.$store.commit('togglePostReviewLoading', false)
+      await this.selectRandomBooks(tempBooks)
+      this.$store.commit('togglePostReviewLoading', false)
+    },
+    async selectRandomBooks(tempBooks) {
+      let idxGroup = []
+      while (idxGroup.length < 3) {
+        let randomIdx = this.getRandomIntInclusive(0, tempBooks.length - 1)
+        if (!idxGroup.includes(randomIdx)) {
+          idxGroup.push(randomIdx)
+          this.books.push(tempBooks[randomIdx])
+        }
+      }
+      this.books = this.books.sort((a, b) => b.avg - a.avg)
     },
     goDetail(bookID) {
       this.$router.push(`/book/${bookID}`)

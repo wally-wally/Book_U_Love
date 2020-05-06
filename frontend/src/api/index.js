@@ -5,8 +5,8 @@ import { _ } from "core-js"
 // axios 초기화 함수
 function createInstance() {
   const instance = axios.create({
-    // baseURL: "http://localhost:8000/" // [필수!!] 추후 배포된 주소로 변경
-    baseURL: 'http://i02b205.p.ssafy.io:8000/' // [필수!!] 추후 배포된 주소로 변경
+    baseURL: 'http://i02b205.p.ssafy.io:8000/'
+    // baseURL: 'http://localhost:8000/'
   })
   return setInterceptors(instance)
 }
@@ -29,12 +29,12 @@ function changePassword(userData, user_id) {
 
 // MyPage의 Account 페이지에서 유저 추가정보 가져오는 API
 function fetchMyInfo() {
-  return instance.get(`accounts/user/`)
+  return instance.get('accounts/user/')
 }
 
 // MyPage의 Account 페이지에서 추가정보 입력 후 추가정보 변경 API
 function updateMyInfo(userData) {
-  return instance.put(`accounts/user/`, userData)
+  return instance.put('accounts/user/', userData)
 }
 
 // 회원탈퇴
@@ -91,15 +91,15 @@ function mylike(params){
 }
 
 function myBookdata(){
-  return instance.get(`api/likecategory`)
+  return instance.get('api/likecategory')
 }
 
 function recommend() {
-  return instance.get(`accounts/user/recommend`)
+  return instance.get('accounts/user/recommend')
 }
 
 function fetchauthor(id){
-  return instance.get(`api/author/`+id)
+  return instance.get(`api/author/${id}`)
 }
 
 function fetchcategoryfilter(params) {
@@ -107,7 +107,7 @@ function fetchcategoryfilter(params) {
 }
 
 function fetchreviewcategory() {
-  return instance.get(`api/category/review/`)
+  return instance.get('api/category/review/')
 }
 
 function fetchAllUsers(paramsData) {

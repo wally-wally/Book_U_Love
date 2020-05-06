@@ -6,14 +6,18 @@ import {
   updateBookReview,
   fetchBookReview,
   recommend,
-  postReviewLike } from '@/api/index.js'
+  postReviewLike} from '@/api/index.js'
 
 const state = {
   categories: [],
   postReviewLoading: false,
   searchKeyword: '',
   detailCategories: [],
-  mainBookTheme: 'All Books'
+  mainBookTheme: 'All Books',
+  allBooks: [],
+  fetchAllBookStatus: false,
+  allBooksCount: 0,
+  nowBookCnt: 0
 }
 
 const mutations = {
@@ -45,6 +49,20 @@ const mutations = {
   },
   toggleMainBookTheme(state, keyword) {
     state.mainBookTheme = keyword
+  },
+  storeAllBooks(state, books) {
+    for (let i = 0; i < books.length; ++i) {
+      state.allBooks.push(books[i])
+    }
+  },
+  fetchAllBookStatus(state, status) {
+    state.fetchAllBookStatus = status
+  },
+  allBooksCount(state, bookCnt) {
+    state.allBooksCount = bookCnt
+  },
+  getNowCountBooks(state, count) {
+    state.nowBookCnt = count
   }
 }
 
@@ -82,11 +100,22 @@ const actions = {
   async POST_REVIEW_LIKE({ commit }, params) {
     const { data } = await postReviewLike(params)
     return data
+  },
+  async GET_RECOMMEND_OTHER_BOOKS({ commit }, params) {
+    const { data } = await fetchBooks(params)
+    return data
   }
-};
+}
+
+const getters ={
+  progressRate(state) {
+    return ((state.nowBookCnt / state.allBooksCount) * 100).toFixed(0)
+  }
+}
 
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 };

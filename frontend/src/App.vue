@@ -1,8 +1,12 @@
 <template>
   <v-app id="app" :class="this.postLoading ? 'all-wrapper' : ''">
+    <ExplorerAlert :dialog="dialog" @closeDialog="closeDialog"></ExplorerAlert>
     <div :class="this.postLoading ? 'background-black' : ''"></div>
     <div :class="this.postLoading ? 'loader' : ''"></div>
     <span :class="this.postLoading ? 'loading-alert' : ''"></span>
+    <div :class="this.postLoading && this.fetchAllBookStatus ? 'progress' : ''">
+      진행률 : {{ this.progressRate }}[%]
+    </div>
     <Header />
       <v-content :style="headerStyle" :class="className">
         <transition name="fade">
@@ -15,9 +19,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import Header from '@/components/common/Header'
 import Footer from '@/components/common/Footer'
+import ExplorerAlert from '@/components/common/ExplorerAlert.vue'
 import AlertCollectReview from '@/components/common/AlertCollectReview'
 import '@/assets/css/loader.css'
 
@@ -25,26 +30,38 @@ export default {
   components: {
     Header,
     Footer,
+    ExplorerAlert,
     AlertCollectReview
   },
   data() {
     return {
-      headerStyle: ''
+      headerStyle: '',
+      dialog: false
     }
   },
   computed: {
     ...mapState({
-      postLoading: state => state.data.postReviewLoading
+      postLoading: state => state.data.postReviewLoading,
+      fetchAllBookStatus: state => state.data.fetchAllBookStatus,
+      allBooks: state => state.data.allBooks,
+      allBooksCount: state => state.data.allBooksCount
     }),
     className() {
       return this.$store.state.common.onMobileDrawer ? 'blind' : ''
-    }
+    },
+    ...mapGetters(['progressRate'])
   },
   created() {
     this.getCategory()
     this.responsiveHeaderHeight()
   },
   mounted() {
+    let agent = navigator.userAgent.toLowerCase()
+    if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+      this.dialog = true
+    } else {
+      this.closeDialog()
+    }
      window.addEventListener('resize', () => {
       this.responsiveHeaderHeight()
     })
@@ -56,6 +73,9 @@ export default {
     responsiveHeaderHeight() {
       let height = window.innerWidth >= 620 ? 113.344 : 141.797
       this.headerStyle = `padding-top: ${height}px;`
+    },
+    closeDialog() {
+      this.dialog = false
     }
   }
 };

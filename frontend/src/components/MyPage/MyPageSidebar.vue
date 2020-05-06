@@ -16,7 +16,7 @@
           <router-link to="/myinfo/account">
             <li><i class="fas fa-user"></i>Account</li>
           </router-link>
-          <router-link to="/admin" v-if="this.info.user_id <= 4">
+          <router-link to="/admin/users" v-if="this.info.user_id <= 4">
             <li><i class="fas fa-tools"></i>Admin Page</li>
           </router-link>
         </ul>
@@ -67,9 +67,25 @@ export default {
   watch: {
     selectMenu() {
       if (this.selectMenu !== '') {
-        let routeUrls = ['/myinfo/dashboard', '/myinfo/mybooks', '/myinfo/account', '/admin']
+        let routeUrls = ['/myinfo/dashboard', '/myinfo/mybooks', '/myinfo/account', '/admin/users']
         let idx = this.menus.indexOf(this.selectMenu)
         this.$router.push(routeUrls[idx])
+      }
+    },
+    '$route'() {
+      switch (this.$route.name) {
+        case 'MyDashBoard':
+          this.selectMenu = 'Dashboard'
+          break
+        case 'MyBooks':
+          this.selectMenu = 'My Books'
+          break
+        case 'Account':
+          this.selectMenu = 'Account'
+          break
+        default:
+          this.selectMenu = ''
+          break
       }
     }
   }

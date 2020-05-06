@@ -22,12 +22,27 @@
   z-index: 100;
 }
 
-.loading-alert::after {
+.loading-alert:after {
   position: fixed;
   top: 61%;
   left: 50%;
   transform: translate(-50%, -50%);
   content: '조금만 기다려주세요...';
+  font-family: 'Stylish';
+  font-size: 20px;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+  text-shadow: 2px 2px 5px black;
+  padding-top: 5px;
+  color: #fff;
+  z-index: 100;
+}
+
+.progress {
+  position: fixed;
+  top: 64%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-family: 'Stylish';
   font-size: 20px;
   font-weight: 550;

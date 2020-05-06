@@ -78,6 +78,10 @@ class BookViewSet(viewsets.ModelViewSet):
         top = self.request.query_params.get("top","")
         if top:
             book = book[:int(top)]
+        other_books = self.request.query_params.get("other_books", "")
+        if other_books:
+            sub_id = models.Book.objects.get(id=other_books).subCategory_id
+            book = models.Book.objects.filter(subCategory_id=sub_id).order_by('-r_score', 'r_cnt')
         queryset = (
             book
         )

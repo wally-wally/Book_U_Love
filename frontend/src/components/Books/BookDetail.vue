@@ -133,7 +133,7 @@
                 </div>
               </div>
               <div v-for="(review,index) in remainReview.slice((reviewPageNm - 1) * 5, reviewPageNm * 5)" :key="index">
-                <BookReview :review="review" /> <!-- :index="(myReview.length ? index + 1 : index) + ((reviewPageNm - 1) * 5)" -->
+                <BookReview :review="review" :index="(reviewPageNm - 1) * 5 + index" /> <!-- :index="(myReview.length ? index + 1 : index) + ((reviewPageNm - 1) * 5)" -->
               </div>
             </div>
             <div class="review-pagination" v-if="remainReview.length">
@@ -150,6 +150,23 @@
           </div>
         </div>
       </div>
+      <div class="other-wrapper">
+        <div class="other-title">
+          <span class="other-alert">✔️ 이 도서는 어떠세요?</span>
+          <i class="fas fa-undo" @click="getRecommendOtherBooks"></i>
+        </div>
+        <div class="other-books" v-if="!otherLoading">
+          <div v-for="book in otherBooks" :key="book.id">
+            <BookCard :bookData="book"/>
+          </div>
+        </div>
+        <div class="other-books loading" v-else>
+          <div class="service-logo">
+            <img src="../../assets/images/team_logo/books.png" alt="team-logo">
+          </div>
+          <div class="loading-message">데이터를 불러오는 중 입니다.</div>
+        </div>
+      </div>
     </div>
     <div class="loading" v-else>
       <div class="service-logo">
@@ -163,13 +180,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import BookReview from '@/components/Books/BookReview'
+import BookCard from '@/components/Books/BookCard'
 import Chart from '@/components/common/Chart'
 import { fetchjjim } from '@/api/index.js'
 
 export default {
   name : "BookDetail",
   components : {
-    BookReview,Chart
+    BookReview,
+    Chart,
+    BookCard
   },
   data() {
     return {
@@ -186,7 +206,9 @@ export default {
       remainReview: [],
       reviewPageNm: 1,
       editMode: 0,
-      editReviewPK: 0
+      editReviewPK: 0,
+      otherBooks: [],
+      otherLoading: false
     }
   },
   computed: {
@@ -195,6 +217,7 @@ export default {
   created() {
     this.loadingStatus = true
     this.getBookDetail(this.id)
+    this.getRecommendOtherBooks()
   },
   watch : {
     book : function () {
@@ -247,6 +270,32 @@ export default {
         alert(this.time + '초 후에 시도해 주세요')
       }
       this.timego()
+    },
+    getRandomIntInclusive(min, max) {
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    },
+    async getRecommendOtherBooks() {
+      this.otherLoading = true
+      this.otherBooks = []
+      let otherBooks = []
+      let data = await this.$store.dispatch('GET_RECOMMEND_OTHER_BOOKS', {other_books: this.id, page: 1})
+      console.log(data)
+      let pageMax = parseInt(data.count / 10) === 0 ? 1 : parseInt(data.count / 10) + (data.count % 10 === 0 ? 0 : 1)
+      for (let i = 1; i < pageMax; ++i) {
+        let data = await this.$store.dispatch('GET_RECOMMEND_OTHER_BOOKS', {other_books: this.id, page: i})
+        otherBooks.push(...data.results)
+      }
+      let idxGroup = []
+      while (idxGroup.length < 12) {
+        let randomIdx = this.getRandomIntInclusive(0, otherBooks.length - 1)
+        if (!idxGroup.includes(randomIdx)) {
+          idxGroup.push(randomIdx)
+          this.otherBooks.push(otherBooks[randomIdx])
+        }
+      }
+      this.otherLoading = false
     },
     initForm() {
       this.content = ''
@@ -672,5 +721,75 @@ textarea {
 .book-detail-contents{
   color:rgb(65, 65, 65) !important;
   line-height: 1.8em;
+}
+
+.other-wrapper {
+  grid-column: 1 / 3;
+  grid-row : 2 / 3;
+}
+
+.other-title {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.other-books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+}
+
+.other-books.loading {
+  display: block;
+}
+
+.other-alert {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: 'Noto Sans KR';
+}
+
+.fa-undo {
+  padding: 8px;
+  font-size: 15px;
+  border: 1px solid silver;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.fa-undo:hover {
+  cursor: pointer;
+}
+
+.fa-undo:after {
+  content: ' 새로고침';
+  font-family: 'Gothic A1';
+}
+
+@media (max-width: 1264px) {
+  .other-books {
+    grid-template-columns: repeat(auto-fill, minmax(33.33333%, auto));
+  }
+}
+@media (max-width: 960px) {
+  .other-books {
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  }
+}
+@media (max-width: 600px) {
+  .other-books {
+    grid-template-columns: repeat(auto-fill, minmax(100%, auto));
+  }
+
+  .other-alert {
+    font-size: 19px;
+  }
+
+  .fa-undo {
+    font-size: 14px;
+    padding: 6px;
+  }
 }
 </style>

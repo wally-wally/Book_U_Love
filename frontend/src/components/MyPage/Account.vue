@@ -1,7 +1,7 @@
 <template>
   <div class="account-wrapper">
     <div class="account-page-title">
-      <h2>계정관리</h2>
+      <h2>🚶 계정관리</h2>
     </div>
     <div class="account-page-contents">
       <div class="add-info">
@@ -22,14 +22,40 @@
           </div>
           <div class="add-info-category">
             <div class="category-title">관심 카테고리(중복선택 가능)</div>
-            <v-select
-              v-model="selectedCategories"
-              multiple
-              class="pa-0"
-              :items="this.subcategory"
-              chips
-            ></v-select>
-          <v-btn class="mt-2" color="warning" @click="updateMyAddInfo()">추가정보 변경</v-btn>
+            <div class="category-subtitle">'대분류' 선택 후 하위 '중분류'에서 관심 카테고리 설정 가능</div>
+            <div class="cats-chips">
+              <div v-if="myFavoriteSubCats.length">
+                <v-chip v-for="(category, idx) in myFavoriteSubCats" :key="idx" class="ma-1">{{ category }}<i class="far fa-window-close ml-1" @click="deleteCats(idx)"></i></v-chip>
+              </div>
+              <div v-else class="no-cats-list">
+                <i class="fas fa-list"></i>
+                <p>관심 카테고리를 설정해주세요.</p>
+              </div>
+            </div>
+            <div class="select-section">
+              <div class="main-select">
+                <v-select
+                  v-model="selectedMainCategories"
+                  class="px-2"
+                  :items="this.maincategory"
+                  label="대분류"
+                ></v-select>
+              </div>
+              <div class="sub-select">
+                <v-select
+                  ref="sub-select-box"
+                  v-model="selectedSubCategories"
+                  class="px-2"
+                  :items="this.selectSubs"
+                  label="중분류"
+                  @mouseup="checkSelectMainCats"
+                ></v-select>
+              </div>
+            </div>
+          <div class="btn-group">
+            <v-btn class="mb-2" color="warning" @click="updateMyAddInfo()">추가정보 변경</v-btn>
+            <div class="mb-2">추가정보 입력 또는 변경 후 반드시 좌측 '추가정보 변경' 버튼을 눌러야 변경된 내용이 반영됩니다!</div>
+          </div>
           </div>
         </div>
       </div>
@@ -85,15 +111,20 @@
           <v-card-text class="pb-0">
             <div class="text-center out-user-dialog-text">
               <i class="fas fa-user-minus"></i>
-              <div>정말로 탈퇴를 진행하시려면 <span style="color: crimson;">'탈퇴'</span> 버튼을 눌러주세요.</div>
-              <div>탈퇴를 취소하시려면 <span style="color: orange;">'닫기'</span> 버튼을 눌러주세요.</div>
+              <div v-if="!outCheck">회원탈퇴를 하시려면 {{ this.info.username }}님의 비밀번호를 입력해주세요.</div>
+              <input v-if="!outCheck" id="out-password" v-model="outPassword" type="password" placeholder="비밀번호를 작성하세요.">
+              <div v-if="outCheck">인증되었습니다.</div>
+              <div v-if="outCheck">정말로 탈퇴를 진행하시려면 <span style="color: crimson;">'탈퇴'</span> 버튼을 눌러주세요.</div>
+              <div v-if="outCheck"><span style="color: crimson;">'탈퇴'</span> 버튼을 누르면 {{ this.info.username }} 님의 모든 정보가 삭제됩니다.</div>
+              <div v-if="outCheck">탈퇴를 취소하시려면 <span style="color: orange;">'닫기'</span> 버튼을 눌러주세요.</div>
             </div>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="error" @click="goWithdrawal" :style="{ 'fontFamily': 'Stylish', 'fontSize': '17px' }">탈퇴</v-btn>
-            <v-btn color="warning" @click="withdrawalDialog = false" :style="{ 'fontFamily': 'Stylish', 'fontSize': '17px' }">닫기</v-btn>
+            <v-btn v-if="!outCheck" color="error" @click="checkOutPassword" :style="{ 'fontFamily': 'Stylish', 'fontSize': '17px' }">비밀번호 확인</v-btn>
+            <v-btn v-if="outCheck" color="error" @click="goWithdrawal" :style="{ 'fontFamily': 'Stylish', 'fontSize': '17px' }">탈퇴</v-btn>
+            <v-btn color="warning" @click="closeWithDrawalDialog" :style="{ 'fontFamily': 'Stylish', 'fontSize': '17px' }">닫기</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -111,7 +142,8 @@ export default {
     return {
       gender: '',
       age: '',
-      selectedCategories: [],
+      selectedMainCategories: null,
+      selectedSubCategories: null,
       existPassword: '',
       newPassword: '',
       renewPassword: '',
@@ -122,13 +154,19 @@ export default {
         '비밀번호가 일치하지 않거나 비밀번호 양식에 어긋납니다.'
       ],
       withdrawalDialog: false,
+      maincategory : [], 
+      mainindex : {},
       subcategory : [], 
       subindex : {},
+      subcategoryset : [],
+      selectSubs: [],
+      myFavoriteSubCats: [],
+      outPassword: '',
+      outCheck: false
     }
   },
   created() {
     this.getCategory()
-    // mypage의 account 항목 클릭하면 해당 유저의 기존 추가정보 데이터 불러오는 로직을 가장 먼저 수행
     this.fetchMyInfo()
   },
   computed: {
@@ -151,12 +189,17 @@ export default {
     },
     setSubCategory() {
       for (const i in this.categories){
-      const main = this.categories[i]
+        const main = this.categories[i]
+        this.maincategory.push(main.name)
+        this.mainindex[main.name] = main.id
+        let subCats = []
         for (const j in main.subcategory_set){
           const sub = main.subcategory_set[j]
+          subCats.push(sub.name)
           this.subcategory.push(sub.name)
           this.subindex[sub.name] = sub.id
         }
+        this.subcategoryset.push(subCats)
       }
     },
     async fetchMyInfo() {
@@ -166,12 +209,20 @@ export default {
       this.getMyCategory(myInfo.categorys)
     },
     getMyCategory(favoriteCategory) {
-      this.selectedCategories = favoriteCategory
+      this.myFavoriteSubCats = favoriteCategory
+    },
+    checkSelectMainCats() {
+      if (this.selectSubs[0] === '') {
+        alert('대분류를 먼저 선택해주세요.')
+      }
+    },
+    deleteCats(idx) {
+      this.myFavoriteSubCats.splice(idx, 1)
     },
     async updateMyAddInfo() {
       let convertCategoryIDs = []
-      for (const i in this.selectedCategories){
-        convertCategoryIDs.push(this.subindex[this.selectedCategories[i]])
+      for (const i in this.myFavoriteSubCats){
+        convertCategoryIDs.push(this.subindex[this.myFavoriteSubCats[i]])
       }
       const userAddData = {
         username: this.info.username,
@@ -183,13 +234,12 @@ export default {
       try {
         await this.$store.dispatch('CHANGE_USER_INFO', userAddData)
         alert('추가정보가 수정되었습니다.')
-        this.fetchMyInfo() // 추가정보 수정 후 수정된 추가정보 불러오기
+        await this.fetchMyInfo()
       } catch(error) {
         alert('예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요.')
       }
     },
-    async checkExistPassword() { // 기존 비밀번호를 올바르게 입력해야 새로운 비밀번호 작성가능
-      // (1) 기존 비밀번호 확인 로직(기존에 구현한 LOGIN 로직을 활용하여 작성됨)
+    async checkExistPassword() {
       try {
         await this.$store.dispatch('LOGIN', {
           username: this.$store.getters.info.username,
@@ -205,19 +255,14 @@ export default {
       }
     },
     async checkNewPassword() {
-      // (2) 새로운 비밀번호 변경 로직
-      // 새로운 비밀번호가 비밀번호 validation에 맞는지 확인 후 맞는 경우 비밀번호 변경(api 폴더에 작성한 changePassword() 함수 불러와서 사용)
-      // api 폴더의 changePassword() 함수에서 요청주소 작성해야 함
-      // 비밀번호 변경 validation : 새로운 비번 === 새로운 비번 재확인 && 새로운 비번이 기존 비번과 달라야 함 && 새로운 비번이 비밀번호 양식에 맞는지 확인
       if (this.isNewPasswordValid) {
         try {
-          // 비밀번호 변경 로직 작성
           const userData = {
             password: this.newPassword
           }
           await this.$store.dispatch('CHANGE_PASSWORD', userData)
           alert('비밀번호가 변경되었습니다.')
-          this.initPasswordForm() // 비밀번호 변경 성공 후 비밀번호 변경 양식 초기화 
+          this.initPasswordForm()
         } catch (error) {
           console.log(error)
           alert('예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요.')
@@ -233,13 +278,62 @@ export default {
       this.availableNewPassword = false
       this.showErrorMessage = false
     },
+    async checkOutPassword() {
+      try {
+        await this.$store.dispatch('LOGIN', {
+          username: this.$store.getters.info.username,
+          password: this.outPassword
+        })
+        this.outCheck = true
+      } catch (error) {
+        if (error.status === 400) {
+          alert('비밀번호를 잘못 입력하셨습니다.')
+        } else {
+          alert('예기치 못한 오류가 발생했습니다. 관리자에게 문의하세요.')
+        }
+      }
+    },
     withdrawalAlert() {
       this.withdrawalDialog = true
+    },
+    closeWithDrawalDialog() {
+      this.withdrawalDialog = false
+      this.outPassword = ''
+      this.outCheck = false
     },
     async goWithdrawal() {
       await this.$store.dispatch('DELETE_USER')
       this.$store.commit('logout')
       this.$router.push('/')
+    }
+  },
+  watch: {
+    selectedMainCategories() {
+      if (this.selectedMainCategories !== null && this.selectedMainCategories !== '') {
+        let mainIdx = this.mainindex[this.selectedMainCategories]
+        this.selectSubs = this.subcategoryset[mainIdx - 1]
+        this.selectedSubCategories = ''
+      } else {
+        this.selectSubs = []
+      }
+    },
+    selectedSubCategories() {
+      if (this.selectedSubCategories !== null && this.selectedSubCategories !== '') {
+        if (!this.myFavoriteSubCats.includes(this.selectedSubCategories)) {
+          this.myFavoriteSubCats.push(this.selectedSubCategories)
+          this.$refs['sub-select-box'].initialValue = ''
+          this.$refs['sub-select-box'].lazyValue = ''
+          this.$refs['sub-select-box'].isFocused = false
+          this.$refs['sub-select-box'].hasColor = false
+          this.$refs['sub-select-box'].hasFocused = false
+          this.$refs['sub-select-box'].hasInput = false
+          this.selectedMainCategories = ''
+          this.selectedSubCategories = ''
+          this.selectSubs = []
+        } else {
+          alert('해당 카테고리는 이미 선택되었습니다.')
+        }
+      }
     }
   }
 }
@@ -248,7 +342,7 @@ export default {
 <style scoped>
 .account-wrapper {
   margin: 0 auto;
-  width: 70%;
+  width: 85%;
 }
 
 .account-wrapper .account-page-title {
@@ -264,7 +358,24 @@ export default {
   font-family: 'Nanum Gothic';
   font-weight: 600;
   font-size: 1.1em;
+}
+
+.account-wrapper .account-page-contents > div div[class$='-title']:not(.category-title),
+.account-wrapper .account-page-contents > div label[class$='-title'] {
   padding-bottom: 0.8em;
+}
+
+.category-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: gray;
+  padding: 0.4em 0 0.8em;
+}
+
+.select-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
 }
 
 .add-info,
@@ -308,13 +419,19 @@ export default {
   margin-bottom: 0.5em;
 }
 
-.change-password-form > div[class$='form'] input {
+.change-password-form > div[class$='form'] input,
+#out-password {
   display: block;
   padding: 0.8em 0.4em;
   width: 100%;
   border: 1px solid lightgray;
   border-radius: 5px;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.05);
+}
+
+#out-password {
+  width: 100%;
+  margin: 0 auto;
 }
 
 .logmessage {
@@ -340,9 +457,51 @@ export default {
   line-height: 2;
 }
 
+.no-cats-list {
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
+  text-align: center;
+}
+
+.no-cats-list i {
+  font-size: 90px;
+}
+
+.no-cats-list p {
+  font-size: 17px;
+  margin: 6px 0;
+}
+
+.cats-chips {
+  padding: 8px;
+  border: 1px solid silver;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn-group > div {
+  font-size: 13.5px;
+  font-family: 'Gothic A1';
+  font-weight: 600;
+  color: crimson;
+  margin-left: 8px;
+}
+
 @media (max-width: 900px) {
   .account-wrapper {
     width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .select-section {
+    display: block;
   }
 }
 </style>

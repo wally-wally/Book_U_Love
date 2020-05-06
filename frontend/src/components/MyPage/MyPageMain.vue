@@ -69,7 +69,7 @@
           </tr>
           <tr>
             <td>
-              <router-link to="/admin">Go to Admin Page</router-link>
+              <router-link to="/admin/users">Go to Admin Page</router-link>
             </td>
           </tr>
         </table>
