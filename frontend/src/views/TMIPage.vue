@@ -2,9 +2,9 @@
   <div class="wrapper">
     <nav class="tmi-nav">
       <ul>
-        <li @click="goPage('/filtercategory')"><span :class="clickedUrl === '/filtercategory' ? 'on' : ''" id="tmi-sub-menu">동년배 취향 분석</span></li>
-        <li @click="goPage('/filterbook')"><span :class="clickedUrl === '/filterbook' ? 'on' : ''" id="tmi-sub-menu">동년배 책 분석</span></li>
         <li @click="goPage('/weeklydata')"><span :class="clickedUrl === '/weeklydata' ? 'on' : ''" id="tmi-sub-menu">최근 1주일 간 상위 리뷰 데이터</span></li>
+        <li @click="goPage('/filterbook')"><span :class="clickedUrl === '/filterbook' ? 'on' : ''" id="tmi-sub-menu">동년배 책 분석</span></li>
+        <li @click="goPage('/filtercategory')"><span :class="clickedUrl === '/filtercategory' ? 'on' : ''" id="tmi-sub-menu">동년배 취향 분석</span></li>
         <li @click="goPage('/reviewcategory')"><span :class="clickedUrl === '/reviewcategory' ? 'on' : ''" id="tmi-sub-menu">카테고리별 전체 리뷰</span></li>
       </ul>
     </nav>
@@ -33,10 +33,10 @@ export default {
       clickedUrl: '',
       selectMenu: '',
       menus: [
-        '동년배 취향 분석',
-        '동년배 책 분석',
-        '카테고리별 전체 리뷰',
         '최근 1주일 간 상위 리뷰 데이터',
+        '동년배 책 분석',
+        '동년배 취향 분석',
+        '카테고리별 전체 리뷰',
       ]
     }
   },
@@ -50,13 +50,13 @@ export default {
     '$route'() {
       switch (this.$route.name) {
         case 'TMI1':
-          this.selectMenu = '동년배 취향 분석'
+          this.selectMenu = '최근 1주일 간 상위 리뷰 데이터'
           break
         case 'TMI2':
           this.selectMenu = '동년배 책 분석'
           break
         case 'TMI3':
-          this.selectMenu = '최근 1주일 간 상위 리뷰 데이터'
+          this.selectMenu = '동년배 취향 분석'
           break
         case 'TMI4':
           this.selectMenu = '카테고리별 전체 리뷰'
@@ -69,6 +69,9 @@ export default {
       switch (this.selectMenu) {
         case '동년배 취향 분석':
           this.goPage('/filtercategory')
+          break
+        case '동년배 책 분석':
+          this.goPage('/filterbook')
           break
         case '카테고리별 전체 리뷰':
           this.goPage('/reviewcategory')

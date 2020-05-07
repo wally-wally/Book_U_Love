@@ -20,7 +20,7 @@
           label="성별"
           ></v-select>
         </div>
-        <div class="books-list col-6">
+        <div class="books-list">
             <div v-for="book in books" :key="book.id">
                 <div class="book-box">
                     <BookCard :bookData="book[0]"/>
@@ -36,8 +36,10 @@
 <script>
 import { mapState } from 'vuex'
 import { fetchReviewFilter } from '@/api/index.js'
+import BookCard from '@/components/Books/BookCard'
 
 export default {
+  components : {BookCard},
   data() {
     return  {
       books : [],
@@ -102,6 +104,7 @@ export default {
       }
     },
     async getreviewfilter(params) {
+      console.log(params)
       const { data } = await fetchReviewFilter(params)
       this.books = data
     },
@@ -111,7 +114,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .page-description {
   font-size: 17px;
@@ -125,5 +127,41 @@ export default {
     font-size: 15px;
     margin-top: 10px;
   }
+}
+
+.books-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20%, auto));
+}
+
+@media (max-width: 1264px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(33.33333%, auto));
+  }
+}
+@media (max-width: 960px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  }
+}
+@media (max-width: 600px) {
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(100%, auto));
+  }
+}
+
+.book-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-box > div:last-child {
+    text-align: center;
+}
+
+.variable-count {
+    font-weight: 600;
+    font-family: 'Gothic A1';
 }
 </style>

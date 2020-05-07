@@ -23,7 +23,6 @@
         </div>
         <div class="canvas-section">
           <canvas ref="barChart" id="barChart" width="400" height="200"></canvas>
-          <!-- <canvas :ref="`barChart${chartID}`" :id="`barChart${chartID}`"></canvas> -->
         </div>
         <v-data-table
           :headers="tableHeaders"
@@ -59,7 +58,7 @@ export default {
     // this.resetChart()
     this.fetchMyInfo()
     this.getcategoryfilter()
-    // this.updateChart()
+    this.updateChart()
     // this.getData()
   },
   computed: {

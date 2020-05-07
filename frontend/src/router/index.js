@@ -88,10 +88,10 @@ export default new Router({
       component: loadView('TMIPage'),
       children: [
         { path: '', component: loadComponent('TMICenter', 'TMIMain')},
-        { path: 'filtercategory', name: 'TMI1', component: loadComponent('TMICenter', 'FilterCategory')},
-        { path: 'reviewcategory', name: 'TMI2', component: loadComponent('TMICenter', 'ReviewCategory')},
-        { path: 'weeklydata', name: 'TMI3', component: loadComponent('TMICenter', 'WeeklyData')},
-        { path: 'filterbook', name : 'TMI3', component : loadComponent('TMICenter', 'FilterBook')}
+        { path: 'weeklydata', name: 'TMI1', component: loadComponent('TMICenter', 'WeeklyData')},
+        { path: 'filterbook', name : 'TMI2', component : loadComponent('TMICenter', 'FilterBook')},
+        { path: 'filtercategory', name: 'TMI3', component: loadComponent('TMICenter', 'FilterCategory')},
+        { path: 'reviewcategory', name: 'TMI4', component: loadComponent('TMICenter', 'ReviewCategory')},
       ]
     },
     {
