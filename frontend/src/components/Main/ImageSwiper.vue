@@ -1,6 +1,12 @@
 <template>
   <div class="mb-6" style="border: 1px solid transparent;">
-    <v-carousel :height="450" show-arrows-on-hover class="desktop-carousel">
+    <div class="loading-section" v-if="loading">
+      <p class="text-center">
+        <img src="../../assets/images/team_logo/logo.png" alt="service-logo">
+      </p>
+      <p>Book_U_Love 도서 추천 서비스입니다.</p>
+    </div>
+    <v-carousel v-if="!loading" :height="450" show-arrows-on-hover class="desktop-carousel">
       <v-carousel-item
         v-for="(book, i) in books"
         :key="i"
@@ -26,7 +32,7 @@
         </div>
       </v-carousel-item>
     </v-carousel>
-    <v-carousel :height="700" show-arrows-on-hover class="mobile-carousel">
+    <v-carousel v-if="!loading" :height="700" show-arrows-on-hover class="mobile-carousel">
       <v-carousel-item
         v-for="(book, i) in books"
         :key="i"
@@ -67,13 +73,15 @@ export default {
         require('../../assets/images/image_slider/silder_image01.jpg'),
         require('../../assets/images/image_slider/silder_image02.jpg'),
         require('../../assets/images/image_slider/silder_image03.jpg')
-      ]
+      ],
+      loading: false
     }
   },
   computed: {
     ...mapGetters(['info'])
   },
   created() {
+    this.loading = true
     this.$store.commit('togglePostReviewLoading', true)
     this.getTotalRecommend()
   },
@@ -101,6 +109,7 @@ export default {
       }
       await this.selectRandomBooks(tempBooks)
       this.$store.commit('togglePostReviewLoading', false)
+      this.loading = false
     },
     async selectRandomBooks(tempBooks) {
       let idxGroup = []
@@ -138,6 +147,21 @@ export default {
 
 .mobile-carousel {
   display: none;
+}
+
+.loading-section {
+  width: 100%;
+}
+
+.loading-section img {
+  max-width: 300px;
+  width: 100%;
+}
+
+.loading-section > p:last-child {
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Noto Sans KR';
 }
 
 .carousel-item-wrapper {
