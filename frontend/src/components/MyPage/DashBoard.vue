@@ -13,13 +13,13 @@
         <div>
           <div class="cats-title">중분류</div>
           <div v-for="(s,idx) in sub" :key="s.id" @click="shownext(2,idx)" class="cats-item-wrapper">
-            <span class="cats-name">{{s.name}}</span>
+            <span v-if="s.count" class="cats-name">{{s.name}}</span>
           </div>
         </div>
         <div>
           <div class="cats-title">소분류</div>
           <div v-for="(d,idx) in detail" :key="idx" class="cats-item-wrapper">
-            <span class="cats-name">{{d.name}}</span>
+            <span v-if="d.count" class="cats-name">{{d.name}}</span>
           </div>
         </div>
       </div>  
