@@ -76,6 +76,9 @@ export default {
       }
       paramsData['page'] = this.pageNm
       paramsData[this.$route.name] = this.id
+      if (this.$route.name.includes('category')) {
+        paramsData['categorypage'] = 'categorypage'
+      }
       let bookData = await this.$store.dispatch('GET_BOOKS', paramsData)
       this.books = bookData.results
       this.count = bookData.count
