@@ -10,7 +10,7 @@
         <BookSwiper :theme="theme" />
       </div>
     </div>
-    <!-- <YoutubeSwiper /> -->
+    <YoutubeSwiper />
   </div>
 </template>
 

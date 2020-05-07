@@ -53,7 +53,7 @@ const actions = {
     return data
   },
   async CHANGE_USER_INFO({ getters }, userData) { // 유저의 추가정보를 수정할 때 사용되는 비동기 로직
-    const { data } = await updateMyInfo(userData, getters.info.user_id)
+    const { data } = await updateMyInfo(userData)
     return data
   },
   async CHANGE_PASSWORD({ getters }, userData) { // 유저의 비밀번호 변경을 요청하는 비동기 로직

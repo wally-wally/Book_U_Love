@@ -373,7 +373,7 @@ i:hover,
   position: absolute;
   top: 0;
   left: 100%;
-  width: 100%;
+  width: 110%;
   height: 671.5px;
   background-color: #fafafa;
   padding: 6px 0;

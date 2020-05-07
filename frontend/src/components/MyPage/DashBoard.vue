@@ -5,18 +5,21 @@
     <div class="dashboard-section" v-if="mydata.length">
       <div class="category-select">
         <div>
-          <div v-for="(m,idx) in mydata" :key="m.id"  @click="shownext(1,idx)">
-            {{m.name}}
+          <div class="cats-title">대분류</div>
+          <div v-for="(m,idx) in mydata" :key="m.id"  @click="shownext(1,idx)" class="cats-item-wrapper">
+            <span class="cats-name">{{m.name}}</span>
           </div>
         </div>
         <div>
-          <div v-for="(s,idx) in sub" :key="s.id" @click="shownext(2,idx)">
-            {{s.name}}
+          <div class="cats-title">중분류</div>
+          <div v-for="(s,idx) in sub" :key="s.id" @click="shownext(2,idx)" class="cats-item-wrapper">
+            <span class="cats-name">{{s.name}}</span>
           </div>
         </div>
         <div>
-          <div v-for="(d,idx) in detail" :key="idx">
-            {{d.name}}
+          <div class="cats-title">소분류</div>
+          <div v-for="(d,idx) in detail" :key="idx" class="cats-item-wrapper">
+            <span class="cats-name">{{d.name}}</span>
           </div>
         </div>
       </div>  
@@ -38,7 +41,7 @@
     </div>
       
     
-    <hr>
+    <hr class="mt-5">
     <div class="dashboard-sub pt-5">2️⃣ {{ this.info.username }}님을 위한 추천 도서</div>
     <div v-if="'message' in mybook">
       <div class="no-books-text">
@@ -288,5 +291,34 @@ export default {
   .dashboard-wrapper {
     width: 100%;
   }
+}
+
+.cats-item-wrapper {
+  margin: 8px 0;
+  text-align: center;
+}
+
+.cats-title {
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
+  font-size: 17px;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: rgb(252, 243, 230);
+  padding: 5px 0;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.cats-name {
+  font-family: 'Noto Sans KR';
+  font-size: 17px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.cats-name:hover {
+  cursor: pointer;
+  font-weight: 600;
 }
 </style>

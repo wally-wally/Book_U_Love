@@ -63,7 +63,7 @@ export default {
       }
     },
       allusers() {
-        axios.get('http://localhost:8000/accounts/allusers/').then(result => {
+        axios.get('http://i02b205.p.ssafy.io:8000/accounts/allusers/').then(result => {
           this.users = result.data.results
         })
       },
@@ -78,7 +78,7 @@ export default {
                 categorys: convertCategoryIDs
             }
             console.log(userData)
-            axios.post('http://localhost:8000/accounts/createuser/',userData)
+            axios.post('http://i02b205.p.ssafy.io:8000/accounts/createuser/',userData)
                 .then((result) => {
                   console.log(result)
                 })

@@ -59,6 +59,21 @@ export default {
         default:
           this.selectMenu = ''
       }
+    },
+    selectMenu() {
+      switch (this.selectMenu) {
+        case '동년배 취향 분석':
+          this.goPage('/filtercategory')
+          break
+        case '카테고리별 전체 리뷰':
+          this.goPage('/reviewcategory')
+          break
+        case '최근 1주일 간 상위 리뷰 데이터':
+          this.goPage('/weeklydata')
+          break
+        default:
+          this.goPage('')
+      }
     }
   }
 }
@@ -138,10 +153,7 @@ export default {
 
 @media (max-width: 900px) {
   .tmi-mobile-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    display: block;
     height: 90px;
     margin-bottom: 10px;
   }
