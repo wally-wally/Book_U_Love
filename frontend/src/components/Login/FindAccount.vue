@@ -11,17 +11,17 @@
               <label for="username" />
               <input id="username" v-model="username" type="text" placeholder="ID">
               <small class="logmessage px-2" v-if="!isUsernameValid">
-                (한글 이름을 작성하세요.)
+                (회원가입시 작성한 한글 이름을 작성하세요.)
               </small>
             </div>
             <div class="email-form">
               <label for="email" />
               <input id="email" v-model="email" type="text" placeholder="E-mail">
               <small class="logmessage px-2" v-if="!isEmailValid">
-                (이메일 양식으로 작성하세요.)
+                (회원가입시 작성한 이메일 주소를 작성하세요.)
               </small>
             </div>
-            <v-btn color="warning" block :disabled="!(isEmailValid && isUsernameValid)" type="submit" class="mt-5 btn">비밀번호 찾기</v-btn>
+            <v-btn v-if="!issueTempPassword" color="warning" block :disabled="!(isEmailValid && isUsernameValid)" type="submit" class="mt-5 btn">비밀번호 찾기</v-btn>
           </div>
         </form>
         <div class="alert-account-message" v-if="loadingStatus">
