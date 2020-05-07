@@ -63,4 +63,10 @@ export default {
   margin: 0 auto;
   box-sizing: border-box;
 }
+
+@media (max-width: 600px) {
+  .main-wrapper {
+    width: 90%;
+  }
+}
 </style>

@@ -15,4 +15,10 @@ export default {
   width: 80%;
   margin: 0 auto;
 }
+
+@media (max-width: 600px) {
+  .author {
+    width: 90%;
+  }
+}
 </style>

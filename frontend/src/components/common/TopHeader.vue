@@ -97,6 +97,12 @@ export default {
   padding-bottom: 3px;
 }
 
+@media (max-width: 600px) {
+  .top-header-wrapper {
+    width: 90%;
+  }
+}
+
 @media (max-width: 500px) {
   .login-user-name .greeting {
     display: none;

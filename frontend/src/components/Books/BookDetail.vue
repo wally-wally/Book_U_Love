@@ -453,6 +453,10 @@ a {
     display: table-cell;
     padding: 6px 0;
   }
+
+  .book-detail-wrapper {
+    width: 90%;
+  }
 }
 
 .more-row > .more-cell:first-child {
