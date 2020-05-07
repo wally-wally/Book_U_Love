@@ -82,7 +82,9 @@
             <input type="text" v-model="this.time" class="d-none">
             <form v-if="this.$store.state.user.isLogin && (!myReview.length || editMode)">
               <div class="star-score">
-                <fieldset class="score">
+                <v-rating v-model="score" color="orange" background-color="orange lighten-3" half-increments dense class="d-inline"></v-rating>
+                <span class="score-text">({{ score * 2 }}점)</span>
+                <!-- <fieldset class="score">
                   <input v-model="score" type="radio" id="star10" name="score" value="10"/>
                   <label class="full" for="star10" title="최고의 책입니다. 10점"></label>
                   <input v-model="score" type="radio" id="star9" name="score" value="9"/>
@@ -103,7 +105,7 @@
                   <label class="full" for="star2" title="다신 안봐요. 2점"></label>
                   <input v-model="score" type="radio" id="star1" name="score" value="1"/>
                   <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
-                </fieldset>
+                </fieldset> -->
               </div>
               <textarea v-model="content" placeholder="리뷰를 입력해주세요."/>
               <div class="review-btn-group">
@@ -220,15 +222,6 @@ export default {
     this.getBookDetail(this.id)
     this.getRecommendOtherBooks()
   },
-  watch : {
-    book : function () {
-      this.stat = [0,0,0,0,0,0,0,0,0,0]
-      const reviews = this.myReview.concat(this.remainReview)
-      for (var i in reviews) {
-        this.stat[reviews[i].score-1] ++ 
-      }
-    }
-  },
   methods : {
     async getBookDetail(id) {
       let bookData = await this.$store.dispatch('GET_BOOK_DETAIL', id)
@@ -251,7 +244,7 @@ export default {
           const formData = new FormData()
           formData.append('user', this.$store.getters.info.user_id)
           formData.append('content',this.content)
-          formData.append('score',this.score)
+          formData.append('score',this.score * 2)
           formData.append('book',this.id)
           formData.append('spoiler',this.spoiler)
           if (!this.editMode) {
@@ -329,7 +322,7 @@ export default {
     },
     toggleEditMode(reviewData) {
       this.editMode = 1
-      this.score = reviewData.score
+      this.score = reviewData.score / 2
       this.content = reviewData.content
       this.editReviewPK = reviewData.id
       this.spoiler = reviewData.spoiler
@@ -353,6 +346,15 @@ export default {
           this.remainReview = data.sort((a, b) => b.like_user.length - a.like_user.length)
           this.reviewPageNm = 1
           break
+      }
+    }
+  },
+  watch : {
+    book : function () {
+      this.stat = [0,0,0,0,0,0,0,0,0,0]
+      const reviews = this.myReview.concat(this.remainReview)
+      for (var i in reviews) {
+        this.stat[reviews[i].score-1] ++ 
       }
     }
   }
@@ -539,6 +541,15 @@ a {
   padding-bottom: 18px;
 }
 
+.star-score {
+  text-align: right;
+}
+
+.score-text {
+  font-size: 15px;
+  vertical-align: middle;
+}
+
 .score {
   border: none;
   padding-bottom: 0.5em;
@@ -568,7 +579,6 @@ a {
 .score > .half:before {
   content: "\f089";
   position: absolute;
-  padding-right: 0;
 }
 
 .score > label {
