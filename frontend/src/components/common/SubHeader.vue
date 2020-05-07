@@ -559,4 +559,10 @@ i:hover,
     width: 100%;
   }
 }
+
+@media (max-width: 600px) {
+  .sub-header-wrapper {
+    width: 90%;
+  }
+}
 </style>

@@ -30,4 +30,10 @@ export default {
     display: block;
   }
 }
+
+@media (max-width: 600px) {
+  .mypage-wrapper {
+    width: 90%;
+  }
+}
 </style>

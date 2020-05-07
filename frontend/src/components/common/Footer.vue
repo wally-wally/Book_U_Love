@@ -1,7 +1,7 @@
 <template>
   <footer id="footer">
     <div class="footer-title">
-      <img src="https://user-images.githubusercontent.com/52685250/80765397-e5c09d80-8b7d-11ea-8193-7b61baa0345e.png" width="280">
+      <img src="../../assets/images/team_logo/logo.png" width="280">
     </div>
     <nav id="footer-menu-primary" class="footer-menu" style="width:60%; margin:0 auto;">
       <ul class="pl-0">
@@ -20,7 +20,7 @@
           <div class="intro-contents">
             <div class="service-intro pb-4">
               <div class="intro-title">✔️서비스 소개</div>
-              <img src="https://user-images.githubusercontent.com/52685250/80765397-e5c09d80-8b7d-11ea-8193-7b61baa0345e.png" alt="service-logo">
+              <img src="../../assets/images/team_logo/logo.png" alt="service-logo">
               <div class="service-contents">
                 <div class="service-summery">
                   <i>읽고는 싶지만 무엇을 읽어야 할 지 모르겠다면!<br>

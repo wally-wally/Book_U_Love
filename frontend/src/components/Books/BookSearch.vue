@@ -165,5 +165,9 @@ export default {
   .books-list {
     grid-template-columns: repeat(auto-fill, minmax(100%, auto));
   }
+
+  .book-search-wrapper {
+    width: 90%;
+  }
 }
 </style>

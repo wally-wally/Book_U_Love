@@ -176,4 +176,10 @@ export default {
     font-size: 2.2vw;
   }
 }
+
+@media (max-width: 600px) {
+  .wrapper {
+    width: 90%;
+  }
+}
 </style>

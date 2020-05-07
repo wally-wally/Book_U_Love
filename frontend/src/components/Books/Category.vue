@@ -212,5 +212,9 @@ export default {
   .books-list {
     grid-template-columns: repeat(auto-fill, minmax(100%, auto));
   }
+
+  .category-wrapper {
+    width: 90%;
+  }
 }
 </style>

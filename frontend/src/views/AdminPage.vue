@@ -113,4 +113,10 @@ export default {
     display: none;
   }
 }
+
+@media (max-width: 600px) {
+  .admin-page-wrapper {
+    width: 90%;
+  }
+}
 </style>
