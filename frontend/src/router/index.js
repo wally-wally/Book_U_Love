@@ -91,6 +91,7 @@ export default new Router({
         { path: 'filtercategory', name: 'TMI1', component: loadComponent('TMICenter', 'FilterCategory')},
         { path: 'reviewcategory', name: 'TMI2', component: loadComponent('TMICenter', 'ReviewCategory')},
         { path: 'weeklydata', name: 'TMI3', component: loadComponent('TMICenter', 'WeeklyData')},
+        { path: 'filterbook', name : 'TMI3', component : loadComponent('TMICenter', 'FilterBook')}
       ]
     },
     {
