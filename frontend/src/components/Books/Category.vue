@@ -6,7 +6,7 @@
       </div>
       <div class="sort-wrapper my-2">
         <div class="sort-item" @click="getBookDetail('score')">평점순</div>
-        <div class="sort-item" @click="getBookDetail('count')">리뷰순</div>
+        <div class="sort-item" @click="getBookDetail('count')">리뷰 개수순</div>
       </div>
     </div>
     <div class="category-book-cnt">

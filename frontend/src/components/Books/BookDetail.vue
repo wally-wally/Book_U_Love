@@ -334,10 +334,11 @@ export default {
       this.spoiler = reviewData.spoiler
     },
     sortReview(val) {
+      let data = this.remainReview
       if (!val) { // 평점순
-        this.remainReview = this.remainReview.sort((a, b) => b.score - a.score)
+        this.remainReview = data.sort((a, b) => b.score - a.score)
       } else { // 최신순
-        this.remainReview = this.remainReview.sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
+        this.remainReview = data.sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
       }
     }
   }

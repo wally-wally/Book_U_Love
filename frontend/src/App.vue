@@ -1,5 +1,8 @@
 <template>
   <v-app id="app" :class="this.postLoading ? 'all-wrapper' : ''">
+    <transition name="fade" mode="in-out">
+      <YoutubeVideoDialog v-if="this.showYoutubeVideo"></YoutubeVideoDialog>
+    </transition>
     <ExplorerAlert :dialog="dialog" @closeDialog="closeDialog"></ExplorerAlert>
     <div :class="this.postLoading ? 'background-black' : ''"></div>
     <div :class="this.postLoading ? 'loader' : ''"></div>
@@ -24,6 +27,7 @@ import Header from '@/components/common/Header'
 import Footer from '@/components/common/Footer'
 import ExplorerAlert from '@/components/common/ExplorerAlert.vue'
 import AlertCollectReview from '@/components/common/AlertCollectReview'
+import YoutubeVideoDialog from '@/components/Main/YoutubeVideoDialog.vue'
 import '@/assets/css/loader.css'
 
 export default {
@@ -31,7 +35,8 @@ export default {
     Header,
     Footer,
     ExplorerAlert,
-    AlertCollectReview
+    AlertCollectReview,
+    YoutubeVideoDialog
   },
   data() {
     return {
@@ -44,7 +49,8 @@ export default {
       postLoading: state => state.data.postReviewLoading,
       fetchAllBookStatus: state => state.data.fetchAllBookStatus,
       allBooks: state => state.data.allBooks,
-      allBooksCount: state => state.data.allBooksCount
+      allBooksCount: state => state.data.allBooksCount,
+      showYoutubeVideo: state => state.common.showYoutubeVideo
     }),
     className() {
       return this.$store.state.common.onMobileDrawer ? 'blind' : ''

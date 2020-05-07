@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="book-swiper-title">
-      <span v-if="this.theme === 'favoriteCategory'">{{ `${this.info.username}님을 위한 맞춤 추천 도서` }}</span>
-      <span v-else-if="this.theme === 'age_gender'">{{ `${age} ${gender} 추천 도서` }}</span>
-      <span v-else-if="this.theme === 'sortScore'">평점순 TOP 10 도서</span>
-      <span v-else>리뷰 개수순 TOP 10 도서</span>
-      <i class="fas fa-undo" @click="getBooks"></i>
+      <span v-if="this.theme === 'favoriteCategory'">🔖{{ `${this.info.username}님을 위한 맞춤 추천 도서` }}</span>
+      <span v-else-if="this.theme === 'age_gender'">🔖{{ `${age} ${gender} 추천 도서` }}</span>
+      <span v-else-if="this.theme === 'sortScore'">🔖평점순 TOP 10 도서</span>
+      <span v-else>🔖리뷰 개수순 TOP 10 도서</span>
+      <i v-if="!Object.prototype.hasOwnProperty.call(books, 'message')" class="fas fa-undo" @click="shuffleBooks"></i>
     </div>
     <swiper v-if="!loadingStatus && books.length" ref="mySwiper" :options="swiperOptions" class="swiper-wrapper">
       <swiper-slide v-for="(book, idx) in books" :key="idx">
@@ -21,7 +21,7 @@
       </div>
       <div class="loading-message">
         <span v-if="loadingStatus">데이터를 불러오는 중 입니다.</span>
-        <span v-else>해당 데이터가 없습니다.<br>관심 카테고리 설정과 리뷰를 작성해주세요!</span>
+        <span v-else>해당 데이터가 없습니다.<br>관심 카테고리 설정과 리뷰를 많이 작성해주시면<br>{{ this.info.username }}님을 위한 맞춤 도서를 추천해드릴께요!</span>
       </div>
     </div>
   </div>
@@ -94,6 +94,30 @@ export default {
     this.getBooks()
   },
   methods: {
+    async shuffleBooks() {
+      this.loadingStatus = true
+      this.books = []
+      await this.getBooksData()
+      await this.shuffle()
+    },
+    getRandomIntInclusive(min, max) {
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    },
+    shuffle() {
+      let idxGroup = []
+      let bookData = []
+      while (idxGroup.length < 10) {
+        let randomIdx = this.getRandomIntInclusive(0, 9)
+        if (!idxGroup.includes(randomIdx)) {
+          idxGroup.push(randomIdx)
+          bookData.push(this.books[randomIdx])
+        }
+      }
+      this.books = bookData
+      this.loadingStatus = false
+    },
     getBooks() {
       this.loadingStatus = true
       if (this.isLogin && this.theme === 'age_gender') {
@@ -145,7 +169,7 @@ export default {
 }
 
 .service-logo img {
-  margin: 34px 0;
+  margin: 30px 0 20px;
   width: 150px;
   height: 150px;
 }
@@ -235,6 +259,7 @@ export default {
     font-size: 15px;
   }
 
+  .loading-message > span,
   .fa-undo {
     font-size: 13px;
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="account-wrapper">
     <div class="account-page-title">
-      <h2>🚶 계정관리</h2>
+      <div class="account-title">🚶 계정관리</div>
     </div>
     <div class="account-page-contents">
       <div class="add-info">
@@ -39,6 +39,7 @@
                   class="px-2"
                   :items="this.maincategory"
                   label="대분류"
+                  color="warning"
                 ></v-select>
               </div>
               <div class="sub-select">
@@ -48,6 +49,7 @@
                   class="px-2"
                   :items="this.selectSubs"
                   label="중분류"
+                  color="warning"
                   @mouseup="checkSelectMainCats"
                 ></v-select>
               </div>
@@ -209,7 +211,19 @@ export default {
       this.getMyCategory(myInfo.categorys)
     },
     getMyCategory(favoriteCategory) {
-      this.myFavoriteSubCats = favoriteCategory
+      let sortedCategory = []
+      let favoriteCnt = favoriteCategory.length
+      for (const categoryList of this.subcategoryset) {
+        for (const category of categoryList) {
+          if (favoriteCategory.includes(category)) {
+            sortedCategory.push(category)
+            if (sortedCategory.length === favoriteCnt) {
+              this.myFavoriteSubCats = sortedCategory
+              return
+            }
+          }
+        }
+      }
     },
     checkSelectMainCats() {
       if (this.selectSubs[0] === '') {
@@ -349,8 +363,11 @@ export default {
   margin-bottom: 1.5em;
 }
 
-.account-wrapper .account-page-title h2 {
+.account-wrapper .account-title {
+  font-size: 1.5em;
+  font-weight: bold;
   font-family: 'Noto Sans KR';
+  margin-bottom: 1.5em;
 }
 
 .account-wrapper .account-page-contents > div div[class$='-title'],

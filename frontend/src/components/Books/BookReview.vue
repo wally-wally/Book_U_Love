@@ -19,7 +19,7 @@
         </div>
         <div v-if="review.spoiler && this.info.user_id !== review.user" class="spoiler-contents"><span>스포일러가 있는 리뷰입니다</span> <br> <small @click="nospoiler()" class="open-spoiler-btn">그래도 볼래요!</small><br> </div>
         <div v-else class="review-content">{{review.content}}</div>
-        <div class="review-date" style="border-bottom:1px solid lightgray;white-space:pre-line">{{ review.created_at | dateFilter }}</div>
+        <div class="review-date" style="border-bottom:1px solid lightgray;white-space:pre-line">{{ review.updated_at | dateFilter }}</div>
         <div style="margin:10px;"/>
     </div>
 </div>

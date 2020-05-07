@@ -3,13 +3,14 @@
       <div class="page-description">
         🔖 연령대와 성별에 따른 동년배들의 카테고리(소분류)별 리뷰 개수 분포를 확인할 수 있습니다.
       </div>
-        <div class="d-flex">
+        <div class="select-box">
           <v-select
           v-model="age"
           :items="ages"
           menu-props="auto" 
           label="연령대"
           class="mx-2"
+          color="warning"
           ></v-select>
           <v-select
           v-model="gender"
@@ -17,6 +18,7 @@
           menu-props="auto"
           class="mx-2"
           label="성별"
+          color="warning"
           ></v-select>
         </div>
         <div class="canvas-section">
@@ -182,10 +184,18 @@ export default {
   margin: 30px 0;
 }
 
+.select-box {
+  display: flex;
+}
+
 @media (max-width: 900px) {
   .page-description {
     font-size: 15px;
     margin-top: 10px;
+  }
+
+  .select-box {
+    display: block;
   }
 }
 </style>
