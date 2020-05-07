@@ -47,9 +47,13 @@ export default {
             isLogin: state => state.user.isLogin
         }),
         ...mapGetters(['info']),
+        reviewCheck() {
+            return this.review.like_user.includes(this.$store.getters.info.user_id)
+        }
     },
     created() {
         this.ifliked = this.review.like_user.includes(this.$store.getters.info.user_id)
+        this.likecount = this.review.like_user.length
     },
     mounted(){
         this.reviewScore = this.review.score / 2
@@ -71,20 +75,26 @@ export default {
             formData.append('user', this.$store.getters.info.user_id)
             formData.append('review', this.review.id)
             const data = await this.$store.dispatch('POST_REVIEW_LIKE', formData)
-            this.ifliked = !this.ifliked
-            if (this.ifliked){
-                this.likecount += 1
-            } else {
-                this.likecount -= 1
-            }
+            console.log(data)
+            this.likecount = data['like_count']
+            this.ifliked = data['is_liked']
+            // this.ifliked = !this.ifliked
+            // if (this.ifliked){
+            //     this.likecount += 1
+            // } else {
+            //     this.likecount -= 1
+            // }
         },
         toggleEditMode() {
             this.$emit('toggleEditMode', this.review)
         }
     },
     watch: {
-        index() {
-            this.ifliked = this.review.like_user.includes(this.$store.getters.info.user_id)
+        review() {
+            setTimeout(() => {
+                this.ifliked = this.review.like_user.includes(this.$store.getters.info.user_id)
+                this.likecount = this.review.like_user.length
+            }, 0)
         }
     }
 }

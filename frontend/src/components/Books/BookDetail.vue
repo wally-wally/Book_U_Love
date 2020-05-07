@@ -121,15 +121,16 @@
               <p>작성된 리뷰가 없습니다.</p>
             </div>
             <div class="my-review-section px-3 mt-2" v-if="myReview.length">
-              <div class="review-section-title">✏️ <span>내가 쓴 리뷰</span></div>
+              <div class="review-section-title mb-2">✏️ <span>내가 쓴 리뷰</span></div>
               <BookReview :review="myReview[0]" :index="0" @deleteSign="deleteSign" @toggleEditMode="toggleEditMode" />
             </div>
             <div class="review-section px-3 pb-3" style="width:95%;margin:0 auto" v-if="remainReview.length">
-              <div class="review-section-title other-review mt-2">
+              <div class="review-section-title other-review my-2">
                 <div>✏️ <span>다른 유저의 리뷰</span></div>
                 <div class="sort-group">
                   <span @click="sortReview(0)">평점순</span>
                   <span @click="sortReview(1)">최신순</span>
+                  <span @click="sortReview(2)">좋아요순</span>
                 </div>
               </div>
               <div v-for="(review,index) in remainReview.slice((reviewPageNm - 1) * 5, reviewPageNm * 5)" :key="index">
@@ -333,12 +334,25 @@ export default {
       this.editReviewPK = reviewData.id
       this.spoiler = reviewData.spoiler
     },
-    sortReview(val) {
+    async sortReview(val) {
+      await this.getBookDetail(this.id)
+      await this.sortFunc(val)
+    },
+    sortFunc(val) {
       let data = this.remainReview
-      if (!val) { // 평점순
-        this.remainReview = data.sort((a, b) => b.score - a.score)
-      } else { // 최신순
-        this.remainReview = data.sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
+      switch (val) {
+        case 0: // 평점순
+          this.remainReview = data.sort((a, b) => b.score - a.score)
+          this.reviewPageNm = 1
+          break
+        case 1: // 최신순
+          this.remainReview = data.sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
+          this.reviewPageNm = 1
+          break
+        case 2: // 좋아요순
+          this.remainReview = data.sort((a, b) => b.like_user.length - a.like_user.length)
+          this.reviewPageNm = 1
+          break
       }
     }
   }
@@ -622,7 +636,8 @@ textarea {
   display: inline-block;
 }
 
-.review-section-title > span {
+.review-section-title > span,
+.review-section-title.other-review > div:first-child > span:first-child {
   padding-bottom: 3px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -630,6 +645,7 @@ textarea {
 .review-section-title.other-review {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -638,8 +654,11 @@ textarea {
 }
 
 .review-section-title.other-review .sort-group > span {
-  padding-left: 8px;
   font-weight: 500;
+}
+
+.review-section-title.other-review .sort-group > span:not(:first-child) {
+  padding-left: 8px;
 }
 
 .review-section-title.other-review .sort-group > span:hover {
