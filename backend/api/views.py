@@ -74,11 +74,11 @@ class BookViewSet(viewsets.ModelViewSet):
         if sortby=="count":
             book = sorted(book, key=lambda t: (t.r_cnt,t.avg),reverse=True)
         elif sortby == "score":
-            book= sorted(book, key=lambda t: (t.avg,t.r_cnt),reverse=True)
+            books = models.Book.objects.filter(r_cnt__gt=3)
+            book= sorted(books, key=lambda t: (t.avg,t.r_cnt),reverse=True)
         top = self.request.query_params.get("top","")
         if top:
-            books = models.Book.objects.filter(r_cnt__gt=3)
-            book = books[:int(top)]
+            book = book[:int(top)]
         other_books = self.request.query_params.get("other_books", "")
         if other_books:
             sub_id = models.Book.objects.get(id=other_books).subCategory_id
