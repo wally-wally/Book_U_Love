@@ -92,7 +92,7 @@ export default {
 <style scoped>
 .mypage-main-wrapper {
   margin: 0 auto;
-  width: 70%;
+  width: 85%;
 }
 
 table {

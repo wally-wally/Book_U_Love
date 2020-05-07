@@ -35,11 +35,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import axios from 'axios'
+import tempYoutube from '@/assets/json/tempYoutube.json'
 
 export default {
   data() {
     return {
+      tempYoutube,
       youtubeVideos : [],
       swiperOptions: {
         slidesPerView: 1,
@@ -70,8 +73,15 @@ export default {
         }
       },
       loadingStatus: false,
-      searchKeyword: '도서 추천'
+      searchKeyword: '도서 추천',
+      nowIdx: 0
     }
+  },
+  computed: {
+    ...mapState({
+      storeYoutube: state => state.common.storeYoutube,
+      checkIdxGroup: state => state.common.checkIdxGroup
+    })
   },
   mounted() {
     this.getYoutubes()
@@ -84,13 +94,34 @@ export default {
     },
     reSearchYoutube() {
       const keywordSet = ['도서 추천', '책 추천', '최신 책 추천', '인생책', '도서 베스트셀러', '도서 스테디셀러', '인생을 바꾼 책']
-      let randomIdx = this.getRandomIntInclusive(0, 6)
-      this.searchKeyword = keywordSet[randomIdx]
+      if (this.checkIdxGroup.length < 3) {
+        while (true) {
+          let randomIdx = this.getRandomIntInclusive(0, 6)
+          if (!this.checkIdxGroup.includes(randomIdx)) {
+            this.nowIdx = randomIdx
+            this.$store.commit('storeCheckIdx', randomIdx)
+            break
+          }
+        }
+        this.searchKeyword = keywordSet[this.nowIdx]
+      }
       this.getYoutubes()
     },
     getYoutubes() {
-      this.youtubeVideos = []
       this.loadingStatus = true
+      this.youtubeVideos = []
+      if (this.storeYoutube.length >= 15) {
+        let idxGroup = []
+        while (idxGroup.length < 5) {
+          let randomIdx = this.getRandomIntInclusive(0, this.storeYoutube.length - 1)
+          if (!idxGroup.includes(randomIdx)) {
+            idxGroup.push(randomIdx)
+            this.youtubeVideos.push(this.storeYoutube[randomIdx])
+          }
+        }
+        this.loadingStatus = false
+        return
+      }
       const API_KEY = process.env.VUE_APP_YOUTUBE_API_KEY
       const API_URL = 'https://www.googleapis.com/youtube/v3/search'
       axios.get(API_URL, {
@@ -113,12 +144,24 @@ export default {
           youtubeObj['thumbnail'] = videoData[i].snippet.thumbnails.high.url
           youtubeObj['description'] = videoData[i].snippet.description
           youtubeData.push(youtubeObj)
+          this.$store.commit('storeYoutube', youtubeObj)
         }
         this.youtubeVideos = youtubeData
         this.loadingStatus = false
       })
       .catch(error => {
         console.log(error)
+        this.loadingStatus = true
+        this.youtubeVideos = []
+        let idxGroup = []
+        while (idxGroup.length < 5) {
+          let randomIdx = this.getRandomIntInclusive(0, 14)
+          if (!idxGroup.includes(randomIdx)) {
+            idxGroup.push(randomIdx)
+            this.youtubeVideos.push(this.tempYoutube[randomIdx])
+          }
+        }
+        this.loadingStatus = false
       })
     },
     goChannel(channelId) {

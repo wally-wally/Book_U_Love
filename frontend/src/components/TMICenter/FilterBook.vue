@@ -104,7 +104,6 @@ export default {
       }
     },
     async getreviewfilter(params) {
-      console.log(params)
       const { data } = await fetchReviewFilter(params)
       this.books = data
     },
