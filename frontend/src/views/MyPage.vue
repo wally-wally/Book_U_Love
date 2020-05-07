@@ -22,7 +22,7 @@ export default {
   gap: 20px;
   width: 80%;
   height: 100%;
-  margin: 1em auto;
+  margin: 1em auto 4em;
 }
 
 @media (max-width: 900px) {

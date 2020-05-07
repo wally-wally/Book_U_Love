@@ -18,6 +18,25 @@
         <p class="channel-info text-right">[영상 출처] <i class="fab fa-youtube" :style="{ color: 'crimson' }"></i><span @click="goChannel">{{ this.youtubeVideoData.channelTitle }}</span></p>
       </div>
     </div>
+    <div class="youtube-contents mobile-landscape">
+      <div class="youtube-mobile-info">
+        <div>
+          <div class="video-title">
+            {{ this.youtubeVideoData.title }}
+          </div>
+          <hr>
+          <div class="video-description" v-if="this.youtubeVideoData.description" v-html="this.youtubeVideoData.description"></div>
+        </div>
+        <div>
+          <hr class="my-2">
+          <p class="channel-info text-right">[영상 출처] <i class="fab fa-youtube" :style="{ color: 'crimson' }"></i><span @click="goChannel">{{ this.youtubeVideoData.channelTitle }}</span></p>
+          <p class="text-right ma-0"><v-btn @click="closeVideo" small>CLOSE</v-btn></p>
+        </div>
+      </div>
+      <div class="video-section">
+        <iframe :src="`https://www.youtube.com/embed/${this.youtubeVideoData.videoId}`" frameborder="0" allowfullscreen class="youtube-video"></iframe>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,7 +91,7 @@ export default {
 .video-title {
   font-family: 'Jua';
   font-size: 24px;
-  text-align: center;
+  text-align: left;
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -134,6 +153,33 @@ export default {
   cursor: pointer;
 }
 
+/* mobile landscape version */
+.youtube-contents.mobile-landscape {
+  display: none;
+  width: 95%;
+}
+
+.youtube-contents.mobile-landscape .youtube-mobile-info .video-title {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 5px;
+}
+
+.youtube-contents.mobile-landscape .youtube-mobile-info .video-description {
+  font-size: 15px;
+  font-family: 'Gothic A1';
+  margin-top: 5px;
+  line-height: 1.6;
+}
+
+.youtube-contents.mobile-landscape .youtube-mobile-info .channel-info {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
 @media (min-width: 601px) {
   .youtube-contents {
     padding: 20px;
@@ -158,10 +204,21 @@ export default {
 
 @media (max-height: 600px) {
   @media (orientation: landscape) {
+    .youtube-contents.mobile-landscape {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+    }
+
+    .youtube-contents.mobile-landscape .youtube-mobile-info {
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
     .youtube-contents {
-      line-height: 1;
-      width: 60%;
-      padding: 10px;
+      display: none;
     }
 
     .video-header,

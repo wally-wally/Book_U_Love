@@ -281,7 +281,6 @@ export default {
       this.otherBooks = []
       let otherBooks = []
       let data = await this.$store.dispatch('GET_RECOMMEND_OTHER_BOOKS', {other_books: this.id, page: 1})
-      console.log(data)
       let pageMax = parseInt(data.count / 10) === 0 ? 1 : parseInt(data.count / 10) + (data.count % 10 === 0 ? 0 : 1)
       let adjustPageMax = pageMax <= 5 ? pageMax : 6
       for (let i = 1; i < adjustPageMax; ++i) {

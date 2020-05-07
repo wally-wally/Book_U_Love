@@ -1,7 +1,10 @@
 const state = {
   onMobileDrawer: false,
   showYoutubeVideo: false,
-  youtubeVideoData: {}
+  youtubeVideoData: {},
+  storeYoutube: [],
+  storeYoutubeID: [],
+  checkIdxGroup: [0]
 }
 
 const mutations = {
@@ -11,6 +14,13 @@ const mutations = {
   showYoutubeVideo(state, videoData) {
     state.showYoutubeVideo = videoData.videoId ? true : false
     state.youtubeVideoData = videoData
+  },
+  storeYoutube(state, videoData) {
+    state.storeYoutube.push(videoData)
+    state.storeYoutubeID.push(videoData['videoId'])
+  },
+  storeCheckIdx(state, idx) {
+    state.checkIdxGroup.push(idx)
   }
 }
 
