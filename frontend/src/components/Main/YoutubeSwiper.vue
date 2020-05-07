@@ -73,7 +73,7 @@ export default {
       searchKeyword: '도서 추천'
     }
   },
-  created() {
+  mounted() {
     this.getYoutubes()
   },
   methods : {
@@ -98,14 +98,13 @@ export default {
           key: API_KEY,
           type: 'video',
           part: 'snippet',
-          q: this.searchKeyword,
-          maxResults: 9
+          q: this.searchKeyword
         }
       })
       .then(response => {
         let videoData = response.data.items
         let youtubeData = []
-        for (let i = 0; i < 9; ++i) {
+        for (let i = 0; i < 5; i++) {
           let youtubeObj = {}
           youtubeObj['videoId'] = videoData[i].id.videoId
           youtubeObj['title'] = videoData[i].snippet.title

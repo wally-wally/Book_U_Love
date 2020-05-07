@@ -5,7 +5,6 @@
       <span v-else-if="this.theme === 'age_gender'">🔖{{ `${age} ${gender} 추천 도서` }}</span>
       <span v-else-if="this.theme === 'sortScore'">🔖평점순 TOP 10 도서</span>
       <span v-else>🔖리뷰 개수순 TOP 10 도서</span>
-      <i v-if="!Object.prototype.hasOwnProperty.call(books, 'message')" class="fas fa-undo" @click="shuffleBooks"></i>
     </div>
     <swiper v-if="!loadingStatus && books.length" ref="mySwiper" :options="swiperOptions" class="swiper-wrapper">
       <swiper-slide v-for="(book, idx) in books" :key="idx">
@@ -94,30 +93,6 @@ export default {
     this.getBooks()
   },
   methods: {
-    async shuffleBooks() {
-      this.loadingStatus = true
-      this.books = []
-      await this.getBooksData()
-      await this.shuffle()
-    },
-    getRandomIntInclusive(min, max) {
-      min = Math.ceil(min)
-      max = Math.floor(max)
-      return Math.floor(Math.random() * (max - min + 1)) + min
-    },
-    shuffle() {
-      let idxGroup = []
-      let bookData = []
-      while (idxGroup.length < 10) {
-        let randomIdx = this.getRandomIntInclusive(0, 9)
-        if (!idxGroup.includes(randomIdx)) {
-          idxGroup.push(randomIdx)
-          bookData.push(this.books[randomIdx])
-        }
-      }
-      this.books = bookData
-      this.loadingStatus = false
-    },
     getBooks() {
       this.loadingStatus = true
       if (this.isLogin && this.theme === 'age_gender') {
@@ -147,7 +122,31 @@ export default {
         this.loadingStatus = false
         return
       }
-    }
+    },
+    // async shuffleBooks() {
+    //   this.loadingStatus = true
+    //   this.books = []
+    //   await this.getBooksData()
+    //   await this.shuffle()
+    // },
+    // getRandomIntInclusive(min, max) {
+    //   min = Math.ceil(min)
+    //   max = Math.floor(max)
+    //   return Math.floor(Math.random() * (max - min + 1)) + min
+    // },
+    // shuffle() {
+    //   let idxGroup = []
+    //   let bookData = []
+    //   while (idxGroup.length < 10) {
+    //     let randomIdx = this.getRandomIntInclusive(0, 9)
+    //     if (!idxGroup.includes(randomIdx)) {
+    //       idxGroup.push(randomIdx)
+    //       bookData.push(this.books[randomIdx])
+    //     }
+    //   }
+    //   this.books = bookData
+    //   this.loadingStatus = false
+    // }
   },
   filters: {
     filteredAuthor(author) {
