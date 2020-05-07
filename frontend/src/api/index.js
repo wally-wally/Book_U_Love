@@ -5,8 +5,7 @@ import { _ } from "core-js"
 // axios 초기화 함수
 function createInstance() {
   const instance = axios.create({
-    // baseURL: 'http://i02b205.p.ssafy.io:8000/'
-    baseURL: 'http://localhost:8000/'
+    baseURL: 'http://i02b205.p.ssafy.io:8000/'
   })
   return setInterceptors(instance)
 }
