@@ -261,6 +261,6 @@ def bookfilter(request):
     review = review.values('book__id').annotate(Count('id')).order_by('-id__count')
     books = []
     for a in review[:10]:
-        serializer = serializers.BookDetailSerializer(models.Book.objects.get(id=a['book_id']))
+        serializer = serializers.BookDetailSerializer(models.Book.objects.get(id=a['book__id']))
         books.append((serializer.data,a['id__count']))
     return Response(books)
