@@ -121,8 +121,8 @@ function fetchweekly(){
   return instance.get('api/review_orderby_date')
 }
 
-function fetchReviewFilter() {
-  return instance.get('api/review_filter')
+function fetchReviewFilter(params) {
+  return instance.get('api/review_filter', {params:params})
 }
 
 export {
