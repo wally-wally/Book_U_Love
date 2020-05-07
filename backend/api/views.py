@@ -258,5 +258,9 @@ def bookfilter(request):
     if qgender:
         gender = 'M' if qgender == '남자' else 'F'
         review = review.filter(user__gender=gender)
-    review = review.values('book__id','book__title').annotate(Count('id')).order_by('-id__count')
-    return Response(review[:10])
+    review = review.values('book__id').annotate(Count('id')).order_by('-id__count')
+    books = []
+    for a in review[:10]:
+        serializer = serializers.BookDetailserializer(models.Book.objects.get(id=a['book__id']))
+        books.append((serializer.data,a['id__count']))
+    return Response(books)
