@@ -270,3 +270,32 @@ def bookfilter(request):
         serializer = serializers.BookDetailSerializer(models.Book.objects.get(id=a['book__id']))
         books.append((serializer.data,a['id__count']))
     return Response(books)
+
+
+@api_view(['GET'])
+def filter_by_score_and_count(request):
+    print(request.data)
+    books = models.Book.objects.all()
+    maincategory = request.data.get("maincategory","")
+    if maincategory:
+        books = books.filter(mainCategory_id=maincategory)
+    subcategory = request.data.get("subcategory","")
+    if subcategory:
+        books = books.filter(subCategory_id=subcategory)
+    detailcategory = request.data.get("detailcategory","")
+    if detailcategory:
+        books = books.filter(detailCategory_id=detailcategory)
+
+    cnt = request.data.get('r_cnt', '')
+    print('cnt', cnt)
+    if cnt:
+        books = books.filter(r_cnt__gte=int(cnt))
+    score = request.data.get('r_score', '')
+    print('score', score)
+    if score:
+        books = books.filter(r_score__gte=int(score)/int(cnt))
+    book = books.values('id', 'title', 'r_cnt', 'r_score', 'mainCategory', 'subCategory', 'detailCategory')
+    print('cnt here')
+
+    print(book[:10])
+    return Response(book)
