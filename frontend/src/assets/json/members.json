@@ -1,22 +1,3 @@
-[
-  {
-    "name": "이승열",
-    "position": "Team Leader"
-  },
-  {
-    "name": "심규현",
-    "position": "Frontend"
-  },
-  {
-    "name": "김아현",
-    "position": "Frontend"
-  },
-  {
-    "name": "이병주",
-    "position": "Backend"
-  },
-  {
-    "name": "박태수",
-    "position": "Backend"
-  }
-]
+version https://git-lfs.github.com/spec/v1
+oid sha256:280aaf89b29331e82e8f1890501659e18a1dc1514b068e37eeabe7149bcfa026
+size 329
