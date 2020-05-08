@@ -42,6 +42,8 @@
 
 :heavy_check_mark: <b>Backend Installation & Run</b>
 
+- 우선 <a href="https://drive.google.com/open?id=1S_GsP1OsRENIWrGbzujkkJo1Ro0M4KzD" target="_blank">(여기)</a> 를 클릭해서 `dummy.json` 파일을 다운로드 받으신 후 `backend` > `api` > `fixtures` > `api` 위치에 저장해주세요.
+
 ```
 cd backend
 python manage.py makemigrations
@@ -74,22 +76,32 @@ npm run serve
 
 ## :five: Homepage Configuration
 
-### (1) 메인 화면
+### (1) 메인 화면 & 리뷰 데이터 수집기
 
-- 비로그인 상태
+- 유저별 작성한 리뷰 데이터를 기반으로 도서를 추천받은 경우입니다.
 
-![01](https://user-images.githubusercontent.com/52685250/80760993-ba858080-8b74-11ea-87bc-60480082eeb5.JPG)
+![01](https://user-images.githubusercontent.com/52685250/81378207-dc1cd400-9141-11ea-8d69-dfe0a2379fa3.JPG)
 
-- 로그인 상태
-  - 관심 카테고리를 설정하고 작성한 리뷰 데이터를 기반으로 도서를 추천받은 경우입니다.
+- 도서 데이터 뿐만 아니라 도서 추천 관련 Youtube 영상들을 보실 수 있습니다.
 
-![02](https://user-images.githubusercontent.com/52685250/80760997-bbb6ad80-8b74-11ea-8e61-22cda658ee31.JPG)
+![02](https://user-images.githubusercontent.com/52685250/81378209-dd4e0100-9141-11ea-9a1e-1c5e8018e32b.JPG)
+
+- 처음 로그인하거나 작성한 리뷰 개수가 적은 유저의 경우 메인 페이지에서 리뷰 데이터 수집 페이지로 이동할 수 있습니다.
+
+![12](https://user-images.githubusercontent.com/52685250/81378498-5ea59380-9142-11ea-9128-bf2635e677b9.JPG)
 
 <br>
 
 ### (2) 도서 상세 페이지
 
-![03](https://user-images.githubusercontent.com/52685250/80760999-bbb6ad80-8b74-11ea-87ab-89db2fc2c890.JPG)
+- 도서의 상세 정보와 해당 도서를 읽은 유저들의 리뷰를 볼 수 있습니다.
+- 리뷰 작성할 때 스포일러가 포함된 경우 `스포일러 있음`을 설정 후 저장하면 다른 회원들이 
+
+![14](https://user-images.githubusercontent.com/52685250/81379117-821d0e00-9143-11ea-8bc2-c875e4ea46fa.JPG)
+
+- 또한 하단에는 해당 도서의 같은 카테고리에 있는 도서들 중 평점, 리뷰 개수 순으로 높은 도서들을 추천해줍니다.
+
+![15](https://user-images.githubusercontent.com/52685250/81379121-834e3b00-9143-11ea-8956-6a5008538781.JPG)
 
 <br>
 
@@ -99,15 +111,54 @@ npm run serve
 
 <br>
 
-### (4) MY PAGE > 계정관리
+### (4) 카테고리별 도서 리스트
 
-![05](https://user-images.githubusercontent.com/52685250/80761003-bce7da80-8b74-11ea-823d-c0492f9095b9.JPG)
+![06](https://user-images.githubusercontent.com/52685250/81379461-1f784200-9144-11ea-8705-17c35e8768d9.JPG)
 
 <br>
 
-### (5) MY PAGE > MY BOOKS
+### (5) 검색 페이지
 
-- 도서 상세 페이지에서 읽고 싶은 책에 `찜하기` 버튼을 클릭해서 `내가 읽고 싶은 책` 리스트를 볼 수 있습니다.
-- 그리고 각 도서에 리뷰를 작성하면 리뷰를 작성한 도서들을 볼 수 있습니다.
+![07](https://user-images.githubusercontent.com/52685250/81378219-df17c480-9141-11ea-9930-0ff881cd3828.JPG)
 
-### ![06](https://user-images.githubusercontent.com/52685250/80761004-bce7da80-8b74-11ea-93ff-bef29ff9524f.JPG)
+<br>
+
+### (6) TMI Center
+
+- 최근 1주일 간 상위 리뷰 데이터
+
+![16](https://user-images.githubusercontent.com/52685250/81379803-b7762b80-9144-11ea-95d4-3be257707d30.JPG)
+
+- 동년배 책 분석
+
+![17](https://user-images.githubusercontent.com/52685250/81379909-e7bdca00-9144-11ea-89cf-0e019669047f.JPG)
+
+- 동년배 취향 분석
+
+![18](https://user-images.githubusercontent.com/52685250/81379902-e2f91600-9144-11ea-8092-2b3130b1c8d4.JPG)
+
+
+
+- 카테고리별 전체 리뷰 분포
+
+![19](https://user-images.githubusercontent.com/52685250/81379904-e391ac80-9144-11ea-97ff-6d751485ce49.JPG)
+
+<br>
+
+### (7) MY PAGE
+
+- 유저의 선호 카테고리 분석 차트
+
+![20](https://user-images.githubusercontent.com/52685250/81379975-09b74c80-9145-11ea-9690-6c59b373ecb3.JPG)
+
+- 회원님을 위한 맞춤 추천 도서 리스트
+
+![21](https://user-images.githubusercontent.com/52685250/81379979-0a4fe300-9145-11ea-9dae-6874ea3ee1ec.JPG)
+
+- 내가 작성한 리뷰 리스트
+
+![22](https://user-images.githubusercontent.com/52685250/81379980-0ae87980-9145-11ea-953e-8412ee335176.JPG)
+
+-  계정관리
+
+![23](https://user-images.githubusercontent.com/52685250/81379982-0ae87980-9145-11ea-9163-e38ad69d49f2.JPG)
