@@ -22,5 +22,6 @@ urlpatterns = [
     path('like',views.like_book),
     path('mylike',views.mylike),
     path('review_orderby_date',views.review_orderby_date),
-    path('review_filter', views.bookfilter)
+    path('review_filter', views.bookfilter),
+    path('filter_by_score_and_count', views.filter_by_score_and_count)
 ] + router.urls

@@ -125,6 +125,10 @@ function fetchReviewFilter(params) {
   return instance.get('api/review_filter', {params:params})
 }
 
+function filterCategoryBooks(params) {
+  return instance.get('api/filter_by_score_and_count', params)
+}
+
 export {
   registerUser,
   loginUser,
@@ -150,5 +154,6 @@ export {
   fetchAllUsers,
   postReviewLike,
   fetchweekly,
-  fetchReviewFilter
+  fetchReviewFilter,
+  filterCategoryBooks
 }
