@@ -1,7 +1,6 @@
 <template>
   <div class="mypage-main-wrapper">
     <div class="mypage-intro">
-      
       <div class="mypage-menu">
         <table>
           <tr>
@@ -80,7 +79,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
 
 export default {
   computed: {

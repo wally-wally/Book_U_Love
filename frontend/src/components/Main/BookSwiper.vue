@@ -122,31 +122,7 @@ export default {
         this.loadingStatus = false
         return
       }
-    },
-    // async shuffleBooks() {
-    //   this.loadingStatus = true
-    //   this.books = []
-    //   await this.getBooksData()
-    //   await this.shuffle()
-    // },
-    // getRandomIntInclusive(min, max) {
-    //   min = Math.ceil(min)
-    //   max = Math.floor(max)
-    //   return Math.floor(Math.random() * (max - min + 1)) + min
-    // },
-    // shuffle() {
-    //   let idxGroup = []
-    //   let bookData = []
-    //   while (idxGroup.length < 10) {
-    //     let randomIdx = this.getRandomIntInclusive(0, 9)
-    //     if (!idxGroup.includes(randomIdx)) {
-    //       idxGroup.push(randomIdx)
-    //       bookData.push(this.books[randomIdx])
-    //     }
-    //   }
-    //   this.books = bookData
-    //   this.loadingStatus = false
-    // }
+    }
   },
   filters: {
     filteredAuthor(author) {

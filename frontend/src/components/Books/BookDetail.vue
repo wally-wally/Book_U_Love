@@ -84,28 +84,6 @@
               <div class="star-score">
                 <v-rating v-model="score" color="orange" background-color="orange lighten-3" half-increments dense class="d-inline"></v-rating>
                 <span class="score-text">({{ score * 2 }}점)</span>
-                <!-- <fieldset class="score">
-                  <input v-model="score" type="radio" id="star10" name="score" value="10"/>
-                  <label class="full" for="star10" title="최고의 책입니다. 10점"></label>
-                  <input v-model="score" type="radio" id="star9" name="score" value="9"/>
-                  <label class="half" for="star9" title="훌륭한 책입니다. 9점"></label>
-                  <input v-model="score" type="radio" id="star8" name="score" value="8"/>
-                  <label class="full" for="star8" title="괜찮은 책입니다. 8점"></label>
-                  <input v-model="score" type="radio" id="star7" name="score" value="7"/>
-                  <label class="half" for="star7" title="적당한 책입니다. 7점"></label>
-                  <input v-model="score" type="radio" id="star6" name="score" value="6"/>
-                  <label class="full" for="star6" title="음... 6점"></label>
-                  <input v-model="score" type="radio" id="star5" name="score" value="5"/>
-                  <label class="half" for="star5" title="나름 읽을만했어요 5점"></label>
-                  <input v-model="score" type="radio" id="star4" name="score" value="4"/>
-                  <label class="full" for="star4" title="그닥 재미없는 책이네요. 4점"></label>
-                  <input v-model="score" type="radio" id="star3" name="score" value="3"/>
-                  <label class="half" for="star3" title="별로 재미없어요! 3점"></label>
-                  <input v-model="score" type="radio" id="star2" name="score" value="2"/>
-                  <label class="full" for="star2" title="다신 안봐요. 2점"></label>
-                  <input v-model="score" type="radio" id="star1" name="score" value="1"/>
-                  <label class="half" for="star1" title="다시 보라면 당신을 한대 때리겠습니다. 1점"></label>
-                </fieldset> -->
               </div>
               <textarea v-model="content" placeholder="리뷰를 입력해주세요."/>
               <div class="review-btn-group">

@@ -1,8 +1,5 @@
 <template>
   <div class="mt-3 mb-6">
-    <!-- <div class="text-right mb-3" v-if="!this.allBooks.length">
-      <v-btn color="error" @click="toggleDialog">전체 도서 데이터 가져오기</v-btn>
-    </div> -->
     <v-data-table
       v-if="!this.postReviewLoading && !fetchAll"
       :headers="tableHeaders"
@@ -15,26 +12,6 @@
         {{ item.categorylist | categoryList }}
       </template>
     </v-data-table>
-    <!-- <v-data-table
-      v-if="!this.postReviewLoading && fetchAll"
-      :headers="tableHeaders"
-      :items="books"
-      :single-expand="true"
-      :search="searchKeyword2"
-      :page.sync="page"
-      show-expand
-      item-key="isbn"
-      hide-default-footer
-      color="#E6CC00"
-      @page-count="pageCount = $event"
-      class="elevation-1">
-      <template v-slot:top>
-        <v-text-field v-model="searchKeyword2" append-icon="fa-search" label="도서 검색" single-line hide-details class="mx-4" color="#f7b157"></v-text-field>
-      </template>
-      <template v-slot:item.categorylist="{ item }">
-        {{ item.categorylist | categoryList }}
-      </template>
-    </v-data-table> -->
     <div class="book-pagination" v-if="books.length && !fetchAll && !this.postReviewLoading">
       <i :class="pageNm === 1 ? 'fas fa-chevron-left limit-page-nm' : 'fas fa-chevron-left'" @click="changePageNm(-1)"></i>
       <span>{{ pageNm }}</span>
@@ -42,9 +19,6 @@
       <span>{{ pageCount }}</span>
       <i :class="pageNm === pageCount ? 'fas fa-chevron-right limit-page-nm' : 'fas fa-chevron-right'" @click="changePageNm(1)"></i>
     </div>
-    <!-- <div class="book-pagination" v-if="books.length && fetchAll && !this.postReviewLoading">
-      <v-pagination v-model="page" :length="pageCount" :total-visible="7" circle color="#E6CC00"></v-pagination>
-    </div> -->
     <v-dialog v-model="dialog" width="600" persistent>
       <v-card>
         <v-card-text class="pb-0">
@@ -97,13 +71,6 @@ export default {
   },
   created() {
     this.$store.commit('togglePostReviewLoading', true)
-    // if (this.allBooks.length) {
-    //   this.fetchAll = true
-    //   this.books = this.allBooks
-    //   this.pageCount = this.$store.state.data.allBooksCount
-    //   this.$store.commit('togglePostReviewLoading', false)
-    //   return
-    // }
     this.getBooksList()
   },
   methods: {

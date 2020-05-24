@@ -14,9 +14,6 @@
           <div :class="sortItem === 'score' ? 'sort-item now-sort' : 'sort-item'" @click="getBookDetail('score')"><i class="fas fa-star" style="color: yellow"></i>평점순</div>
           <div :class="sortItem === 'count' ? 'sort-item now-sort' : 'sort-item'" @click="getBookDetail('count')"><i class="fas fa-user-edit" style="color: skyblue"></i>리뷰 개수순</div>
         </div>
-        <!-- <div class="text-right">
-          <v-rating v-model="reviewscore" color="orange" background-color="orange lighten-3" half-increments dense class="d-inline"></v-rating>({{ reviewscore * 2 }}점)
-        </div> -->
       </div>
     </div>
     <div v-if="books.length && !loadingStatus">
@@ -90,7 +87,6 @@ export default {
       }
       paramsData['page'] = this.pageNm
       paramsData[this.$route.name] = this.id
-      // paramsData['reviewscore'] = this.reviewscore * 2 === 0 ? '' : this.reviewscore * 2
       if (this.$route.name.includes('category')) {
         paramsData['categorypage'] = 'categorypage'
       }
@@ -133,7 +129,6 @@ export default {
       const paramsData ={}
       paramsData['sortby'] = this.sortItem
       paramsData['page'] = this.pageNm
-      // paramsData['reviewscore'] = this.reviewscore * 2 === 0 ? '' : this.reviewscore * 2
       paramsData[this.$route.name] = this.id
       if (this.$route.name.includes('category')) {
         paramsData['categorypage'] = 'categorypage'
@@ -172,13 +167,6 @@ export default {
     reviewscore() {
       this.pageNm = 1
       this.higherThanBooks()
-      // if (this.sortItem.length) {
-      //   // this.showSortBookData()
-      //   this.higherThanBooks()
-      // } else {
-      //   this.onBookDetail()
-      //   this.goToBookListTop()
-      // }
     }
   }
 }

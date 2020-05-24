@@ -1,38 +1,38 @@
 <template>
-    <div>
-      <div class="page-description">
-        🔖 연령대와 성별에 따른 동년배들의 카테고리(소분류)별 리뷰 개수 분포를 확인할 수 있습니다.
-      </div>
-        <div class="select-box">
-          <v-select
-          v-model="age"
-          :items="ages"
-          menu-props="auto" 
-          label="연령대"
-          class="mx-2"
-          color="warning"
-          ></v-select>
-          <v-select
-          v-model="gender"
-          :items="genders"
-          menu-props="auto"
-          class="mx-2"
-          label="성별"
-          color="warning"
-          ></v-select>
-        </div>
-        <div class="canvas-section">
-          <canvas ref="barChart" id="barChart" width="400" height="200"></canvas>
-        </div>
-        <v-data-table
-          :headers="tableHeaders"
-          :items="data"
-          item-key="noticeIdx"
-          color="#E6CC00"
-          @click:row="goCategoryPage($event)"
-          class="elevation-1 my-12">
-        </v-data-table>
+  <div>
+    <div class="page-description">
+      🔖 연령대와 성별에 따른 동년배들의 카테고리(소분류)별 리뷰 개수 분포를 확인할 수 있습니다.
     </div>
+      <div class="select-box">
+        <v-select
+        v-model="age"
+        :items="ages"
+        menu-props="auto" 
+        label="연령대"
+        class="mx-2"
+        color="warning"
+        ></v-select>
+        <v-select
+        v-model="gender"
+        :items="genders"
+        menu-props="auto"
+        class="mx-2"
+        label="성별"
+        color="warning"
+        ></v-select>
+      </div>
+      <div class="canvas-section">
+        <canvas ref="barChart" id="barChart" width="400" height="200"></canvas>
+      </div>
+      <v-data-table
+        :headers="tableHeaders"
+        :items="data"
+        item-key="noticeIdx"
+        color="#E6CC00"
+        @click:row="goCategoryPage($event)"
+        class="elevation-1 my-12">
+      </v-data-table>
+  </div>
 </template>
 
 <script>
@@ -50,16 +50,13 @@ export default {
       tableHeaders: [
         { text: '카테고리', value: 'book__detailCategory__name' },
         { text: '리뷰개수', value: 'id__count' },
-      ],
-      // chartID: -1
+      ]
     }
   },
   created() {
-    // this.resetChart()
     this.fetchMyInfo()
     this.getcategoryfilter()
     this.updateChart()
-    // this.getData()
   },
   computed: {
     ...mapState({
@@ -76,7 +73,6 @@ export default {
         params.age = this.age
       }
       this.getcategoryfilter(params)
-      // this.resetChart()
       this.updateChart()
     },
     gender(){ 
@@ -88,16 +84,10 @@ export default {
         params.age = this.age
       }
       this.getcategoryfilter(params)
-      // this.resetChart()
       this.updateChart()
     }
   },
   methods : {
-    // resetChart() {
-    //   const canvasTag = document.querySelector('canvas')
-    //   this.chartID += 1
-    //   canvasTag.id = `barChart${this.chartID}`
-    // },
     async fetchMyInfo() {
       if (this.isLogin) {
         const myInfo = await this.$store.dispatch('GET_MYINFO')
@@ -112,10 +102,6 @@ export default {
     goCategoryPage(data) {
       this.$router.push(`/category/detail/${data.book__detailCategory}/`)
     },
-    // async getData() {
-    //   const data = await fetchReviewFilter()
-    //   console.log(data)
-    // },
     updateChart() {
       setTimeout(() => {
         let chartLabels = []

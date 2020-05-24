@@ -50,16 +50,12 @@ export default {
       tableHeaders: [
         { text: '카테고리', value: 'book__detailCategory__name' },
         { text: '리뷰개수', value: 'id__count' },
-      ],
-      // chartID: -1
+      ]
     }
   },
   created() {
-    // this.resetChart()
     this.fetchMyInfo()
     this.getreviewfilter()
-    // this.updateChart()
-    // this.getData()
   },
   computed: {
     ...mapState({
@@ -76,7 +72,6 @@ export default {
         params.age = this.age
       }
       this.getreviewfilter(params)
-      // this.resetChart()
     },
     gender(){ 
       const params = {}
@@ -87,15 +82,9 @@ export default {
         params.age = this.age
       }
       this.getreviewfilter(params)
-      // this.resetChart()
     }
   },
   methods : {
-    // resetChart() {
-    //   const canvasTag = document.querySelector('canvas')
-    //   this.chartID += 1
-    //   canvasTag.id = `barChart${this.chartID}`
-    // },
     async fetchMyInfo() {
       if (this.isLogin) {
         const myInfo = await this.$store.dispatch('GET_MYINFO')
@@ -113,6 +102,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 .page-description {
   font-size: 17px;

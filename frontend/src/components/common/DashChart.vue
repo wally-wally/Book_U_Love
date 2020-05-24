@@ -1,7 +1,7 @@
 <template>
-<div>
+  <div>
     <canvas ref="Chart" id="Chart"></canvas>
-</div>
+  </div>
 </template>
 
 <script>
@@ -42,7 +42,6 @@ export default {
         data: {
           labels: this.chartLabels,
           datasets: [{
-            // label: '리뷰 개수',
             data: this.chartData,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
@@ -68,34 +67,13 @@ export default {
               'rgba(75, 192, 192, 1)',
               'rgba(153, 102, 255, 1)'
             ],
-            // borderWidth: 1
           }]
         },
         options:{
           aspectRatio: 1,
           legend:{
-            // align: 'start',
-            // position: 'bottom'
             display: false
           },
-          // tooltips: {
-          //   enabled: false
-          // },
-          // scales: {
-          //   xAxes: [{
-          //     gridLines: {
-          //       display: false
-          //     }
-          //    }],
-          //   yAxes: [{
-          //       gridLines: {
-          //           display: false
-          //       },
-          //       ticks: {
-          //          display: false
-          //      }
-          //   }]
-          // }
           plugins: {
             datalabels: {
                 color: '#111',
@@ -119,7 +97,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

@@ -75,15 +75,8 @@ export default {
             formData.append('user', this.$store.getters.info.user_id)
             formData.append('review', this.review.id)
             const data = await this.$store.dispatch('POST_REVIEW_LIKE', formData)
-            console.log(data)
             this.likecount = data['like_count']
             this.ifliked = data['is_liked']
-            // this.ifliked = !this.ifliked
-            // if (this.ifliked){
-            //     this.likecount += 1
-            // } else {
-            //     this.likecount -= 1
-            // }
         },
         toggleEditMode() {
             this.$emit('toggleEditMode', this.review)

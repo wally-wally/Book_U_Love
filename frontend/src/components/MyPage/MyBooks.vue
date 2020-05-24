@@ -1,7 +1,6 @@
 <template>
   <div class="mybooks-wrapper">
     <div class="mybooks">📚 My Books</div>
-    <!-- 좋아하는 책 -->
     <div class="add-info">
       <div class="mybooks-sub">💜 내가 읽고 싶은 책</div>
       <div class="row dot-border no-books" v-if="!loadingStatus.likes && !likes.length">
@@ -30,8 +29,6 @@
         <div class="loading-message">데이터를 불러오는 중 입니다.</div>
       </div>
     </div>
-
-      <!-- 리뷰 책 BookCard 고치면,  text-center옆에 row추가-->
     <div class="add-info">
       <div class="mybooks-sub">📝 내가 리뷰 남긴 책</div>
       <div class="row dot-border no-books" v-if="!loadingStatus.reviews && !userinfo.review_set.length">
