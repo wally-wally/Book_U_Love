@@ -28,7 +28,7 @@
 
 :round_pushpin: <b>Backend</b> : `Django`
 
-:round_pushpin: <b>Database</b> : `MySQL` 
+:round_pushpin: <b>Database</b> : `sqlite3` 
 
 :round_pushpin: <b>Development Enviornment</b> : Python 3.7.4,  Django 2.2.7, Node.js higher than 10.16x, Vue CLI higher than 4.2.x
 
@@ -59,12 +59,6 @@ cd frontend
 npm instlal
 npm run serve
 ```
-
-<br>
-
-### :pushpin: 배포 환경에서 실행
-
-- http://i02b205.p.ssafy.io/ 주소를 접속해서 볼 수 있습니다.
 
 <br>
 
