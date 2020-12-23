@@ -22,7 +22,9 @@
 
 <br>
 
-## :two: Tech Stack
+## :two: Tech Stack & Architecture
+
+<img src="https://user-images.githubusercontent.com/52685250/102999309-1ff70900-456c-11eb-891f-b33d0bbb532c.png" width="650">
 
 :round_pushpin: <b>Frontend</b> : `Vue.js`
 
@@ -46,6 +48,9 @@
 
 ```
 cd backend
+python -m venv venv
+source venv/Scripts/activate
+pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
 python manage.py loaddata api/dummy.json
