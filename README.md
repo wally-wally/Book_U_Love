@@ -24,7 +24,7 @@
 
 ## :two: Tech Stack & Architecture
 
-<img src="https://user-images.githubusercontent.com/52685250/102999309-1ff70900-456c-11eb-891f-b33d0bbb532c.png" width="650">
+<img src="https://user-images.githubusercontent.com/52685250/102999309-1ff70900-456c-11eb-891f-b33d0bbb532c.png">
 
 :round_pushpin: <b>Frontend</b> : `Vue.js`
 
